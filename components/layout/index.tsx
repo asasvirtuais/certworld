@@ -1,0 +1,6 @@
+export { Certificate } from './certificate'
+export { Course } from './course'
+export { Courses } from './courses'
+export { Dashboard } from './dashboard'
+export { Landing } from './landing'
+export { Welcome } from './welcome'
