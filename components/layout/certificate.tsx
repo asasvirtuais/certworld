@@ -9,7 +9,7 @@ import {
   Container,
   Circle,
 } from "@chakra-ui/react"
-import { Header, Button } from "../ui"
+import { MobileHeader, Button } from "../ui"
 
 export function Certificate() {
   const handleDownloadCertificate = () => {
@@ -24,7 +24,7 @@ export function Certificate() {
 
   return (
     <Box minH="100vh" bg="white">
-      <Header 
+      <MobileHeader 
         navLinks={[
           { href: "/courses", label: "Courses" },
           { href: "/dashboard", label: "Dashboard" }

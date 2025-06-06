@@ -4,14 +4,13 @@ import { useState } from "react"
 import {
   Box,
   Flex,
-  Grid,
   Heading,
   Text,
   Container,
   NativeSelectRoot,
   NativeSelectField,
 } from "@chakra-ui/react"
-import { CourseCard } from "../ui"
+import { CourseCard, ResponsiveGrid } from "../ui"
 
 interface Course {
   id: number
@@ -163,7 +162,7 @@ export function Courses() {
         </Box>
 
         {/* Course Grid */}
-        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
+        <ResponsiveGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
           {filteredCourses.map((course) => (
             <CourseCard
               key={course.id}
@@ -175,7 +174,7 @@ export function Courses() {
               onExplore={() => console.log("Exploring course:", course.id)}
             />
           ))}
-        </Grid>
+        </ResponsiveGrid>
       </Container>
     </Box>
   )

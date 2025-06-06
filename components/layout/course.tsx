@@ -13,6 +13,7 @@ import {
   Circle,
   List,
 } from "@chakra-ui/react"
+import { ResponsiveSidebar } from "../ui"
 
 interface Lesson {
   id: string
@@ -103,8 +104,7 @@ export function Course() {
 
   return (
     <Flex h="100vh" bg="gray.50">
-      {/* Sidebar */}
-      <Box w="80" bg="white" borderRight="1px" borderColor="gray.200" overflowY="auto">
+      <ResponsiveSidebar width="80">
         <Box p={4} borderBottom="1px" borderColor="gray.200">
           <Text fontSize="sm" color="gray.500" mb={1}>{"<Course Name English>"}</Text>
           <Text fontSize="sm" color="gray.500">{"<Course Name Spanish>"}</Text>
@@ -168,7 +168,7 @@ export function Course() {
             </Box>
           ))}
         </Box>
-      </Box>
+      </ResponsiveSidebar>
 
       {/* Main Content */}
       <Box flex={1} overflowY="auto">

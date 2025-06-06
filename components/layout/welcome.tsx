@@ -10,7 +10,7 @@ import {
   Container,
   Card,
 } from "@chakra-ui/react"
-import { Header, Button, ProgressBar } from "../ui"
+import { MobileHeader, Button, ProgressBar } from "../ui"
 
 interface Course {
   id: number
@@ -46,7 +46,7 @@ export function Welcome() {
 
   return (
     <Box minH="100vh" bg="white">
-      <Header 
+      <MobileHeader 
         navLinks={[
           { href: "/courses", label: "Courses" },
           { href: "/my-learning", label: "My Learning" }

@@ -18,7 +18,7 @@ import {
   NativeSelectField,
   Card,
 } from "@chakra-ui/react"
-import { Button, IconButton, SearchInput, StatusBadge } from "../ui"
+import { Button, IconButton, SearchInput, StatusBadge, ResponsiveTable } from "../ui"
 
 const courses = [
   {
@@ -138,55 +138,67 @@ export function Dashboard() {
             </Flex>
           </Card.Body>
 
-          {/* Table */}
-          <Table.Root variant='line'>
-            <Table.Header bg="gray.50">
-              <Table.Row>
-                <Table.ColumnHeader fontWeight="medium" color="gray.700">Course Title</Table.ColumnHeader>
-                <Table.ColumnHeader fontWeight="medium" color="gray.700">Status</Table.ColumnHeader>
-                <Table.ColumnHeader fontWeight="medium" color="gray.700">Last Edited</Table.ColumnHeader>
-                <Table.ColumnHeader fontWeight="medium" color="gray.700" textAlign="right">Actions</Table.ColumnHeader>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {filteredCourses.map((course) => (
-                <Table.Row key={course.id} _hover={{ bg: "gray.50" }}>
-                  <Table.Cell fontWeight="medium" color="gray.900">{course.title}</Table.Cell>
-                  <Table.Cell>
-                    <StatusBadge
-                      status={course.status}
-                      statusColor={course.statusColor}
-                    />
-                  </Table.Cell>
-                  <Table.Cell color="gray.600">{course.lastEdited}</Table.Cell>
-                  <Table.Cell textAlign="right">
-                    <Stack direction="row" justify="end" gap={2}>
-                      <IconButton
-                        variant="ghost"
-                        size="sm"
-                        aria-label="Edit course"
-                      >
-                        <Edit size={16} />
-                      </IconButton>
-                      <MenuRoot>
-                        <MenuTrigger>
-                          <IconButton variant="ghost" size="sm" aria-label="More actions">
-                            <MoreHorizontal size={16} />
-                          </IconButton>
-                        </MenuTrigger>
-                        <MenuContent>
-                          <MenuItemCommand>View Details</MenuItemCommand>
-                          <MenuItemCommand>Duplicate</MenuItemCommand>
-                          <MenuItemCommand>Archive</MenuItemCommand>
-                          <MenuItemCommand color="red.600">Delete</MenuItemCommand>
-                        </MenuContent>
-                      </MenuRoot>
-                    </Stack>
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+          <ResponsiveTable
+            columns={[
+              {
+                key: "title",
+                label: "Course Title",
+                mobileLabel: "Course",
+                render: (value) => (
+                  <Text fontWeight="medium" color="gray.900">{value}</Text>
+                )
+              },
+              {
+                key: "status",
+                label: "Status",
+                render: (value, row) => (
+                  <StatusBadge
+                    status={value}
+                    statusColor={row.statusColor}
+                  />
+                )
+              },
+              {
+                key: "lastEdited",
+                label: "Last Edited",
+                mobileLabel: "Edited",
+                render: (value) => (
+                  <Text color="gray.600">{value}</Text>
+                )
+              },
+              {
+                key: "actions",
+                label: "Actions",
+                hideOnMobile: true,
+                render: () => (
+                  <Stack direction="row" justify="end" gap={2}>
+                    <IconButton
+                      variant="ghost"
+                      size="sm"
+                      aria-label="Edit course"
+                    >
+                      <Edit size={16} />
+                    </IconButton>
+                    <MenuRoot>
+                      <MenuTrigger>
+                        <IconButton variant="ghost" size="sm" aria-label="More actions">
+                          <MoreHorizontal size={16} />
+                        </IconButton>
+                      </MenuTrigger>
+                      <MenuContent>
+                        <MenuItemCommand>View Details</MenuItemCommand>
+                        <MenuItemCommand>Duplicate</MenuItemCommand>
+                        <MenuItemCommand>Archive</MenuItemCommand>
+                        <MenuItemCommand color="red.600">Delete</MenuItemCommand>
+                      </MenuContent>
+                    </MenuRoot>
+                  </Stack>
+                )
+              }
+            ]}
+            data={filteredCourses}
+            onRowClick={(course) => console.log("Row clicked:", course)}
+          />
         </Card.Root>
       </Container>
     </Box>
