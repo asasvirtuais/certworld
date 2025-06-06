@@ -1,21 +1,15 @@
 "use client"
 
-import { Download, Mail, Globe } from "lucide-react"
+import { Download, Mail } from "lucide-react"
 import {
   Box,
-  Button,
   Flex,
   Heading,
   Text,
-  Stack,
   Container,
-  MenuRoot,
-  MenuTrigger,
-  MenuContent,
-  MenuItemCommand,
   Circle,
 } from "@chakra-ui/react"
-import Link from "next/link"
+import { Header, Button } from "../ui"
 
 export function Certificate() {
   const handleDownloadCertificate = () => {
@@ -30,54 +24,12 @@ export function Certificate() {
 
   return (
     <Box minH="100vh" bg="white">
-      {/* Header */}
-      <Box as="header" borderBottom="1px" borderColor="gray.200">
-        <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }}>
-          <Flex align="center" justify="space-between" h={16}>
-            <Flex align="center">
-              <Link href="/">
-                <Heading size="lg" color="blue.500" fontWeight="bold">
-                  CertWorld
-                </Heading>
-              </Link>
-            </Flex>
-            <Stack direction="row" gap={8} align="center" display={{ base: "none", md: "flex" }}>
-              <Stack direction="row" gap={8} as="nav">
-                <Link href="/courses">
-                  <Text color="gray.500" _hover={{ color: "gray.700" }} px={3} py={2} fontSize="sm" fontWeight="medium">
-                    Courses
-                  </Text>
-                </Link>
-                <Link href="/dashboard">
-                  <Text color="gray.500" _hover={{ color: "gray.700" }} px={3} py={2} fontSize="sm" fontWeight="medium">
-                    Dashboard
-                  </Text>
-                </Link>
-              </Stack>
-              <Stack direction="row" gap={4} align="center">
-                <Button variant="outline" fontSize="sm" fontWeight="medium">
-                  Login
-                </Button>
-                <Button bg="blue.500" _hover={{ bg: "blue.600" }} color="white" fontSize="sm" fontWeight="medium">
-                  Sign Up
-                </Button>
-                <MenuRoot>
-                  <MenuTrigger>
-                    <Button variant="ghost" size="sm">
-                      <Globe size={20} />
-                      <Text ml={2} fontSize="sm">EN</Text>
-                    </Button>
-                  </MenuTrigger>
-                  <MenuContent>
-                    <MenuItemCommand cursor="pointer">EN</MenuItemCommand>
-                    <MenuItemCommand cursor="pointer">ES</MenuItemCommand>
-                  </MenuContent>
-                </MenuRoot>
-              </Stack>
-            </Stack>
-          </Flex>
-        </Container>
-      </Box>
+      <Header 
+        navLinks={[
+          { href: "/courses", label: "Courses" },
+          { href: "/dashboard", label: "Dashboard" }
+        ]}
+      />
 
       {/* Main Content */}
       <Container maxW="4xl" px={{ base: 4, sm: 6, lg: 8 }} py={12} as="main">
@@ -121,12 +73,20 @@ export function Certificate() {
 
         {/* Action Buttons */}
         <Flex direction={{ base: "column", sm: "row" }} gap={4} justify="center" align="center">
-          <Button onClick={handleDownloadCertificate} bg="blue.500" _hover={{ bg: "blue.600" }} color="white" px={6} py={3}>
-            <Download size={16} style={{ marginRight: '8px' }} />
+          <Button 
+            onClick={handleDownloadCertificate} 
+            variant="primary" 
+            size="lg"
+            leftIcon={<Download size={16} />}
+          >
             Download Certificate
           </Button>
-          <Button onClick={handleEmailCertificate} variant="outline" px={6} py={3}>
-            <Mail size={16} style={{ marginRight: '8px' }} />
+          <Button 
+            onClick={handleEmailCertificate} 
+            variant="outline" 
+            size="lg"
+            leftIcon={<Mail size={16} />}
+          >
             Email Certificate
           </Button>
         </Flex>

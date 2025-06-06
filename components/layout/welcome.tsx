@@ -1,23 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowRight, Globe } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import {
   Box,
-  Button,
-  Progress,
-  Stack,
   Flex,
   Heading,
   Text,
   Container,
-  MenuRoot,
-  MenuTrigger,
-  MenuContent,
-  MenuItemCommand,
   Card,
 } from "@chakra-ui/react"
-import Link from "next/link"
+import { Header, Button, ProgressBar } from "../ui"
 
 interface Course {
   id: number
@@ -53,54 +46,12 @@ export function Welcome() {
 
   return (
     <Box minH="100vh" bg="white">
-      {/* Header */}
-      <Box as="header" borderBottom="1px" borderColor="gray.200">
-        <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }}>
-          <Flex align="center" justify="space-between" h={16}>
-            <Flex align="center">
-              <Link href="/">
-                <Heading size="lg" color="blue.500" fontWeight="bold">
-                  CertWorld
-                </Heading>
-              </Link>
-            </Flex>
-            <Stack direction="row" gap={8} align="center" display={{ base: "none", md: "flex" }}>
-              <Stack direction="row" gap={8} as="nav">
-                <Link href="/courses">
-                  <Text color="gray.500" _hover={{ color: "gray.700" }} px={3} py={2} fontSize="sm" fontWeight="medium">
-                    Courses
-                  </Text>
-                </Link>
-                <Link href="/my-learning">
-                  <Text color="gray.500" _hover={{ color: "gray.700" }} px={3} py={2} fontSize="sm" fontWeight="medium">
-                    My Learning
-                  </Text>
-                </Link>
-              </Stack>
-              <Stack direction="row" gap={4} align="center">
-                <Button variant="outline" fontSize="sm" fontWeight="medium">
-                  Login
-                </Button>
-                <Button bg="blue.500" _hover={{ bg: "blue.600" }} color="white" fontSize="sm" fontWeight="medium">
-                  Sign Up
-                </Button>
-                <MenuRoot>
-                  <MenuTrigger>
-                    <Button variant="ghost" size="sm">
-                      <Globe size={20} />
-                      <Text ml={2} fontSize="sm">EN</Text>
-                    </Button>
-                  </MenuTrigger>
-                  <MenuContent>
-                    <MenuItemCommand cursor="pointer">EN</MenuItemCommand>
-                    <MenuItemCommand cursor="pointer">ES</MenuItemCommand>
-                  </MenuContent>
-                </MenuRoot>
-              </Stack>
-            </Stack>
-          </Flex>
-        </Container>
-      </Box>
+      <Header 
+        navLinks={[
+          { href: "/courses", label: "Courses" },
+          { href: "/my-learning", label: "My Learning" }
+        ]}
+      />
 
       {/* Main Content */}
       <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }} py={12} as="main">
@@ -111,7 +62,7 @@ export function Welcome() {
 
         <Flex mb={8} justify="space-between" align="center">
           <Heading size="lg" fontWeight="bold" color="gray.900">My Courses</Heading>
-          <Button variant="outline" fontSize="sm">
+          <Button variant="outline" size="sm">
             Explore more courses
           </Button>
         </Flex>
@@ -125,27 +76,25 @@ export function Welcome() {
                 </Heading>
               </Box>
               <Box mb={2}>
-                <Flex justify="space-between" align="center" mb={2}>
-                  <Text fontSize="sm" color="gray.500">Progress</Text>
-                  <Text fontSize="sm" fontWeight="medium" color="gray.700">{course.progress}%</Text>
-                </Flex>
-                <Progress.Root value={course.progress} h={2}>
-                  <Progress.Track>
-                    <Progress.Range />
-                  </Progress.Track>
-                </Progress.Root>
+                <ProgressBar value={course.progress} />
               </Box>
               <Flex justify="space-between" align="center">
                 <Text fontSize="sm" color="gray.500">
                   {course.lessonsCompleted} of {course.totalLessons} lessons completed
                 </Text>
                 {course.isComplete ? (
-                  <Button bg="blue.500" _hover={{ bg: "blue.600" }} color="white">
-                    View Certificate <ArrowRight size={16} style={{ marginLeft: '8px' }} />
+                  <Button 
+                    variant="primary"
+                    rightIcon={<ArrowRight size={16} />}
+                  >
+                    View Certificate
                   </Button>
                 ) : (
-                  <Button bg="blue.500" _hover={{ bg: "blue.600" }} color="white">
-                    Resume Course <ArrowRight size={16} style={{ marginLeft: '8px' }} />
+                  <Button 
+                    variant="primary"
+                    rightIcon={<ArrowRight size={16} />}
+                  >
+                    Resume Course
                   </Button>
                 )}
               </Flex>

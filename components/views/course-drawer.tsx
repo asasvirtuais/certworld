@@ -3,13 +3,13 @@
 import { Check } from "lucide-react"
 import {
   Box,
-  Button,
   Flex,
   Heading,
   Text,
   Stack,
   Circle,
 } from "@chakra-ui/react"
+import { Button } from "../ui"
 
 const course = {
   id: "texas-notary-prep",
@@ -77,7 +77,7 @@ export default function CourseDrawerDemo() {
               <Text fontSize="3xl" fontWeight="bold" color="gray.900" mb={1}>{course.price}</Text>
               <Text color="gray.500" fontSize="sm">Includes certificate upon completion</Text>
             </Box>
-            <Button onClick={handleSelectCourse} bg="blue.500" _hover={{ bg: "blue.600" }} color="white" px={8} py={3}>
+            <Button onClick={handleSelectCourse} variant="primary" size="lg">
               Select Course
             </Button>
           </Flex>

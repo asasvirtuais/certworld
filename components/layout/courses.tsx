@@ -1,20 +1,17 @@
 "use client"
 
 import { useState } from "react"
-import { MapPin } from "lucide-react"
 import {
   Box,
-  Button,
   Flex,
   Grid,
   Heading,
   Text,
-  Stack,
   Container,
-  Card,
   NativeSelectRoot,
   NativeSelectField,
 } from "@chakra-ui/react"
+import { CourseCard } from "../ui"
 
 interface Course {
   id: number
@@ -168,25 +165,15 @@ export function Courses() {
         {/* Course Grid */}
         <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
           {filteredCourses.map((course) => (
-            <Card.Root key={course.id} overflow="hidden" _hover={{ shadow: "lg" }} transition="shadow">
-              <Card.Header bg="blue.100" p={6}>
-                <Heading size="md" fontWeight="medium" color="blue.600" textAlign="center">{course.category}</Heading>
-              </Card.Header>
-              <Card.Body p={6}>
-                <Heading size="md" fontWeight="semibold" color="gray.900" mb={3}>{course.title}</Heading>
-                <Stack gap={2} mb={4}>
-                  <Flex justify="space-between" fontSize="sm" color="gray.600">
-                    <Text>{course.languages}</Text>
-                    <Text>{course.duration}</Text>
-                  </Flex>
-                  <Flex align="center" fontSize="sm" color="gray.500">
-                    <MapPin size={16} style={{ marginRight: '4px' }} />
-                    <Text>{course.location}</Text>
-                  </Flex>
-                </Stack>
-                <Button w="full" bg="blue.500" _hover={{ bg: "blue.600" }} color="white">Explore Course</Button>
-              </Card.Body>
-            </Card.Root>
+            <CourseCard
+              key={course.id}
+              category={course.category}
+              title={course.title}
+              location={course.location}
+              languages={course.languages}
+              duration={course.duration}
+              onExplore={() => console.log("Exploring course:", course.id)}
+            />
           ))}
         </Grid>
       </Container>
