@@ -60,7 +60,7 @@ export const LinksMenu = () => {
 export const MobileDrawer = () => (
   <Drawer.Root>
     <Drawer.Backdrop />
-    <Drawer.Trigger>
+    <Drawer.Trigger display={{md: 'none'}}>
       <IconButton
         aria-label='Open menu'
         variant='ghost'

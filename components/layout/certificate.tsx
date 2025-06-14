@@ -86,14 +86,7 @@ export function Certificate() {
 
   return (
     <Box minH='100vh' bg='white'>
-      <MobileHeader 
-        navLinks={[
-          { href: '/courses', label: 'Courses' },
-          { href: '/dashboard', label: 'Dashboard' }
-        ]}
-      />
-
-      {/* Main Content */}
+      <MobileHeader/>
       <Container maxW='4xl' px={{ base: 4, sm: 6, lg: 8 }} py={12} as='main'>
         <CertificateHeader />
         <CertificateCard />
