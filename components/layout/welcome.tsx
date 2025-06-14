@@ -90,7 +90,7 @@ export function FeaturedCourses() {
 function WelcomeContent() {
 
   return (
-    <Container maxW='7xl' py={12} as='main'>
+    <Container maxW='7xl' py={12} px={0} as='main'>
       <Box mb={12} px={{ base: 4, sm: 6, lg: 8 }}>
         <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>Welcome, Demo User!</Heading>
         <Text color='gray.500' fontSize='lg'>Track your progress and continue learning.</Text>
