@@ -1,11 +1,12 @@
 // stories/Course.stories.tsx
 import type { Meta, StoryObj } from '@storybook/nextjs'
-import { Certificate, Course, Courses, Dashboard, Landing, Welcome } from '@/components/layout'
+import * as Layouts from '@/components/layout'
 import { Box, Badge, Progress } from '@chakra-ui/react'
+import { MobileHeader } from '@/components/ui'
 
 const meta: Meta = {
-  title: 'Cert World/Layout',
-  component: Welcome,
+  title: 'Cert World/Layouts',
+  component: Layouts.Welcome,
 }
 
 type Story = StoryObj<typeof meta>
@@ -13,41 +14,47 @@ type Story = StoryObj<typeof meta>
 export default meta
 
 // Method 1: Using render function
-export const WelcomeStory: Story = {
+export const Welcome: Story = {
   render: () => (
-    <Welcome/>
+    <Layouts.Welcome/>
+  )
+}
+
+export const Header: Story = {
+  render: () => (
+    <MobileHeader/>
   )
 }
 
 // Method 2: More complex dynamic content
-export const LandingPage: Story = {
+export const Landing: Story = {
   render: () => (
-    <Landing/>
+    <Layouts.Landing/>
   )
 }
 
-export const DashboardStory: Story = {
+export const Dashboard: Story = {
   render: () => {
     return (
-      <Dashboard/>
+      <Layouts.Dashboard/>
     )
   }
 }
 
-export const CoursesStory: Story = {
+export const Courses: Story = {
   render: () => (
-    <Courses/>
+    <Layouts.Courses/>
   )
 }
 
-export const CourseStory: Story = {
+export const Course: Story = {
   render: () => (
-    <Course/>
+    <Layouts.Course/>
   )
 }
 
-export const CertificateStory: Story = {
+export const Certificate: Story = {
   render: () => (
-    <Certificate/>
+    <Layouts.Certificate/>
   )
 }
