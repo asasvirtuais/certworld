@@ -54,13 +54,13 @@ export function Welcome() {
       />
 
       {/* Main Content */}
-      <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }} py={12} as="main">
-        <Box mb={12}>
+      <Container maxW="7xl" py={12} as="main">
+        <Box mb={12} px={{ base: 4, sm: 6, lg: 8 }}>
           <Heading size="xl" fontWeight="bold" color="gray.900" mb={2}>Welcome, Demo User!</Heading>
           <Text color="gray.500" fontSize="lg">Track your progress and continue learning.</Text>
         </Box>
 
-        <Flex mb={8} justify="space-between" align="center">
+        <Flex mb={8} justify="space-between" align="center" flexDirection={{base: 'column', sm: 'row'}} alignItems='flex-start'>
           <Heading size="lg" fontWeight="bold" color="gray.900">My Courses</Heading>
           <Button variant="outline" size="sm">
             Explore more courses
@@ -69,7 +69,7 @@ export function Welcome() {
 
         <Card.Root bg="white" borderRadius="lg" border="1px" borderColor="gray.200" overflow="hidden">
           {courses.map((course, index) => (
-            <Box key={course.id} p={6} borderBottom={index !== courses.length - 1 ? "1px" : "none"} borderColor="gray.200">
+            <Box key={course.id} borderBottom={index !== courses.length - 1 ? "1px" : "none"} borderColor="gray.200">
               <Box mb={4}>
                 <Heading size="md" fontWeight="bold" color="gray.900">
                   <Text as="span" textTransform="uppercase">{course.state}</Text> | {course.title}

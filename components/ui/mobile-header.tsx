@@ -12,6 +12,7 @@ import {
   Drawer,
   VStack,
   useBreakpointValue,
+  CloseButton,
 } from "@chakra-ui/react"
 import Link from "next/link"
 import { Button } from "./button"
@@ -43,7 +44,7 @@ export function MobileHeader({
 
   return (
     <Box as="header" borderBottom="1px" borderColor="gray.200">
-      <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }}>
+      <Container maxW='full' px='0px'>
         <Flex align="center" justify="space-between" h={16}>
           {/* Logo */}
           <Flex align="center">
@@ -108,18 +109,12 @@ export function MobileHeader({
           <Drawer.Backdrop />
           <Drawer.Positioner>
             <Drawer.Content>
+              <Drawer.CloseTrigger><CloseButton/></Drawer.CloseTrigger>
               <Drawer.Header>
                 <Flex justify="space-between" align="center">
                   <Heading size="md" color="blue.500" fontWeight="bold">
                     CertWorld
                   </Heading>
-                  <IconButton
-                    aria-label="Close menu"
-                    variant="ghost"
-                    onClick={toggleMenu}
-                  >
-                    <X size={20} />
-                  </IconButton>
                 </Flex>
               </Drawer.Header>
               <Drawer.Body>
