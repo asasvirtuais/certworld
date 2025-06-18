@@ -87,12 +87,12 @@ export function FeaturedCourses() {
   )
 }
 
-function WelcomeContent() {
+export function WelcomeContent({ name }: { name: string }) {
 
   return (
-    <Container maxW='7xl' py={12} px={0} as='main'>
+    <Container>
       <Box mb={12} px={{ base: 4, sm: 6, lg: 8 }}>
-        <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>Welcome, Demo User!</Heading>
+        <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>Welcome, {name}!</Heading>
         <Text color='gray.500' fontSize='lg'>Track your progress and continue learning.</Text>
       </Box>
 
@@ -107,17 +107,10 @@ function WelcomeContent() {
   )
 }
 
-export function Welcome() {
+export const WelcomeLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <Box minH='100vh' bg='white'>
-      <MobileHeader 
-        navLinks={[
-          { href: '/courses', label: 'Courses' },
-          { href: '/my-learning', label: 'My Learning' }
-        ]}
-      />
-      {/* Main Content */}
-      <WelcomeContent />
+      {children}
     </Box>
   )
 }

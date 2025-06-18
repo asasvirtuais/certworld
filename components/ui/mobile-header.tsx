@@ -7,7 +7,6 @@ import {
   Heading,
   Text,
   Stack,
-  Container,
   Drawer,
   CloseButton,
   Portal,
@@ -17,6 +16,7 @@ import Link from 'next/link'
 import { Button } from './button'
 import { IconButton } from './icon-button'
 import { LanguageMenu } from './language-menu'
+import { Container } from './container'
 
 const Title = () => (
   <Link href='/'>
@@ -60,7 +60,7 @@ export const LinksMenu = () => {
 export const MobileDrawer = () => (
   <Drawer.Root>
     <Drawer.Backdrop />
-    <Drawer.Trigger display={{md: 'none'}}>
+    <Drawer.Trigger color='black' display={{md: 'none'}} asChild>
       <IconButton
         aria-label='Open menu'
         variant='ghost'
@@ -95,7 +95,7 @@ export function MobileHeader() {
 
   return (
     <Box as='header' borderBottom='1px' borderColor='gray.200'>
-      <Container maxW='full' px='0px'>
+      <Container>
         <Flex align='center' justify='space-between' h={16}>
 
           <Flex align='center'>
