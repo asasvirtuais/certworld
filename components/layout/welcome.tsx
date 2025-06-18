@@ -7,10 +7,10 @@ import {
   Flex,
   Heading,
   Text,
-  Container,
   Card,
+  Button,
 } from '@chakra-ui/react'
-import { MobileHeader, Button, ProgressBar } from '../ui'
+import { MobileHeader, Container, ProgressBar } from '../ui'
 
 interface Course {
   id: number
@@ -38,18 +38,14 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
           {course.lessonsCompleted} of {course.totalLessons} lessons completed
         </Text>
         {course.isComplete ? (
-          <Button 
-            variant='primary'
-            rightIcon={<ArrowRight size={16} />}
-          >
+          <Button variant='solid' size='2xs' colorPalette='blue'>
             View Certificate
+            <ArrowRight size={16} />
           </Button>
         ) : (
-          <Button 
-            variant='primary'
-            rightIcon={<ArrowRight size={16} />}
-          >
+          <Button variant='solid' size='2xs' colorPalette='blue'>
             Resume Course
+            <ArrowRight size={16} />
           </Button>
         )}
       </Flex>
@@ -90,17 +86,15 @@ export function FeaturedCourses() {
 export function WelcomeContent({ name }: { name: string }) {
 
   return (
-    <Container>
-      <Box mb={12} px={{ base: 4, sm: 6, lg: 8 }}>
+    <Container maxW='breakpoint-lg' my={12}>
+      <Box mb={12}>
         <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>Welcome, {name}!</Heading>
         <Text color='gray.500' fontSize='lg'>Track your progress and continue learning.</Text>
       </Box>
 
-      <Flex mb={8} justify='space-between' align='center' flexDirection={{base: 'column', sm: 'row'}} alignItems='flex-start'>
+      <Flex mb={8} justify='space-between' align='center' alignItems='flex-start'>
         <Heading size='lg' fontWeight='bold' color='gray.900'>My Courses</Heading>
-        <Button variant='outline' size='sm'>
-          Explore more courses
-        </Button>
+        <Button size='xs' variant='solid' colorPalette='blue'> Explore more courses</Button>
       </Flex>
       <FeaturedCourses/>
     </Container>
@@ -109,7 +103,7 @@ export function WelcomeContent({ name }: { name: string }) {
 
 export const WelcomeLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <Box minH='100vh' bg='white'>
+    <Box minH='100dvh' bg='white'>
       {children}
     </Box>
   )

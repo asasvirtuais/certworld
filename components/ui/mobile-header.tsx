@@ -71,7 +71,7 @@ export const MobileDrawer = () => (
     <Portal>
       <Drawer.Positioner>
         <Drawer.Content>
-          <Drawer.CloseTrigger><CloseButton/></Drawer.CloseTrigger>
+          <Drawer.CloseTrigger asChild><CloseButton/></Drawer.CloseTrigger>
           <Drawer.Header>
             <Flex justify='space-between' align='center'>
               <Heading size='md' color='blue.500' fontWeight='bold'>
