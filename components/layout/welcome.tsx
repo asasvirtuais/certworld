@@ -5,12 +5,14 @@ import { ArrowRight } from 'lucide-react'
 import {
   Box,
   Flex,
+  Stack,
   Heading,
   Text,
   Card,
   Button,
 } from '@chakra-ui/react'
-import { MobileHeader, Container, ProgressBar } from '../ui'
+import { Container, ProgressBar } from '../ui'
+import { Progress } from '@chakra-ui/react'
 
 interface Course {
   id: number
@@ -31,19 +33,23 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
         </Heading>
       </Box>
       <Box mb={2}>
-        <ProgressBar value={course.progress} />
+        <Progress.Root value={course.progress}>
+          <Progress.Track>
+            <Progress.Range></Progress.Range>
+          </Progress.Track>
+        </Progress.Root>
       </Box>
       <Flex justify='space-between' align='center'>
         <Text fontSize='sm' color='gray.500'>
           {course.lessonsCompleted} of {course.totalLessons} lessons completed
         </Text>
         {course.isComplete ? (
-          <Button variant='solid' size='2xs' colorPalette='blue'>
+          <Button variant='solid' size='xs' colorPalette='blue'>
             View Certificate
             <ArrowRight size={16} />
           </Button>
         ) : (
-          <Button variant='solid' size='2xs' colorPalette='blue'>
+          <Button variant='solid' size='xs' colorPalette='blue'>
             Resume Course
             <ArrowRight size={16} />
           </Button>
@@ -53,7 +59,7 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
   )
 }
 
-export function FeaturedCourses() {
+export function MyCourses() {
   const [courses, setCourses] = useState<Course[]>([
     {
       id: 1,
@@ -75,15 +81,19 @@ export function FeaturedCourses() {
     },
   ])
   return (
-    <Card.Root bg='white' borderRadius='lg' border='1px' borderColor='gray.200' overflow='hidden'>
-      {courses.map((course, index) => (
-        <CourseCard key={course.id} course={course} isLast={index === courses.length - 1} />
-      ))}
+    <Card.Root>
+      <Card.Body asChild>
+        <Stack gap={4}>
+          {courses.map((course, index) => (
+            <CourseCard key={course.id} course={course} isLast={index === courses.length - 1} />
+          ))}
+        </Stack>
+      </Card.Body>
     </Card.Root>
   )
 }
 
-export function WelcomeContent({ name }: { name: string }) {
+export function WelcomeContent({ name } : { name: string }) {
 
   return (
     <Container maxW='breakpoint-lg' my={12}>
@@ -94,9 +104,9 @@ export function WelcomeContent({ name }: { name: string }) {
 
       <Flex mb={8} justify='space-between' align='center' alignItems='flex-start'>
         <Heading size='lg' fontWeight='bold' color='gray.900'>My Courses</Heading>
-        <Button size='xs' variant='solid' colorPalette='blue'> Explore more courses</Button>
+        <Button size='sm' variant='outline' colorPalette='gray'> Explore more courses</Button>
       </Flex>
-      <FeaturedCourses/>
+      <MyCourses/>
     </Container>
   )
 }

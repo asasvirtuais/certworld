@@ -7,7 +7,7 @@ export default async function Home() {
   const session = await auth0.getSession()
 
   if (!session?.user)
-    return redirect('/auth/login')
+    return redirect('/auth/login?returnTo=/welcome')
 
   return (
     <Box>

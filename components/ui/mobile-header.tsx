@@ -40,7 +40,7 @@ export const LinksMenu = () => {
 
   const DesktopNav = () => (
     <Stack direction='row' gap={8} as='nav'>
-      {[{ href: '#A', label: 'Link A' }, { href: '#B', label: 'Link B' }].map((link) => (
+      {[{ href: '#', label: 'Courses' }, { href: '#', label: 'Learning' }].map((link) => (
         <Link key={link.href} href={link.href}>
           <Text 
             color='gray.500' 
@@ -105,6 +105,7 @@ export function MobileHeader() {
           <Stack direction='row' gap={8} align='center' display={{ base: 'none', md: 'flex' }}>
             <DesktopNav />
             <LinksMenu />
+            <LanguageMenu />
           </Stack>
 
           <MobileDrawer/>
