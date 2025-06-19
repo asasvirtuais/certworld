@@ -52,9 +52,11 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
             </Link>
           </Button>
         ) : (
-          <Button variant='solid' size='xs' colorPalette='blue'>
-            Resume Course
-            <ArrowRight size={16} />
+          <Button variant='solid' size='xs' colorPalette='blue' asChild>
+            <Link href='/course'>
+              Resume Course
+              <ArrowRight size={16} />
+            </Link>
           </Button>
         )}
       </Flex>
