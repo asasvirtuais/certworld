@@ -7,8 +7,8 @@ import {
   Text,
   Stack,
   Flex,
+  Button,
 } from "@chakra-ui/react"
-import { Button } from "./button"
 import { CourseDrawer } from "../views/course-drawer"
 
 export function CourseCard(course : any) {

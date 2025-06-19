@@ -9,8 +9,9 @@ import {
   Container,
   Circle,
   Card,
+  Button,
 } from '@chakra-ui/react'
-import { Header, Button } from '../ui'
+import { Header } from '../ui'
 
 const CertificateHeader = () => (
   <Box textAlign='center' mb={12}>
@@ -59,18 +60,18 @@ const ActionButtons = ({ onDownloadClick, onEmailClick } : any) => (
   <Flex direction={{ base: 'column', sm: 'row' }} gap={4} justify='center' align='center'>
     <Button 
       onClick={onDownloadClick} 
-      variant='primary' 
+      colorPalette='blue'
       size='lg'
-      leftIcon={<Download size={16} />}
     >
+      <Download size={16} />
       Download Certificate
     </Button>
     <Button 
       onClick={onEmailClick} 
       variant='outline' 
       size='lg'
-      leftIcon={<Mail size={16} />}
     >
+      <Mail size={16} />
       Email Certificate
     </Button>
   </Flex>

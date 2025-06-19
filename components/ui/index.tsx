@@ -1,4 +1,3 @@
-export { Button } from './button'
 export { IconButton } from './icon-button'
 export { LanguageMenu } from './language-menu'
 export { StatusBadge } from './status-badge'
