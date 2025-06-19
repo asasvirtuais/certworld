@@ -44,7 +44,7 @@ export const Dashboard: Story = {
 
 export const Courses: Story = {
   render: () => (
-    <Layouts.Courses/>
+    <Layouts.CoursesLayout/>
   )
 }
 
