@@ -1,9 +1,9 @@
 "use client"
 
 import { ReactNode } from "react"
-import { Card, CardProps, useBreakpointValue } from "@chakra-ui/react"
+import { Card, CardRootProps, useBreakpointValue } from "@chakra-ui/react"
 
-interface ResponsiveCardProps extends CardProps {
+interface ResponsiveCardProps extends CardRootProps {
   children: ReactNode
   mobileFullWidth?: boolean
   responsivePadding?: {
