@@ -1,6 +1,6 @@
 export { Certificate } from './certificate'
 export { Course } from './course'
-export { Courses } from './courses'
+export { CoursesLayout } from './courses'
 export { Dashboard } from './dashboard'
 export { Landing } from './landing'
 export { WelcomeLayout, WelcomeContent } from './welcome'
