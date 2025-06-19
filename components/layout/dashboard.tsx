@@ -67,7 +67,6 @@ const Header = () => {
             <IconButton
               variant='ghost'
               size='sm'
-              display={{ base: 'flex', md: 'none' }}
               aria-label='Menu'
             >
               <MenuIcon size={20} />
@@ -94,7 +93,7 @@ const PageHeader = () => {
   )
 }
 
-const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatusFilter, sortBy, setSortBy }) => {
+const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatusFilter, sortBy, setSortBy }: any) => {
   return (
     <Card.Root mb={6}>
       <Card.Body p={4} borderBottom='1px' borderColor='gray.200'>
@@ -133,20 +132,20 @@ const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatus
   )
 }
 
-const CourseTable = ({ data, onRowClick }) => {
+const CourseTable = ({ data, onRowClick }: any) => {
   const columns = [
     {
       key: 'title',
       label: 'Course Title',
       mobileLabel: 'Course',
-      render: (value) => (
+      render: (value: any) => (
         <Text fontWeight='medium' color='gray.900'>{value}</Text>
       )
     },
     {
       key: 'status',
       label: 'Status',
-      render: (value, row) => (
+      render: (value : any, row : any) => (
         <StatusBadge
           status={value}
           statusColor={row.statusColor}
@@ -157,7 +156,7 @@ const CourseTable = ({ data, onRowClick }) => {
       key: 'lastEdited',
       label: 'Last Edited',
       mobileLabel: 'Edited',
-      render: (value) => (
+      render: (value : any) => (
         <Text color='gray.600'>{value}</Text>
       )
     },
@@ -227,7 +226,7 @@ export function Dashboard() {
         />
         <CourseTable
           data={filteredCourses}
-          onRowClick={(course) => console.log('Row clicked:', course)}
+          onRowClick={(course: any) => console.log('Row clicked:', course)}
         />
       </Container>
     </Box>

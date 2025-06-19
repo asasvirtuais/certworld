@@ -2,11 +2,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs'
 import * as Layouts from '@/components/layout'
 import { Box, Badge, Progress } from '@chakra-ui/react'
-import { MobileHeader } from '@/components/ui'
+import { Header as HeaderComponent } from '@/components/ui'
 
 const meta: Meta = {
-  title: 'Cert World/Layouts',
-  component: Layouts.Welcome,
+  title: 'Cert World/Layouts'
 }
 
 type Story = StoryObj<typeof meta>
@@ -16,13 +15,15 @@ export default meta
 // Method 1: Using render function
 export const Welcome: Story = {
   render: () => (
-    <Layouts.Welcome/>
+    <Layouts.WelcomeLayout>
+      <Layouts.WelcomeContent name='Demo User' />
+    </Layouts.WelcomeLayout>
   )
 }
 
 export const Header: Story = {
   render: () => (
-    <MobileHeader/>
+    <HeaderComponent/>
   )
 }
 
