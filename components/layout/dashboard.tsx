@@ -17,7 +17,9 @@ import {
   NativeSelectRoot,
   NativeSelectField,
   Card,
-  Button
+  Button,
+  Portal,
+  Menu
 } from '@chakra-ui/react'
 import { IconButton, SearchInput, StatusBadge, ResponsiveTable } from '../ui'
 
@@ -177,17 +179,21 @@ const CourseTable = ({ data, onRowClick }: any) => {
             <Edit size={16} />
           </IconButton>
           <MenuRoot>
-            <MenuTrigger>
+            <MenuTrigger asChild>
               <IconButton variant='ghost' size='sm' aria-label='More actions'>
                 <MoreHorizontal size={16} />
               </IconButton>
             </MenuTrigger>
-            <MenuContent>
-              <MenuItemCommand>View Details</MenuItemCommand>
-              <MenuItemCommand>Duplicate</MenuItemCommand>
-              <MenuItemCommand>Archive</MenuItemCommand>
-              <MenuItemCommand color='red.600'>Delete</MenuItemCommand>
-            </MenuContent>
+            <Portal>
+              <Menu.Positioner>
+                <MenuContent>
+                  <MenuItemCommand>View Details</MenuItemCommand>
+                  <MenuItemCommand>Duplicate</MenuItemCommand>
+                  <MenuItemCommand>Archive</MenuItemCommand>
+                  <MenuItemCommand color='red.600'>Delete</MenuItemCommand>
+                </MenuContent>
+              </Menu.Positioner>
+            </Portal>
           </MenuRoot>
         </Stack>
       )
@@ -215,23 +221,20 @@ export function Dashboard() {
   })
 
   return (
-    <Box minH='100vh' bg='gray.50'>
-      <Header />
-      <Container maxW='7xl' px={4} py={8}>
-        <PageHeader />
-        <FiltersAndSearch
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          statusFilter={statusFilter}
-          setStatusFilter={setStatusFilter}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
-        <CourseTable
-          data={filteredCourses}
-          onRowClick={(course: any) => console.log('Row clicked:', course)}
-        />
-      </Container>
-    </Box>
+    <Container maxW='7xl' px={4} py={8}>
+      <PageHeader />
+      <FiltersAndSearch
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+      />
+      <CourseTable
+        data={filteredCourses}
+        onRowClick={(course: any) => console.log('Row clicked:', course)}
+      />
+    </Container>
   )
 }
