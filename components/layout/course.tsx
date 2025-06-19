@@ -282,7 +282,7 @@ export function Course() {
 
         <Box p={4}>
           {courseData.map((section) => (
-            <CourseSection
+            <CourseSection  
               key={section.id}
               section={section}
               selectedLesson={selectedLesson}

@@ -43,7 +43,7 @@ export const LinksMenu = () => {
 
   const DesktopNav = () => (
     <Stack direction='row' gap={8} as='nav'>
-      {[{ href: '/courses', label: 'Courses' }, { href: '/learning', label: 'My Learning' }].map((link) => (
+      {[{ href: '/courses', label: 'Courses' }, { href: '/welcome', label: 'My Learning' }].map((link) => (
         <Link key={link.href} href={link.href}>
           <Text 
             color='gray.500' 
