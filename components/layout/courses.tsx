@@ -90,7 +90,7 @@ const courses: Course[] = [
   },
 ]
 
-export function Courses() {
+export function CoursesLayout() {
   const [selectedCountry, setSelectedCountry] = useState('')
   const [selectedState, setSelectedState] = useState('')
 
@@ -107,10 +107,14 @@ export function Courses() {
       : []
 
   const filteredCourses = courses.filter((course) => {
-    if (!selectedCountry || selectedCountry === 'all') return true
-    if (selectedCountry === 'United States' && selectedState) {
+
+    const noneOrAllCourses = !selectedCountry || selectedCountry === 'all'
+    if (noneOrAllCourses)
+      return true
+
+    if (selectedCountry === 'United States' && selectedState)
       return course.country === selectedCountry && course.state === selectedState
-    }
+
     return course.country === selectedCountry
   })
 
@@ -171,7 +175,6 @@ export function Courses() {
               location={course.location}
               languages={course.languages}
               duration={course.duration}
-              onExplore={() => console.log('Exploring course:', course.id)}
             />
           ))}
         </ResponsiveGrid>

@@ -11,22 +11,6 @@ import {
 } from '@chakra-ui/react'
 import { Button } from '../ui'
 
-const course = {
-  id: 'texas-notary-prep',
-  title: 'TEXAS | Notary Public Preparation',
-  languages: 'English / Spanish',
-  duration: '3 hours',
-  description: 'Comprehensive preparation for the Notary Public exam with practice questions and scenarios.',
-  price: '$29.99',
-  lessons: 20,
-  learningPoints: [
-    'Learn notary public laws and regulations',
-    'Understand document authentication procedures',
-    'Practice with sample exam questions',
-    'Master required notarial acts and procedures',
-  ],
-}
-
 const Header = ({ course }: any) => (
   <Box pb={6}>
     <Flex align='start' justify='space-between'>
@@ -51,7 +35,7 @@ const LearningPoints = ({ course }: any) => (
   <Box>
     <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>What you'll learn</Heading>
     <Stack gap={3}>
-      {course.learningPoints.map((point, index) => (
+      {course.learningPoints.map((point: any, index: number) => (
         <Flex key={index} align='start' gap={3}>
           <Box flexShrink={0} mt={0.5}>
             <Circle size={5} bg='blue.500' color='white'>
@@ -83,7 +67,11 @@ const Pricing = ({ course, onSelectCourse }: any) => (
   </Box>
 )
 
-export default function CourseDrawerDemo() {
+interface Course {
+  id: string
+}
+
+export default function CourseDrawerDemo(course: Course) {
   const handleSelectCourse = () => {
     console.log('Course selected:', course.id)
     // In a real app, this would handle course enrollment

@@ -1,5 +1,7 @@
-import { Courses } from '../../components/layout/courses'
+import { CoursesLayout } from '@/components/layout/courses'
 
-export default function CoursesPage() {
-  return <Courses />
+export default async function CorusesPage() {
+    return (
+        <CoursesLayout/>
+    )
 }

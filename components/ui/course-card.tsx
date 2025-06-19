@@ -25,7 +25,6 @@ export function CourseCard({
   location, 
   languages, 
   duration, 
-  onExplore 
 }: CourseCardProps) {
   return (
     <Card.Root overflow="hidden" _hover={{ shadow: "lg" }} transition="shadow">
@@ -48,7 +47,7 @@ export function CourseCard({
             <Text>{location}</Text>
           </Flex>
         </Stack>
-        <Button width="full" variant="primary" onClick={onExplore}>
+        <Button width="full" variant="primary">
           Explore Course
         </Button>
       </Card.Body>
