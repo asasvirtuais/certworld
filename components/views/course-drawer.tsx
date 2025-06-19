@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 
 const Header = ({ course }: any) => (
-  <Box pb={6}>
+  <Box pb={6} spaceY={0}>
     <Flex align='start' justify='space-between'>
       <Box flex={1} pr={4}>
         <Heading size='xl' fontWeight='bold' color='gray.900' lineHeight='tight' mb={3}>
@@ -31,12 +31,16 @@ const Header = ({ course }: any) => (
 )
 
 const Description = ({ course }: any) => (
-  <Text color='gray.700' fontSize='lg' lineHeight='relaxed'>{course.description}</Text>
+  <Text color='gray.700' fontSize='lg' lineHeight='relaxed'>
+    {course.description}
+  </Text>
 )
 
 const LearningPoints = ({ course }: any) => (
   <Box>
-    <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>What you'll learn</Heading>
+    <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>
+      What you'll learn
+    </Heading>
     <Stack gap={3}>
       {course?.learningPoints?.map((point: any, index: number) => (
         <Flex key={index} align='start' gap={3}>
@@ -56,15 +60,28 @@ const Pricing = ({ course }: any) => (
   <Box bg='gray.50' borderRadius='lg' p={6}>
     <Flex align='end' justify='space-between' mb={6}>
       <Box>
-        <Text fontSize='3xl' fontWeight='bold' color='gray.900' mb={1}>{course.price}</Text>
-        <Text color='gray.500' fontSize='sm'>Includes certificate upon completion</Text>
+        <Text fontSize='3xl' fontWeight='bold' color='gray.900' mb={1}>
+          {course.price}
+        </Text>
+        <Text color='gray.500' fontSize='sm'>
+          Includes certificate upon completion
+        </Text>
       </Box>
-      <Button colorPalette='blue' size='lg'>
+      <Button 
+        bg='blue.500' 
+        _hover={{ bg: 'blue.600' }} 
+        color='white' 
+        px={8} 
+        py={3}
+        onClick={() => console.log('Course selected:', course.id)}
+      >
         Select Course
       </Button>
     </Flex>
     <Box>
-      <Heading size='sm' fontWeight='semibold' color='gray.900' mb={2}>Course includes:</Heading>
+      <Heading size='sm' fontWeight='semibold' color='gray.900' mb={2}>
+        Course includes:
+      </Heading>
       <Text color='gray.700'>{course.lessons} lessons</Text>
     </Box>
   </Box>
@@ -75,29 +92,30 @@ interface Course {
 }
 
 export function CourseDrawer(course: Course) {
-
   return (
-    <Drawer.Root size='lg' >
+    <Drawer.Root size='lg'>
       <Drawer.Trigger asChild>
         <Button width='full' colorPalette='blue'>
           Explore Course
         </Button>
       </Drawer.Trigger>
       <Portal>
-        <Drawer.Backdrop/>
+        <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content>
+          <Drawer.Content maxW='540px' bg='white' p={6}>
             <Drawer.CloseTrigger asChild>
-              <CloseButton/>
+              <CloseButton />
             </Drawer.CloseTrigger>
-            <Drawer.Header>
+            <Drawer.Header p={0}>
               <Header course={course} />
             </Drawer.Header>
-            <Drawer.Body>
-              <Description course={course} />
-              <LearningPoints course={course} />
+            <Drawer.Body p={0}>
+              <Stack gap={8}>
+                <Description course={course} />
+                <LearningPoints course={course} />
+              </Stack>
             </Drawer.Body>
-            <Drawer.Footer>
+            <Drawer.Footer p={0} pt={8}>
               <Pricing course={course} />
             </Drawer.Footer>
           </Drawer.Content>

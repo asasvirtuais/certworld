@@ -1,5 +1,3 @@
-'use client'
-
 import { ArrowRight, Check, Globe, Users, Award } from 'lucide-react'
 import {
   Box,
@@ -11,9 +9,12 @@ import {
   Stack,
   Grid,
   Circle,
+  IconButton,
+  SimpleGrid,
 } from '@chakra-ui/react'
-import { Header, MobileHeader } from '../ui'
+import { Header } from '@/components/ui/header'
 import LandingFooter from '../views/landing-page-footer'
+import { CourseCard, ResponsiveGrid } from '@/components/ui'
 
 const Hero = () => (
   <Box bg='gradient-to-br' bgGradient='linear(to-br, blue.50, purple.50)' py={20}>
@@ -40,11 +41,11 @@ const Hero = () => (
             <Button
               size='lg'
               colorScheme='blue'
-              rightIcon={<ArrowRight size={20} />}
               px={8}
               py={6}
             >
               Explore Courses
+              <ArrowRight size={20} />
             </Button>
             <Button
               size='lg'
@@ -108,7 +109,7 @@ const Features = () => {
           </Text>
         </Box>
 
-        <Grid columns={{ base: 1, md: 3 }} gap={8}>
+        <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
           {features.map((feature, index) => {
             const IconComponent = feature.icon
             return (
@@ -125,7 +126,7 @@ const Features = () => {
               </Box>
             )
           })}
-        </Grid>
+        </SimpleGrid>
       </Container>
     </Box>
   )
@@ -159,13 +160,224 @@ const Stats = () => {
   )
 }
 
+import { ChevronLeft, ChevronRight } from "lucide-react"
+
+const featuredCourses = [
+  {
+    id: 1,
+    category: 'Food Safety Certification',
+    title: 'TEXAS | Food Safety Certification',
+    location: 'Texas, United States',
+    languages: 'English / Spanish',
+    duration: '2 hours',
+  },
+  {
+    id: 2,
+    category: 'Notary Public Preparation',
+    title: 'CALIFORNIA | Notary Public Prep',
+    location: 'California, United States',
+    languages: 'English / Spanish',
+    duration: '3 hours',
+  },
+  {
+    id: 3,
+    category: 'Workplace Safety Training',
+    title: 'Diversity, Equity, and Inclusion',
+    location: 'All locations',
+    languages: 'English / Spanish',
+    duration: '1.5 hours',
+  }
+]
+
+interface Testimonial {
+  id: number
+  name: string
+  title: string
+  quote: string
+  avatar: string
+}
+
+const testimonials: Testimonial[] = [
+  {
+    id: 1,
+    name: "Maria Rodriguez",
+    title: "Software Developer",
+    quote:
+      "The bilingual format helped me improve my technical vocabulary in both languages while earning a valuable certificate.",
+    avatar: "M",
+  },
+  {
+    id: 2,
+    name: "James Wilson",
+    title: "Business Analyst",
+    quote:
+      "CertWorld's courses are comprehensive and well-structured. The certificate I earned helped me advance in my career.",
+    avatar: "J",
+  },
+  {
+    id: 3,
+    name: "Ana Garcia",
+    title: "Project Manager",
+    quote:
+      "I loved being able to learn at my own pace. The bilingual approach made complex concepts much easier to understand.",
+    avatar: "A",
+  },
+  {
+    id: 4,
+    name: "David Chen",
+    title: "Marketing Specialist",
+    quote:
+      "The quality of instruction and the practical examples made this the best online learning experience I've had.",
+    avatar: "D",
+  },
+]
+
+export function Testimonials() {
+  // const [currentIndex, setCurrentIndex] = useState(0)
+
+  // const goToPrevious = () => {
+  //   setCurrentIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1))
+  // }
+
+  // const goToNext = () => {
+  //   setCurrentIndex((prevIndex) => (prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1))
+  // }
+
+  const currentTestimonial = testimonials[0]
+
+  return (
+    <Box bg="white" py={16}>
+      <Container maxW="4xl" px={{ base: 4, sm: 6, lg: 8 }}>
+        <Box textAlign="center" mb={12}>
+          <Heading size="2xl" fontWeight="bold" color="gray.900" mb={4}>
+            What Our Students Say
+          </Heading>
+          <Text fontSize="lg" color="gray.500">
+            Hear from people who have completed our certificate courses
+          </Text>
+        </Box>
+
+        <Box textAlign="center" mb={8}>
+          <Circle size={20} bg="blue.200" color="blue.600" mx="auto" mb={8}>
+            <Text fontSize="2xl" fontWeight="bold">
+              {currentTestimonial.avatar}
+            </Text>
+          </Circle>
+
+          <Text
+            fontSize="xl"
+            color="gray.700"
+            fontStyle="italic"
+            lineHeight="relaxed"
+            mb={8}
+            maxW="3xl"
+            mx="auto"
+          >
+            "{currentTestimonial.quote}"
+          </Text>
+
+          <Box>
+            <Heading size="lg" fontWeight="bold" color="gray.900" mb={1}>
+              {currentTestimonial.name}
+            </Heading>
+            <Text color="gray.500">{currentTestimonial.title}</Text>
+          </Box>
+        </Box>
+
+        <Flex justify="center" align="center" gap={4}>
+          <IconButton
+            variant="ghost"
+            // onClick={goToPrevious}
+            size="md"
+            borderRadius="full"
+            _hover={{ bg: "gray.100" }}
+            aria-label="Previous testimonial"
+          >
+            <ChevronLeft size={20} />
+          </IconButton>
+
+          <IconButton
+            variant="ghost"
+            // onClick={goToNext}
+            size="md"
+            borderRadius="full"
+            _hover={{ bg: "gray.100" }}
+            aria-label="Next testimonial"
+          >
+            <ChevronRight size={20} />
+          </IconButton>
+        </Flex>
+
+        <Flex justify="center" mt={6} gap={2}>
+          {testimonials.map((_, index) => (
+            <Box
+              key={index}
+              as="button"
+              // onClick={() => setCurrentIndex(index)}
+              w={2}
+              h={2}
+              borderRadius="full"
+              // bg={index === currentIndex ? "blue.500" : "gray.300"}
+              transition="background-color 0.2s"
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
+        </Flex>
+      </Container>
+    </Box>
+  )
+}
+
+const CollectionOfCourses = () => {
+  return (
+    <Box py={20} bg="gray.50">
+      <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }}>
+        <Box textAlign="center" mb={16}>
+          <Heading size="2xl" fontWeight="bold" color="gray.900" mb={4}>
+            Collection of Courses
+          </Heading>
+          <Text fontSize="lg" color="gray.600" maxW="2xl" mx="auto">
+            For more information, select a course below
+          </Text>
+        </Box>
+
+        <ResponsiveGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+          {featuredCourses.map((course) => (
+            <CourseCard
+              key={course.id}
+              {...course}
+            />
+          ))}
+        </ResponsiveGrid>
+
+        <Box textAlign="center" mt={12}>
+          <Button
+            size="lg"
+            colorScheme="blue"
+            px={8}
+            py={6}
+            asChild
+          >
+            <Link href='/courses'>
+              View All Courses
+              <ArrowRight size={20} />
+            </Link>
+          </Button>
+        </Box>
+      </Container>
+    </Box>
+  )
+}
+
 export function Landing() {
   return (
     <Box minH='100vh'>
-      <MobileHeader />
+      <Header />
       <Hero />
+      <CollectionOfCourses />
+      <Testimonials/>
       <Features />
-      <Stats />
+      {/* <Stats /> */}
       <LandingFooter />
     </Box>
   )

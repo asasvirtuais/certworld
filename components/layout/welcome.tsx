@@ -45,9 +45,11 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
           {course.lessonsCompleted} of {course.totalLessons} lessons completed
         </Text>
         {course.isComplete ? (
-          <Button variant='solid' size='xs' colorPalette='blue'>
-            View Certificate
-            <ArrowRight size={16} />
+          <Button variant='solid' size='xs' colorPalette='blue' asChild>
+            <Link href='/certificate'>
+              View Certificate
+              <ArrowRight size={16} />
+            </Link>
           </Button>
         ) : (
           <Button variant='solid' size='xs' colorPalette='blue'>

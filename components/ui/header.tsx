@@ -99,7 +99,7 @@ export async function Header() {
   const user = await getUser()
 
   return (
-    <Box as='header' borderBottom='1px' borderColor='gray.200'>
+    <Box as='header' bg='white' borderBottom='1px' borderColor='gray.200'>
       <Container>
         <Flex align='center' justify='space-between' h={16}>
 
