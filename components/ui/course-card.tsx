@@ -9,23 +9,17 @@ import {
   Flex,
 } from "@chakra-ui/react"
 import { Button } from "./button"
+import { CourseDrawer } from "../views/course-drawer"
 
-interface CourseCardProps {
-  category: string
-  title: string
-  location: string
-  languages: string
-  duration: string
-  onExplore?: () => void
-}
+export function CourseCard(course : any) {
+  const { 
+    category, 
+    title, 
+    location, 
+    languages, 
+    duration,
+  } = course
 
-export function CourseCard({ 
-  category, 
-  title, 
-  location, 
-  languages, 
-  duration, 
-}: CourseCardProps) {
   return (
     <Card.Root overflow="hidden" _hover={{ shadow: "lg" }} transition="shadow">
       <Card.Header bg="blue.100" p={6}>
@@ -47,9 +41,7 @@ export function CourseCard({
             <Text>{location}</Text>
           </Flex>
         </Stack>
-        <Button width="full" variant="primary">
-          Explore Course
-        </Button>
+        <CourseDrawer {...course} />
       </Card.Body>
     </Card.Root>
   )

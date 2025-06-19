@@ -12,7 +12,7 @@ import {
   Grid,
   Circle,
 } from '@chakra-ui/react'
-import { Header } from '../ui'
+import { Header, MobileHeader } from '../ui'
 import LandingFooter from '../views/landing-page-footer'
 
 const Hero = () => (
@@ -162,7 +162,7 @@ const Stats = () => {
 export function Landing() {
   return (
     <Box minH='100vh'>
-      <Header />
+      <MobileHeader />
       <Hero />
       <Features />
       <Stats />

@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { Container, ProgressBar } from '../ui'
 import { Progress } from '@chakra-ui/react'
+import Link from 'next/link'
 
 interface Course {
   id: number
@@ -104,7 +105,11 @@ export function WelcomeContent({ name } : { name: string }) {
 
       <Flex mb={8} justify='space-between' align='center' alignItems='flex-start'>
         <Heading size='lg' fontWeight='bold' color='gray.900'>My Courses</Heading>
-        <Button size='sm' variant='outline' colorPalette='gray'> Explore more courses</Button>
+        <Button size='sm' variant='outline' colorPalette='gray' asChild>
+          <Link href='/courses'>
+            Explore more courses
+          </Link>
+        </Button>
       </Flex>
       <MyCourses/>
     </Container>

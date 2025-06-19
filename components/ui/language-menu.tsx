@@ -11,7 +11,7 @@ export function LanguageMenu() {
         <Globe/>
       </Icon>
       <SegmentGroup.Root defaultValue='EN' colorPalette='blue'>
-        <SegmentGroup.Indicator />
+        <SegmentGroup.Indicator bg='white' />
         <SegmentGroup.Items items={['EN', 'ES']} />
       </SegmentGroup.Root>
     </HStack>

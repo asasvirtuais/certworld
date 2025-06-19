@@ -1,5 +1,5 @@
 import { WelcomeLayout, WelcomeContent } from '@/components/layout/welcome'
-import { MobileHeader } from '@/components/ui'
+import { Header } from '@/components/ui/header'
 import { getUser } from 'asasvirtuais-auth/auth0.js'
 import { redirect } from 'next/navigation'
 
@@ -12,7 +12,7 @@ export default async function WelcomePage() {
 
     return (
         <WelcomeLayout>
-            <MobileHeader/>
+            <Header/>
             <WelcomeContent name={user.given_name as string}/>
         </WelcomeLayout>
     )

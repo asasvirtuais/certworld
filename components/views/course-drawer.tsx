@@ -8,8 +8,11 @@ import {
   Text,
   Stack,
   Circle,
+  Drawer,
+  Portal,
+  CloseButton,
+  Button,
 } from '@chakra-ui/react'
-import { Button } from '../ui'
 
 const Header = ({ course }: any) => (
   <Box pb={6}>
@@ -35,7 +38,7 @@ const LearningPoints = ({ course }: any) => (
   <Box>
     <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>What you'll learn</Heading>
     <Stack gap={3}>
-      {course.learningPoints.map((point: any, index: number) => (
+      {course?.learningPoints?.map((point: any, index: number) => (
         <Flex key={index} align='start' gap={3}>
           <Box flexShrink={0} mt={0.5}>
             <Circle size={5} bg='blue.500' color='white'>
@@ -49,14 +52,14 @@ const LearningPoints = ({ course }: any) => (
   </Box>
 )
 
-const Pricing = ({ course, onSelectCourse }: any) => (
+const Pricing = ({ course }: any) => (
   <Box bg='gray.50' borderRadius='lg' p={6}>
     <Flex align='end' justify='space-between' mb={6}>
       <Box>
         <Text fontSize='3xl' fontWeight='bold' color='gray.900' mb={1}>{course.price}</Text>
         <Text color='gray.500' fontSize='sm'>Includes certificate upon completion</Text>
       </Box>
-      <Button onClick={onSelectCourse} variant='primary' size='lg'>
+      <Button colorPalette='blue' size='lg'>
         Select Course
       </Button>
     </Flex>
@@ -71,20 +74,35 @@ interface Course {
   id: string
 }
 
-export default function CourseDrawerDemo(course: Course) {
-  const handleSelectCourse = () => {
-    console.log('Course selected:', course.id)
-    // In a real app, this would handle course enrollment
-  }
+export function CourseDrawer(course: Course) {
 
   return (
-    <Box w='full' maxW='540px' p={6} bg='white'>
-      <Header course={course} />
-      <Stack gap={8}>
-        <Description course={course} />
-        <LearningPoints course={course} />
-        <Pricing course={course} onSelectCourse={handleSelectCourse} />
-      </Stack>
-    </Box>
+    <Drawer.Root size='lg' >
+      <Drawer.Trigger asChild>
+        <Button width='full' colorPalette='blue'>
+          Explore Course
+        </Button>
+      </Drawer.Trigger>
+      <Portal>
+        <Drawer.Backdrop/>
+        <Drawer.Positioner>
+          <Drawer.Content>
+            <Drawer.CloseTrigger asChild>
+              <CloseButton/>
+            </Drawer.CloseTrigger>
+            <Drawer.Header>
+              <Header course={course} />
+            </Drawer.Header>
+            <Drawer.Body>
+              <Description course={course} />
+              <LearningPoints course={course} />
+            </Drawer.Body>
+            <Drawer.Footer>
+              <Pricing course={course} />
+            </Drawer.Footer>
+          </Drawer.Content>
+        </Drawer.Positioner>
+      </Portal>
+    </Drawer.Root>
   )
 }
