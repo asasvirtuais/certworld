@@ -17,8 +17,9 @@ import {
   NativeSelectRoot,
   NativeSelectField,
   Card,
+  Button
 } from '@chakra-ui/react'
-import { Button, IconButton, SearchInput, StatusBadge, ResponsiveTable } from '../ui'
+import { IconButton, SearchInput, StatusBadge, ResponsiveTable } from '../ui'
 
 const courses = [
   {
@@ -73,7 +74,8 @@ const Header = () => {
             </IconButton>
             <Heading size='lg' color='blue.600'>CertWorld</Heading>
           </Stack>
-          <Button variant='secondary' leftIcon={<Plus size={16} />}>
+          <Button variant='outline'>
+            <Plus size={16} />
             New
           </Button>
         </Flex>
@@ -123,7 +125,8 @@ const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatus
               </NativeSelectField>
             </NativeSelectRoot>
           </Flex>
-          <Button variant='outline' leftIcon={<Download size={16} />}>
+          <Button variant='outline'>
+            <Download size={16} />
             Export CSV
           </Button>
         </Flex>
