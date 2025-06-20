@@ -89,16 +89,13 @@ export function Certificate() {
   }
 
   return (
-    <Box minH='100dvh' bg='blue.50'>
-      <Header/>
-      <Container maxW='4xl' px={{ base: 4, sm: 6, lg: 8 }} py={12} as='main'>
-        <CertificateHeader />
-        <CertificateCard />
-        <ActionButtons 
-          onDownloadClick={handleDownloadCertificate} 
-          onEmailClick={handleEmailCertificate} 
-        />
-      </Container>
-    </Box>
+    <Container maxW='4xl' px={{ base: 4, sm: 6, lg: 8 }} py={12} as='main'>
+      <CertificateHeader />
+      <CertificateCard />
+      <ActionButtons 
+        onDownloadClick={handleDownloadCertificate} 
+        onEmailClick={handleEmailCertificate} 
+      />
+    </Container>
   )
 }
