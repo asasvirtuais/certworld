@@ -8,7 +8,7 @@ export default async function WelcomePage() {
     const user = await getUser()
 
     if ( ! user )
-        return redirect('/auth/login')
+        return redirect('/auth/login?returnTo=/welcome')
 
     return (
         <WelcomeLayout>

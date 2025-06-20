@@ -28,12 +28,12 @@ export const LinksMenu = () => {
   return (
     <Stack direction='row' gap={4} align='center'>
       <Button variant='outline' size='sm' asChild>
-        <Link href='/auth/login'>
+        <Link href='/auth/login?returnTo=/welcome'>
           Login
         </Link>
       </Button>
       <Button colorPalette='blue' size='sm' asChild>
-        <Link href='/auth/login'>
+        <Link href='/auth/login?returnTo=/welcome'>
           Sign Up
         </Link>
       </Button>
