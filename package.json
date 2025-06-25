@@ -11,6 +11,7 @@
     "sbb": "storybook build"
   },
   "dependencies": {
+    "@asasvirtuais/airtable": "link:../asasvirtuais/airtable",
     "@auth0/nextjs-auth0": "^4.6.1",
     "@chakra-ui/react": "^3.19.2",
     "@emotion/react": "^11.14.0",
@@ -23,7 +24,8 @@
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
     "vite": "^6.3.5",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.0",

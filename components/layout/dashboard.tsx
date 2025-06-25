@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useCourses, useCourseActions } from '../../lib/hooks'
 import { Plus, Download, Edit, MoreHorizontal, Menu as MenuIcon } from 'lucide-react'
 import {
   Box,
@@ -214,11 +215,69 @@ export function Dashboard() {
   const [statusFilter, setStatusFilter] = useState('all')
   const [sortBy, setSortBy] = useState('title')
 
-  const filteredCourses = courses.filter((course) => {
+  // Use real data from Airtable
+  const { data: coursesData, loading, error } = useCourses({
+    isActive: statusFilter === 'active' ? 'true' : undefined
+  })
+  const { remove } = useCourseActions()
+
+  // Transform Airtable data to match the existing component structure
+  const transformedCourses = coursesData?.map(course => ({
+    id: course.id,
+    title: course.title,
+    status: course.isActive ? 'Open to All Learners' : 'Draft',
+    lastEdited: new Date(course.createdAt || Date.now()).toLocaleDateString(),
+    statusColor: course.isActive ? 'success' : 'default'
+  })) || []
+
+  // Fall back to static data if Airtable isn't set up yet
+  const displayCourses = coursesData ? transformedCourses : courses
+
+  const filteredCourses = displayCourses.filter((course) => {
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase())
     const matchesStatus = statusFilter === 'all' || course.status === statusFilter
     return matchesSearch && matchesStatus
   })
+
+  const handleDeleteCourse = async (courseId: string) => {
+    try {
+      await remove(courseId)
+      // In a real app, you'd refresh the data here
+    } catch (error) {
+      console.error('Failed to delete course:', error)
+    }
+  }
+
+  if (loading) {
+    return (
+      <Box minH='100vh' bg='gray.50'>
+        <Header />
+        <Container maxW='7xl' px={4} py={8}>
+          <PageHeader />
+          <Text>Loading courses...</Text>
+        </Container>
+      </Box>
+    )
+  }
+
+  if (error) {
+    return (
+      <Box minH='100vh' bg='gray.50'>
+        <Header />
+        <Container maxW='7xl' px={4} py={8}>
+          <PageHeader />
+          <Card.Root>
+            <Card.Body p={4}>
+              <Text color='red.600'>Error loading courses: {error}</Text>
+              <Text mt={2} fontSize='sm' color='gray.600'>
+                This is expected if Airtable isn't configured yet. Check the console for setup instructions.
+              </Text>
+            </Card.Body>
+          </Card.Root>
+        </Container>
+      </Box>
+    )
+  }
 
   return (
     <Container maxW='7xl' px={4} py={8}>
