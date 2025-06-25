@@ -3,7 +3,7 @@
 ## Prerequisites
 
 1. **Airtable Account**: Create a free account at [airtable.com](https://airtable.com)
-2. **Personal Access Token**: You already have: `patVjyGocBuXqNs7m.bf396fee80f11b0d2d986425b567eab8175e2c242619f895bc383e82fe0c4d20`
+2. **Personal Access Token**:
 
 ## Step 1: Create Your Base
 
