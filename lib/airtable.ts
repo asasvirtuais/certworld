@@ -88,35 +88,10 @@ export interface CourseInput {
   status?: string;
 }
 
-// User Progress types - for user course enrollment/progress
-export interface UserProgress {
-  id: string;
-  userId: string;
-  courseId: string;
-  progress: number; // 0-100
-  lessonsCompleted: number;
-  totalLessons: number;
-  isComplete: boolean;
-  startedAt?: string;
-  completedAt?: string;
-}
-
-export interface UserProgressInput {
-  userId: string;
-  courseId: string;
-  progress?: number;
-  lessonsCompleted?: number;
-  totalLessons?: number;
-  isComplete?: boolean;
-  startedAt?: string;
-  completedAt?: string;
-}
-
-// Course Section and Lesson types - for course curriculum
+// Lesson types - for course curriculum
 export interface Lesson {
   id: string;
   courseId: string;
-  sectionId: string;
   titleEn: string;
   titleEs: string;
   completed?: boolean;
@@ -124,34 +99,15 @@ export interface Lesson {
   order: number;
 }
 
-export interface Section {
-  id: string;
-  courseId: string;
-  titleEn: string;
-  titleEs: string;
-  order: number;
-  lessons?: Lesson[];
-}
-
 export interface LessonInput {
   courseId: string;
-  sectionId: string;
   titleEn: string;
   titleEs: string;
   type: 'lesson' | 'quiz';
   order: number;
 }
 
-export interface SectionInput {
-  courseId: string;
-  titleEn: string;
-  titleEs: string;
-  order: number;
-}
-
 // Table instances
 export const certificatesTable = base.table<Certificate, CertificateInput>('Certificates');
 export const coursesTable = base.table<Course, CourseInput>('Courses');
-export const userProgressTable = base.table<UserProgress, UserProgressInput>('UserProgress');
-export const sectionsTable = base.table<Section, SectionInput>('Sections');
 export const lessonsTable = base.table<Lesson, LessonInput>('Lessons');

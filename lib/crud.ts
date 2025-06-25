@@ -2,17 +2,11 @@
 import { 
   certificatesTable, 
   coursesTable, 
-  userProgressTable,
-  sectionsTable,
   lessonsTable,
   type Certificate, 
   type Course, 
   type CertificateInput, 
   type CourseInput,
-  type UserProgress,
-  type UserProgressInput,
-  type Section,
-  type SectionInput,
   type Lesson,
   type LessonInput
 } from './airtable';
@@ -63,69 +57,6 @@ export const courseCrud = {
   }
 };
 
-// User Progress CRUD operations
-export const userProgressCrud = {
-  async list(query?: Record<string, any>) {
-    return userProgressTable.records.list(query);
-  },
-  
-  async find(id: string) {
-    return userProgressTable.records.find(id);
-  },
-  
-  async create(data: UserProgressInput) {
-    return userProgressTable.records.create(data);
-  },
-  
-  async update(id: string, data: Partial<UserProgressInput>) {
-    return userProgressTable.records.update(id, data);
-  },
-  
-  async remove(id: string) {
-    return userProgressTable.records.remove(id);
-  },
-  
-  // Helper methods for user progress
-  async getByUser(userId: string) {
-    return userProgressTable.records.list({ userId });
-  },
-  
-  async getByCourse(courseId: string) {
-    return userProgressTable.records.list({ courseId });
-  },
-  
-  async getUserCourseProgress(userId: string, courseId: string) {
-    return userProgressTable.records.list({ userId, courseId });
-  }
-};
-
-// Section CRUD operations
-export const sectionCrud = {
-  async list(query?: Record<string, any>) {
-    return sectionsTable.records.list(query);
-  },
-  
-  async find(id: string) {
-    return sectionsTable.records.find(id);
-  },
-  
-  async create(data: SectionInput) {
-    return sectionsTable.records.create(data);
-  },
-  
-  async update(id: string, data: Partial<SectionInput>) {
-    return sectionsTable.records.update(id, data);
-  },
-  
-  async remove(id: string) {
-    return sectionsTable.records.remove(id);
-  },
-  
-  // Helper methods for sections
-  async getByCourse(courseId: string) {
-    return sectionsTable.records.list({ courseId });
-  }
-};
 
 // Lesson CRUD operations
 export const lessonCrud = {
@@ -152,14 +83,6 @@ export const lessonCrud = {
   // Helper methods for lessons
   async getByCourse(courseId: string) {
     return lessonsTable.records.list({ courseId });
-  },
-  
-  async getBySection(sectionId: string) {
-    return lessonsTable.records.list({ sectionId });
-  },
-  
-  async getCourseLessons(courseId: string, sectionId: string) {
-    return lessonsTable.records.list({ courseId, sectionId });
   }
 };
 
@@ -201,33 +124,14 @@ export function createCRUDService<T, D>(table: typeof certificatesTable): CRUDSe
 export const enhancedCourseCrud = {
   ...courseCrud,
   
-  // Get course with its sections and lessons
+  // Get course with its lessons
   async getWithCurriculum(courseId: string) {
     const course = await courseCrud.find(courseId);
-    const sections = await sectionCrud.getByCourse(courseId);
-    
-    // Get lessons for each section
-    const sectionsWithLessons = await Promise.all(
-      sections.map(async (section) => ({
-        ...section,
-        lessons: await lessonCrud.getBySection(section.id)
-      }))
-    );
+    const lessons = await lessonCrud.getByCourse(courseId);
     
     return {
       ...course,
-      sections: sectionsWithLessons
-    };
-  },
-  
-  // Get course with user progress
-  async getWithUserProgress(courseId: string, userId: string) {
-    const course = await courseCrud.find(courseId);
-    const progress = await userProgressCrud.getUserCourseProgress(userId, courseId);
-    
-    return {
-      ...course,
-      userProgress: progress[0] || null
+      lessons
     };
   }
 };

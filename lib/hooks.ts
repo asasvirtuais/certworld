@@ -6,10 +6,6 @@ import {
   Course, 
   CertificateInput, 
   CourseInput,
-  UserProgress,
-  UserProgressInput,
-  Section,
-  SectionInput,
   Lesson,
   LessonInput
 } from './airtable';
@@ -121,25 +117,6 @@ export function useCertificateActions() {
   return { create, update, remove, loading, error };
 }
 
-// User Progress hooks
-export function useUserProgress(query?: Record<string, string>) {
-  const queryString = query ? '?' + new URLSearchParams(query).toString() : '';
-  return useFetch<UserProgress[]>(`/api/user-progress${queryString}`);
-}
-
-export function useUserCourseProgress(userId: string, courseId: string) {
-  return useFetch<UserProgress>(`/api/user-progress/${userId}/${courseId}`);
-}
-
-// Enhanced course hooks
-export function useCourseWithCurriculum(courseId: string) {
-  return useFetch<Course & { sections: (Section & { lessons: Lesson[] })[] }>(`/api/courses/${courseId}/curriculum`);
-}
-
-export function useCourseWithProgress(courseId: string, userId: string) {
-  return useFetch<Course & { userProgress: UserProgress | null }>(`/api/courses/${courseId}/progress/${userId}`);
-}
-
 // Course hooks
 export function useCourses(query?: Record<string, string>) {
   const queryString = query ? '?' + new URLSearchParams(query).toString() : '';
@@ -225,21 +202,7 @@ export function useCourseActions() {
   return { create, update, remove, loading, error };
 }
 
-// User Progress hooks
-export function useUserProgress(query?: Record<string, string>) {
-  const queryString = query ? '?' + new URLSearchParams(query).toString() : '';
-  return useFetch<UserProgress[]>(`/api/user-progress${queryString}`);
-}
-
-export function useUserCourseProgress(userId: string, courseId: string) {
-  return useFetch<UserProgress>(`/api/user-progress/${userId}/${courseId}`);
-}
-
 // Enhanced course hooks
 export function useCourseWithCurriculum(courseId: string) {
-  return useFetch<Course & { sections: (Section & { lessons: Lesson[] })[] }>(`/api/courses/${courseId}/curriculum`);
-}
-
-export function useCourseWithProgress(courseId: string, userId: string) {
-  return useFetch<Course & { userProgress: UserProgress | null }>(`/api/courses/${courseId}/progress/${userId}`);
+  return useFetch<Course & { lessons: Lesson[] }>(`/api/courses/${courseId}/curriculum`);
 }
