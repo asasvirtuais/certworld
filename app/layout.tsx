@@ -1,4 +1,5 @@
 import { Provider } from '@/components/ui/provider'
+import DataProvider from '@/data/provider'
 import { Theme } from '@chakra-ui/react'
 
 export default function RootLayout(props: { children: React.ReactNode }) {
@@ -6,11 +7,13 @@ export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html suppressHydrationWarning>
       <body>
-        <Provider>
-          <Theme appearance='light'>
-            {children}
-          </Theme>
-        </Provider>
+        <DataProvider>
+          <Provider>
+            <Theme appearance='light'>
+              {children}
+            </Theme>
+          </Provider>
+        </DataProvider>
       </body>
     </html>
   )

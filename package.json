@@ -11,10 +11,15 @@
     "sbb": "storybook build"
   },
   "dependencies": {
-    "@asasvirtuais/airtable": "link:../asasvirtuais/airtable",
+    "@asasvirtuais/airtable": "github:asasvirtuais/airtable#main",
+    "@asasvirtuais/crud": "github:asasvirtuais/crud#main",
+    "@asasvirtuais/feathers": "github:asasvirtuais/feathers#main",
+    "@asasvirtuais/next": "github:asasvirtuais/next#main",
+    "@asasvirtuais/react": "github:asasvirtuais/react#main",
     "@auth0/nextjs-auth0": "^4.6.1",
     "@chakra-ui/react": "^3.19.2",
     "@emotion/react": "^11.14.0",
+    "@feathersjs/feathers": "^5.0.34",
     "@storybook/addon-themes": "^9.0.5",
     "asasvirtuais-auth": "^0.1.5",
     "lucide-react": "^0.513.0",
@@ -26,6 +31,15 @@
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
     "zod": "^3.25.67"
+  },
+  "pnpm": {
+    "overrides": {
+      "@asasvirtuais/crud": "file:../crud",
+      "@asasvirtuais/feathers": "file:../feathers",
+      "@asasvirtuais/next": "file:../next",
+      "@asasvirtuais/react": "file:../react",
+      "@asasvirtuais/airtable": "file:../airtable"
+    }
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.0",
