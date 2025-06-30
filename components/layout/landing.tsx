@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react'
 import { Header } from '@/components/ui/header'
 import LandingFooter from '../views/landing-page-footer'
-import { CourseCard, ResponsiveGrid } from '@/components/ui'
 
 const Hero = () => (
   <Box bg='gradient-to-br' bgGradient='linear(to-br, blue.50, purple.50)' py={20}>
@@ -162,33 +161,7 @@ const Stats = () => {
 
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import Link from 'next/link'
-
-const featuredCourses = [
-  {
-    id: 1,
-    category: 'Food Safety Certification',
-    title: 'TEXAS | Food Safety Certification',
-    location: 'Texas, United States',
-    languages: 'English / Spanish',
-    duration: '2 hours',
-  },
-  {
-    id: 2,
-    category: 'Notary Public Preparation',
-    title: 'CALIFORNIA | Notary Public Prep',
-    location: 'California, United States',
-    languages: 'English / Spanish',
-    duration: '3 hours',
-  },
-  {
-    id: 3,
-    category: 'Workplace Safety Training',
-    title: 'Diversity, Equity, and Inclusion',
-    location: 'All locations',
-    languages: 'English / Spanish',
-    duration: '1.5 hours',
-  }
-]
+import CourseGrid from '@/data/course/grid'
 
 interface Testimonial {
   id: number
@@ -342,14 +315,7 @@ const CollectionOfCourses = () => {
           </Text>
         </Box>
 
-        <ResponsiveGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
-          {featuredCourses.map((course) => (
-            <CourseCard
-              key={course.id}
-              {...course}
-            />
-          ))}
-        </ResponsiveGrid>
+        <CourseGrid/>
 
         <Box textAlign="center" mt={12}>
           <Button

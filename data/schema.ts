@@ -6,10 +6,18 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
+            Category: z.string(),
+            Languages: z.string(),
+            Duration: z.string(),
+            Location: z.string(),
         }),
         writable: z.object({
             Name: z.string(),
-        })
+            Category: z.string(),
+            Languages: z.string(),
+            Duration: z.string(),
+            Location: z.string(),
+        }),
     },
     Lessons: {
         readable: z.object({
@@ -77,39 +85,46 @@ export const schema = {
 }
 
 declare global {
-    namespace Courses {
+    namespace Course {
         type Readable = z.infer<typeof schema.Courses.readable>
         type Writable = z.infer<typeof schema.Courses.writable>
     }
-    namespace Lessons {
+    type Course = Course.Readable
+    namespace Lesson {
         type Readable = z.infer<typeof schema.Lessons.readable>
         type Writable = z.infer<typeof schema.Lessons.writable>
     }
+    type Lesson = Lesson.Readable
     namespace LessonProgress {
         type Readable = z.infer<typeof schema['Lesson Progress']['readable']>
         type Writable = z.infer<typeof schema['Lesson Progress']['writable']>
     }
-    namespace Certificates {
+    type LessonProgress = LessonProgress.Readable
+    namespace Certificate {
         type Readable = z.infer<typeof schema.Certificates.readable>
         type Writable = z.infer<typeof schema.Certificates.writable>
     }
-    namespace Profiles {
+    type Certificate = Certificate.Readable
+    namespace Profile {
         type Readable = z.infer<typeof schema.Profiles.readable>
         type Writable = z.infer<typeof schema.Profiles.writable>
     }
-    namespace Exams {
+    type Profile = Profile.Readable
+    namespace Exam {
         type Readable = z.infer<typeof schema.Exams.readable>
         type Writable = z.infer<typeof schema.Exams.writable>
     }
-    namespace Questions {
+    type Exam = Exam.Readable
+    namespace Question {
         type Readable = z.infer<typeof schema.Questions.readable>
         type Writable = z.infer<typeof schema.Questions.writable>
     }
-    namespace ExamResults {
+    type Question = Question.Readable
+    namespace ExamResult {
         type Readable = z.infer<typeof schema['Exam Results']['readable']>
         type Writable = z.infer<typeof schema['Exam Results']['writable']>
     }
-        
+    type ExamResult = ExamResult.Readable
 }
 
 export const { table } = database(schema)

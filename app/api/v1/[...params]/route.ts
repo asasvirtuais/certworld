@@ -1,4 +1,3 @@
-import { route } from '@/data/routes'
 import { createDynamicRoute } from '@asasvirtuais/next'
 import { crud } from '@/data/airtable'
 
