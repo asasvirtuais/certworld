@@ -6,16 +6,20 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
+            Description: z.string(),
             Category: z.string(),
-            Languages: z.string(),
-            Duration: z.string(),
+            Languages: z.string().array(),
+            Duration: z.number(),
+            Price: z.number(),
             Location: z.string(),
         }),
         writable: z.object({
             Name: z.string(),
+            Description: z.string(),
             Category: z.string(),
-            Languages: z.string(),
-            Duration: z.string(),
+            Languages: z.string().array(),
+            Duration: z.number(),
+            Price: z.number(),
             Location: z.string(),
         }),
     },
@@ -59,9 +63,12 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
+            Course: z.string(),
+            'Course ID': z.string(),
         }),
         writable: z.object({
             Name: z.string(),
+            Course: z.string(),
         })
     },
     Questions: {

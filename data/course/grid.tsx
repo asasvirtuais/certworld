@@ -20,7 +20,7 @@ export function CourseGridCard() {
         <Card.Root overflow="hidden" _hover={{ shadow: "lg" }} transition="shadow">
             <Card.Header bg="blue.100" p={6}>
                 <Heading size="md" fontWeight="medium" color="blue.600" textAlign="center">
-                {Category}
+                    {Category}
                 </Heading>
             </Card.Header>
             <Card.Body p={6}>
@@ -29,7 +29,7 @@ export function CourseGridCard() {
                 </Heading>
                 <Stack gap={2} mb={4}>
                     <Flex justify="space-between" fontSize="sm" color="gray.600">
-                        <Text>{Languages}</Text>
+                        <Text>{Languages.join(' / ')}</Text>
                         <Text>{Duration / 60} minutes</Text>
                     </Flex>
                     <Flex align="center" fontSize="sm" color="gray.500">
