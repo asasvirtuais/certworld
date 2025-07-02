@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useCourses, useCourseActions } from '../../lib/hooks'
 import { Plus, Download, Edit, MoreHorizontal, Menu as MenuIcon } from 'lucide-react'
 import {
   Box,
@@ -23,6 +22,7 @@ import {
   Menu
 } from '@chakra-ui/react'
 import { IconButton, SearchInput, StatusBadge, ResponsiveTable } from '../ui'
+import { useTable } from '@/data/react'
 
 const courses = [
   {
@@ -60,7 +60,7 @@ const courses = [
     lastEdited: '5/16/2025',
     statusColor: 'default',
   },
-]
+] as const
 
 const Header = () => {
   return (
@@ -215,40 +215,37 @@ export function Dashboard() {
   const [statusFilter, setStatusFilter] = useState('all')
   const [sortBy, setSortBy] = useState('title')
 
-  // Use real data from Airtable
-  const { data: coursesData, loading, error } = useCourses({
-    isActive: statusFilter === 'active' ? 'true' : undefined
-  })
-  const { remove } = useCourseActions()
+  const { remove, array } = useTable('Courses')
 
   // Transform Airtable data to match the existing component structure
-  const transformedCourses = coursesData?.map(course => ({
+  const transformedCourses = array?.map(course => ({
     id: course.id,
-    title: course.title,
-    status: course.isActive ? 'Open to All Learners' : 'Draft',
-    lastEdited: new Date(course.createdAt || Date.now()).toLocaleDateString(),
-    statusColor: course.isActive ? 'success' : 'default'
+    title: course.Name,
+    // status: course.isActive ? 'Open to All Learners' : 'Draft',
+    // lastEdited: new Date(course.createdAt || Date.now()).toLocaleDateString(),
+    // statusColor: course.isActive ? 'success' : 'default'
   })) || []
 
   // Fall back to static data if Airtable isn't set up yet
-  const displayCourses = coursesData ? transformedCourses : courses
+  const displayCourses = array ? transformedCourses : courses
 
   const filteredCourses = displayCourses.filter((course) => {
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase())
+    // @ts-expect-error
     const matchesStatus = statusFilter === 'all' || course.status === statusFilter
     return matchesSearch && matchesStatus
   })
 
   const handleDeleteCourse = async (courseId: string) => {
     try {
-      await remove(courseId)
+      await remove.trigger({id: courseId})
       // In a real app, you'd refresh the data here
     } catch (error) {
       console.error('Failed to delete course:', error)
     }
   }
 
-  if (loading) {
+  if (remove.loading) {
     return (
       <Box minH='100vh' bg='gray.50'>
         <Header />
@@ -260,7 +257,7 @@ export function Dashboard() {
     )
   }
 
-  if (error) {
+  if (remove.error) {
     return (
       <Box minH='100vh' bg='gray.50'>
         <Header />
@@ -268,7 +265,7 @@ export function Dashboard() {
           <PageHeader />
           <Card.Root>
             <Card.Body p={4}>
-              <Text color='red.600'>Error loading courses: {error}</Text>
+              <Text color='red.600'>Error loading courses: {remove.error.message}</Text>
               <Text mt={2} fontSize='sm' color='gray.600'>
                 This is expected if Airtable isn't configured yet. Check the console for setup instructions.
               </Text>

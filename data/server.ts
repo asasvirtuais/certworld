@@ -4,6 +4,20 @@ import { table } from './schema'
 import { crud } from './airtable'
 
 export const server = feathers<{
-    todos: CRUD<Todo.Readable, Todo.Writable>
+    'Certificates':    CRUD<Certificate.Readable,    Certificate.Writable>,
+    'Courses':         CRUD<Course.Readable,         Course.Writable>,
+    'Exams':           CRUD<Exam.Readable,           Exam.Writable>,
+    'Exam Results':    CRUD<ExamResult.Readable,     ExamResult.Writable>,
+    'Lessons':         CRUD<Lesson.Readable,         Lesson.Writable>,
+    'Lesson Progress': CRUD<LessonProgress.Readable, LessonProgress.Writable>,
+    'Profiles':        CRUD<Profile.Readable,        Profile.Writable>,
+    'Questions':       CRUD<Question.Readable,       Question.Writable>,
 }>()
-.use('todos', table('todos', crud))
+.use('Certificates', table('Certificates', crud))
+.use('Courses', table('Courses', crud))
+.use('Exams', table('Exams', crud))
+.use('Exam Results', table('Exam Results', crud))
+.use('Lessons', table('Lessons', crud))
+.use('Lesson Progress', table('Lesson Progress', crud))
+.use('Profiles', table('Profiles', crud))
+.use('Questions', table('Questions', crud))
