@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   Box,
   Flex,
@@ -11,112 +11,46 @@ import {
 } from '@chakra-ui/react'
 import { Container } from '@/components/ui/container'
 import { CourseCard, ResponsiveGrid } from '@/components/ui'
+import { FilterForm, SingleProvider, useFiltersForm } from '@/data/react'
 
-interface Course {
-  id: number
-  category: string
-  title: string
-  location: string
-  languages: string
-  duration: string
-  region: string
-  country: string
-  state?: string
-}
-
-const courses: Course[] = [
-  {
-    id: 1,
-    category: 'Food Safety Certification',
-    title: 'TEXAS | Food Safety Certification',
-    location: 'Texas, United States',
-    languages: 'English / Spanish',
-    duration: '2 hours',
-    region: 'Texas, United States',
-    country: 'United States',
-    state: 'Texas',
-  },
-  {
-    id: 2,
-    category: 'Notary Public Preparation',
-    title: 'CALIFORNIA | Notary Public Prep',
-    location: 'California, United States',
-    languages: 'English / Spanish',
-    duration: '3 hours',
-    region: 'California, United States',
-    country: 'United States',
-    state: 'California',
-  },
-  {
-    id: 3,
-    category: 'Workplace Safety Training',
-    title: 'Diversity, Equity, and Inclusion',
-    location: 'All locations',
-    languages: 'English / Spanish',
-    duration: '1.5 hours',
-    region: 'All locations',
-    country: 'All',
-  },
-  {
-    id: 4,
-    category: 'WASHINGTON | Boat Safety',
-    title: 'WASHINGTON | Boat Safety',
-    location: 'Washington, United States',
-    languages: 'English / Spanish',
-    duration: '2.5 hours',
-    region: 'Washington, United States',
-    country: 'United States',
-    state: 'Washington',
-  },
-  {
-    id: 5,
-    category: 'COSTA RICA | Native Beekeeping',
-    title: 'COSTA RICA | Native Beekeeping',
-    location: 'Costa Rica',
-    languages: 'English / Spanish',
-    duration: '4 hours',
-    region: 'Costa Rica',
-    country: 'Costa Rica',
-  },
-  {
-    id: 6,
-    category: 'MEXICO | Food Handler Safety',
-    title: 'MEXICO | Food Handler Safety',
-    location: 'Mexico',
-    languages: 'English / Spanish',
-    duration: '1.5 hours',
-    region: 'Mexico',
-    country: 'Mexico',
-  },
-]
-
-export function CoursesLayout() {
+function CoursesDisplay() {
+  const { result: courses, submit } = useFiltersForm<'Courses'>()
   const [selectedCountry, setSelectedCountry] = useState('')
   const [selectedState, setSelectedState] = useState('')
 
-  const countries = Array.from(new Set(courses.map((course) => course.country))).filter((country) => country !== 'All')
-  const states =
-    selectedCountry === 'United States'
-      ? Array.from(
-          new Set(
-            courses
-              .filter((course) => course.country === 'United States' && course.state)
-              .map((course) => course.state!),
-          ),
+  const countries = useMemo(() => {
+    if (!courses) return []
+    return Array.from(new Set(courses.map((course) => course.Location.split(', ')[1] || course.Location))).filter(Boolean)
+  }, [courses])
+
+  const states = useMemo(() => {
+    if (selectedCountry === 'United States' && courses) {
+      return Array.from(
+        new Set(
+          courses
+            .filter((course) => course.Location.includes('United States') && course.Location.split(', ').length > 1)
+            .map((course) => course.Location.split(', ')[0])
         )
-      : []
+      )
+    }
+    return []
+  }, [courses, selectedCountry])
 
-  const filteredCourses = courses.filter((course) => {
+  const filteredCourses = useMemo(() => {
+    if (!courses) return []
+    return courses.filter((course) => {
+      const [state, country] = course.Location.split(', ').map(s => s.trim())
 
-    const noneOrAllCourses = !selectedCountry || selectedCountry === 'all'
-    if (noneOrAllCourses)
-      return true
+      if (!selectedCountry || selectedCountry === 'all') return true
 
-    if (selectedCountry === 'United States' && selectedState)
-      return course.country === selectedCountry && course.state === selectedState
+      if (selectedCountry === 'United States') {
+        if (!selectedState || selectedState === 'all') return country === 'United States'
+        return country === 'United States' && state === selectedState
+      }
 
-    return course.country === selectedCountry
-  })
+      return country === selectedCountry
+    })
+  }, [courses, selectedCountry, selectedState])
 
   return (
     <Container py={8} bg='gray.50' minH='100dvh'>
@@ -145,7 +79,7 @@ export function CoursesLayout() {
             <NativeSelectField 
               value={selectedState} 
               onChange={(e) => setSelectedState(e.target.value)}
-              // disabled={selectedCountry !== 'United States'}
+              disabled={selectedCountry !== 'United States'}
             >
               <option value=''>Select a state</option>
               <option value='all'>All States</option>
@@ -167,13 +101,19 @@ export function CoursesLayout() {
       {/* Course Grid */}
       <ResponsiveGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
         {filteredCourses.map((course) => (
-          // @ts-expect-error
-          <CourseCard
-            key={course.id}
-            {...course}
-          />
+          <SingleProvider key={course.id} table="Courses" id={course.id}>
+            <CourseCard />
+          </SingleProvider>
         ))}
       </ResponsiveGrid>
     </Container>
+  )
+}
+
+export function CoursesLayout() {
+  return (
+    <FilterForm table="Courses">
+      <CoursesDisplay />
+    </FilterForm>
   )
 }

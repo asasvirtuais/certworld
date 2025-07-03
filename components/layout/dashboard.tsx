@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Plus, Download, Edit, MoreHorizontal, Menu as MenuIcon } from 'lucide-react'
 import {
   Box,
@@ -22,45 +22,7 @@ import {
   Menu
 } from '@chakra-ui/react'
 import { IconButton, SearchInput, StatusBadge, ResponsiveTable } from '../ui'
-import { useTable } from '@/data/react'
-
-const courses = [
-  {
-    id: 1,
-    title: 'Advanced Spanish Grammar',
-    status: 'Closed to All Learners',
-    lastEdited: '4/30/2025',
-    statusColor: 'secondary',
-  },
-  {
-    id: 2,
-    title: 'Business English for Beginners',
-    status: 'Open to All Learners',
-    lastEdited: '5/14/2025',
-    statusColor: 'success',
-  },
-  {
-    id: 3,
-    title: 'English for Medical Professionals',
-    status: 'Closed to New Learners',
-    lastEdited: '4/27/2025',
-    statusColor: 'warning',
-  },
-  {
-    id: 4,
-    title: 'Introduction to Spanish',
-    status: 'Open to All Learners',
-    lastEdited: '5/9/2025',
-    statusColor: 'success',
-  },
-  {
-    id: 5,
-    title: 'Spanish Vocabulary Builder',
-    status: 'Draft',
-    lastEdited: '5/16/2025',
-    statusColor: 'default',
-  },
-] as const
+import { FilterForm, useFiltersForm } from '@/data/react'
 
 const Header = () => {
   return (
@@ -98,7 +60,7 @@ const PageHeader = () => {
   )
 }
 
-const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatusFilter, sortBy, setSortBy }: any) => {
+const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatusFilter, sortBy, setSortBy, statuses }: any) => {
   return (
     <Card.Root mb={6}>
       <Card.Body p={4} borderBottom='1px' borderColor='gray.200'>
@@ -114,15 +76,14 @@ const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatus
             <NativeSelectRoot w='48'>
               <NativeSelectField value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
                 <option value='all'>All Statuses</option>
-                <option value='Open to All Learners'>Open to All Learners</option>
-                <option value='Closed to All Learners'>Closed to All Learners</option>
-                <option value='Closed to New Learners'>Closed to New Learners</option>
-                <option value='Draft'>Draft</option>
+                {statuses.map((status: string) => (
+                  <option key={status} value={status}>{status}</option>
+                ))}
               </NativeSelectField>
             </NativeSelectRoot>
             <NativeSelectRoot w='32'>
               <NativeSelectField value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-                <option value='title'>Title</option>
+                <option value='Name'>Title</option>
                 <option value='status'>Status</option>
                 <option value='lastEdited'>Last Edited</option>
               </NativeSelectField>
@@ -141,7 +102,7 @@ const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatus
 const CourseTable = ({ data, onRowClick }: any) => {
   const columns = [
     {
-      key: 'title',
+      key: 'Name',
       label: 'Course Title',
       mobileLabel: 'Course',
       render: (value: any) => (
@@ -210,42 +171,38 @@ const CourseTable = ({ data, onRowClick }: any) => {
   )
 }
 
-export function Dashboard() {
+function DashboardContent() {
+  const { result: courses, loading, error } = useFiltersForm<'Courses'>()
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
-  const [sortBy, setSortBy] = useState('title')
+  const [sortBy, setSortBy] = useState('Name')
 
-  const { remove, array } = useTable('Courses')
+  const statuses = useMemo(() => {
+    if (!courses) return []
+    return Array.from(new Set(courses.map(c => c.status).filter(Boolean)))
+  }, [courses])
 
-  // Transform Airtable data to match the existing component structure
-  const transformedCourses = array?.map(course => ({
-    id: course.id,
-    title: course.Name,
-    // status: course.isActive ? 'Open to All Learners' : 'Draft',
-    // lastEdited: new Date(course.createdAt || Date.now()).toLocaleDateString(),
-    // statusColor: course.isActive ? 'success' : 'default'
-  })) || []
+  const filteredCourses = useMemo(() => {
+    if (!courses) return []
+    return courses
+      .filter((course) => {
+        const matchesSearch = course.Name.toLowerCase().includes(searchQuery.toLowerCase())
+        const matchesStatus = statusFilter === 'all' || course.status === statusFilter
+        return matchesSearch && matchesStatus
+      })
+      .sort((a, b) => {
+        if (sortBy === 'Name') return a.Name.localeCompare(b.Name)
+        if (sortBy === 'status') return (a.status || '').localeCompare(b.status || '')
+        if (sortBy === 'lastEdited') {
+          const dateA = a.lastEdited ? new Date(a.lastEdited).getTime() : 0
+          const dateB = b.lastEdited ? new Date(b.lastEdited).getTime() : 0
+          return dateB - dateA
+        }
+        return 0
+      })
+  }, [courses, searchQuery, statusFilter, sortBy])
 
-  // Fall back to static data if Airtable isn't set up yet
-  const displayCourses = array ? transformedCourses : courses
-
-  const filteredCourses = displayCourses.filter((course) => {
-    const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase())
-    // @ts-expect-error
-    const matchesStatus = statusFilter === 'all' || course.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
-
-  const handleDeleteCourse = async (courseId: string) => {
-    try {
-      await remove.trigger({id: courseId})
-      // In a real app, you'd refresh the data here
-    } catch (error) {
-      console.error('Failed to delete course:', error)
-    }
-  }
-
-  if (remove.loading) {
+  if (loading) {
     return (
       <Box minH='100vh' bg='gray.50'>
         <Header />
@@ -257,7 +214,7 @@ export function Dashboard() {
     )
   }
 
-  if (remove.error) {
+  if (error) {
     return (
       <Box minH='100vh' bg='gray.50'>
         <Header />
@@ -265,7 +222,7 @@ export function Dashboard() {
           <PageHeader />
           <Card.Root>
             <Card.Body p={4}>
-              <Text color='red.600'>Error loading courses: {remove.error.message}</Text>
+              <Text color='red.600'>Error loading courses: {error.message}</Text>
               <Text mt={2} fontSize='sm' color='gray.600'>
                 This is expected if Airtable isn't configured yet. Check the console for setup instructions.
               </Text>
@@ -286,11 +243,20 @@ export function Dashboard() {
         setStatusFilter={setStatusFilter}
         sortBy={sortBy}
         setSortBy={setSortBy}
+        statuses={statuses}
       />
       <CourseTable
         data={filteredCourses}
         onRowClick={(course: any) => console.log('Row clicked:', course)}
       />
     </Container>
+  )
+}
+
+export function Dashboard() {
+  return (
+    <FilterForm table="Courses">
+      <DashboardContent />
+    </FilterForm>
   )
 }

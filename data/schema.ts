@@ -12,6 +12,13 @@ export const schema = {
             Duration: z.number(),
             Price: z.number(),
             Location: z.string(),
+            lastEdited: z.string().optional(),
+            status: z.string().optional(),
+            statusColor: z.string().optional(),
+            progress: z.number().optional(),
+            lessonsCompleted: z.number().optional(),
+            totalLessons: z.number().optional(),
+            isComplete: z.boolean().optional(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -27,6 +34,10 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
+            titleEn: z.string().optional(),
+            titleEs: z.string().optional(),
+            completed: z.boolean().optional(),
+            type: z.enum(['lesson', 'quiz']).optional(),
         }),
         writable: z.object({
             Name: z.string(),

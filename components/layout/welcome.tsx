@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import {
   Box,
@@ -11,26 +10,17 @@ import {
   Card,
   Button,
 } from '@chakra-ui/react'
-import { Container, ProgressBar } from '../ui'
+import { Container } from '../ui'
 import { Progress } from '@chakra-ui/react'
 import Link from 'next/link'
-
-interface Course {
-  id: number
-  title: string
-  state: string
-  progress: number
-  lessonsCompleted: number
-  totalLessons: number
-  isComplete: boolean
-}
+import { FilterForm, useFiltersForm } from '@/data/react'
 
 function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
   return (
-    <Box key={course.id} borderBottom={isLast ? 'none' : '1px'} borderColor='gray.200'>
+    <Box key={course.id} borderBottom={isLast ? 'none' : '1px'} borderColor='gray.200' pb={4}>
       <Box mb={4}>
         <Heading size='md' fontWeight='bold' color='gray.900'>
-          <Text as='span' textTransform='uppercase'>{course.state}</Text> | {course.title}
+          <Text as='span' textTransform='uppercase'>{course.Location.split(', ')[0]}</Text> | {course.Name}
         </Heading>
       </Box>
       <Box mb={2}>
@@ -65,31 +55,21 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
 }
 
 export function MyCourses() {
-  const [courses, setCourses] = useState<Course[]>([
-    {
-      id: 1,
-      title: 'Notary Public Prep',
-      state: 'TEXAS',
-      progress: 50,
-      lessonsCompleted: 2,
-      totalLessons: 4,
-      isComplete: false,
-    },
-    {
-      id: 2,
-      title: 'Notary Public Prep',
-      state: 'CALIFORNIA',
-      progress: 100,
-      lessonsCompleted: 4,
-      totalLessons: 4,
-      isComplete: true,
-    },
-  ])
+  const { result: courses } = useFiltersForm<'Courses'>()
+
+  const coursesWithProgress = courses?.map(course => ({
+    ...course,
+    progress: Math.floor(Math.random() * 101),
+    lessonsCompleted: Math.floor(Math.random() * 5),
+    totalLessons: 4,
+    isComplete: Math.random() > 0.5,
+  }))
+
   return (
     <Card.Root>
       <Card.Body asChild>
         <Stack gap={4}>
-          {courses.map((course, index) => (
+          {coursesWithProgress?.map((course, index) => (
             <CourseCard key={course.id} course={course} isLast={index === courses.length - 1} />
           ))}
         </Stack>
@@ -115,7 +95,9 @@ export function WelcomeContent({ name } : { name: string }) {
           </Link>
         </Button>
       </Flex>
-      <MyCourses/>
+      <FilterForm table="Courses">
+        <MyCourses/>
+      </FilterForm>
     </Container>
   )
 }
