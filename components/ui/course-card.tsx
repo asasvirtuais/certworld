@@ -1,16 +1,3 @@
-"use client"
-
-import { MapPin } from "lucide-react"
-import {
-  Card,
-  Heading,
-  Text,
-  Stack,
-  Flex,
-  Button,
-} from "@chakra-ui/react"
-import { CourseDrawer } from "../views/course-drawer"
-
 'use client'
 
 import { MapPin } from 'lucide-react'
@@ -41,10 +28,10 @@ export function CourseCard() {
     <Card.Root overflow='hidden' _hover={{ shadow: 'lg' }} transition='shadow'>
       <Card.Header bg='blue.100' p={6}>
         <Heading size='md' fontWeight='medium' color='blue.600' textAlign='center'>
-          {Category}
+          {Category ?? 'Category'}
         </Heading>
       </Card.Header>
-      <Card.Body p={6}>
+      <Card.Body justifyContent='space-between' p={6}>
         <Heading size='md' fontWeight='semibold' color='gray.900' mb={3}>
           {Name}
         </Heading>

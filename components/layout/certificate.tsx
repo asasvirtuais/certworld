@@ -43,20 +43,25 @@ const CertificateCard = ({ certificate }: { certificate: Certificate }) => (
 
           <Text fontSize='lg' color='gray.700' mb={4}>This certifies that</Text>
 
-          <Heading size='xl' fontWeight='bold' color='gray.900' mb={6}>{certificate.userName || 'Demo User'}</Heading>
+          <Heading size='xl' fontWeight='bold' color='gray.900' mb={6}>{certificate['User Name']}</Heading>
 
           <Text fontSize='lg' color='gray.700' mb={6}>has successfully completed</Text>
 
           <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>{certificate.Name}</Heading>
 
-          <Text color='gray.500'>Completed on {certificate.completionDate || '5/4/2025'}</Text>
+          <Text color='gray.500'>Completed on {certificate['Completion Date']}</Text>
         </Box>
       </Box>
     </Card.Body>
   </Card.Root>
 )
 
-const ActionButtons = ({ onDownloadClick, onEmailClick } : any) => (
+interface ActionButtonsProps {
+  onDownloadClick: () => void
+  onEmailClick: () => void
+}
+
+const ActionButtons = ({ onDownloadClick, onEmailClick }: ActionButtonsProps) => (
   <Flex direction={{ base: 'column', sm: 'row' }} gap={4} justify='center' align='center'>
     <Button 
       onClick={onDownloadClick} 
@@ -78,7 +83,7 @@ const ActionButtons = ({ onDownloadClick, onEmailClick } : any) => (
 )
 
 function CertificateContent() {
-  const { result: certificates } = useFiltersForm<'Certificates'>()
+  const { result: certificates } = useFiltersForm('Certificates')
 
   const certificate = certificates?.[0]
 

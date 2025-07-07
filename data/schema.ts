@@ -12,13 +12,15 @@ export const schema = {
             Duration: z.number(),
             Price: z.number(),
             Location: z.string(),
-            lastEdited: z.string().optional(),
-            status: z.string().optional(),
-            statusColor: z.string().optional(),
-            progress: z.number().optional(),
-            lessonsCompleted: z.number().optional(),
-            totalLessons: z.number().optional(),
-            isComplete: z.boolean().optional(),
+            'Last Edited': z.string().optional(),
+            'Status': z.string().optional(),
+            'Status Color': z.string().optional(),
+            'Progress': z.number().optional(),
+            'Lessons Completed': z.number().optional(),
+            'Total Lessons': z.number().optional(),
+            'Is Complete': z.boolean().optional(),
+            'Created By': z.string().optional(), // Profile ID
+            'Owned By': z.string().optional(), // Profile ID
         }),
         writable: z.object({
             Name: z.string(),
@@ -34,10 +36,13 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
-            titleEn: z.string().optional(),
-            titleEs: z.string().optional(),
-            completed: z.boolean().optional(),
-            type: z.enum(['lesson', 'quiz']).optional(),
+            'Title En': z.string().optional(),
+            'Title Es': z.string().optional(),
+            'Completed': z.boolean().optional(),
+            'Type': z.enum(['lesson', 'quiz']).optional(),
+            'Exam ID': z.string().optional(), // Exam ID reference
+            'Content En': z.string().optional(),
+            'Content Es': z.string().optional(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -56,6 +61,8 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
+            'User Name': z.string().optional(),
+            'Completion Date': z.string().optional(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -65,6 +72,9 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
+            Email: z.string(),
+            Role: z.enum(['Creator', 'Owner', 'Student']),
+            'Created At': z.string(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -74,8 +84,9 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(),
-            Course: z.string(),
-            'Course ID': z.string(),
+            Course: z.string(), // Course Name
+            'Course ID': z.string(), // Course ID reference
+            Description: z.string().optional(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -85,7 +96,8 @@ export const schema = {
     Questions: {
         readable: z.object({
             id: z.string(),
-            Name: z.string(),
+            Name: z.string(), // Question text
+            'Lesson ID': z.string(), // Lesson ID reference
         }),
         writable: z.object({
             Name: z.string(),

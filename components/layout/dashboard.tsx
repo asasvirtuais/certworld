@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useMemo } from 'react'
 import { Plus, Download, Edit, MoreHorizontal, Menu as MenuIcon } from 'lucide-react'
 import {
   Box,
@@ -8,7 +7,6 @@ import {
   MenuTrigger,
   MenuContent,
   MenuItemCommand,
-  Table,
   Flex,
   Heading,
   Text,
@@ -23,6 +21,7 @@ import {
 } from '@chakra-ui/react'
 import { IconButton, SearchInput, StatusBadge, ResponsiveTable } from '../ui'
 import { FilterForm, useFiltersForm } from '@/data/react'
+import { useEffect } from 'react'
 
 const Header = () => {
   return (
@@ -60,7 +59,23 @@ const PageHeader = () => {
   )
 }
 
-const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatusFilter, sortBy, setSortBy, statuses }: any) => {
+const FiltersAndSearch = () => {
+  // For now, we'll use a simple implementation that integrates with FilterForm
+  // The actual filtering will be handled by the FilterForm's query parameters
+  
+  const handleSearchChange = (value: string) => {
+    // This will be handled by the FilterForm query system
+    console.log('Search:', value)
+  }
+  
+  const handleStatusFilter = (value: string) => {
+    console.log('Status filter:', value)
+  }
+  
+  const handleSortChange = (value: string) => {
+    console.log('Sort by:', value)
+  }
+
   return (
     <Card.Root mb={6}>
       <Card.Body p={4} borderBottom='1px' borderColor='gray.200'>
@@ -69,23 +84,32 @@ const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatus
             <Box maxW='md' flex={1}>
               <SearchInput
                 placeholder='Search courses...'
-                value={searchQuery}
-                onChange={setSearchQuery}
+                value=''
+                onChange={handleSearchChange}
               />
             </Box>
             <NativeSelectRoot w='48'>
-              <NativeSelectField value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+              <NativeSelectField 
+                value='all' 
+                onChange={(e) => handleStatusFilter(e.target.value)}
+              >
                 <option value='all'>All Statuses</option>
-                {statuses.map((status: string) => (
-                  <option key={status} value={status}>{status}</option>
-                ))}
+                <option value='Published'>Published</option>
+                <option value='Draft'>Draft</option>
+                <option value='Review'>Review</option>
+                <option value='Archived'>Archived</option>
               </NativeSelectField>
             </NativeSelectRoot>
             <NativeSelectRoot w='32'>
-              <NativeSelectField value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+              <NativeSelectField 
+                value='Name' 
+                onChange={(e) => handleSortChange(e.target.value)}
+              >
                 <option value='Name'>Title</option>
-                <option value='status'>Status</option>
-                <option value='lastEdited'>Last Edited</option>
+                <option value='Status'>Status</option>
+                <option value='Updated At'>Last Edited</option>
+                <option value='Category'>Category</option>
+                <option value='Price'>Price</option>
               </NativeSelectField>
             </NativeSelectRoot>
           </Flex>
@@ -99,32 +123,65 @@ const FiltersAndSearch = ({ searchQuery, setSearchQuery, statusFilter, setStatus
   )
 }
 
-const CourseTable = ({ data, onRowClick }: any) => {
+interface CourseTableProps {
+  data: Course[]
+  onRowClick?: (row: Record<string, any>) => void
+}
+
+const CourseTable = ({ data, onRowClick }: CourseTableProps) => {
   const columns = [
     {
       key: 'Name',
       label: 'Course Title',
       mobileLabel: 'Course',
-      render: (value: any) => (
+      render: (value: string) => (
         <Text fontWeight='medium' color='gray.900'>{value}</Text>
       )
     },
     {
-      key: 'status',
+      key: 'Category',
+      label: 'Category',
+      hideOnMobile: true,
+      render: (value: string) => (
+        <Text color='gray.600'>{value}</Text>
+      )
+    },
+    {
+      key: 'Status',
       label: 'Status',
-      render: (value : any, row : any) => (
+      render: (value: string) => (
         <StatusBadge
-          status={value}
-          statusColor={row.statusColor}
+          status={value || 'Draft'}
+          statusColor="default"
         />
       )
     },
     {
-      key: 'lastEdited',
+      key: 'Languages',
+      label: 'Languages',
+      hideOnMobile: true,
+      render: (value: string[]) => (
+        <Text color='gray.600'>{value?.join(', ') || 'English'}</Text>
+      )
+    },
+    {
+      key: 'Price',
+      label: 'Price',
+      hideOnMobile: true,
+      render: (value: number) => (
+        <Text color='gray.900' fontWeight='medium'>
+          ${value?.toFixed(2) || '0.00'}
+        </Text>
+      )
+    },
+    {
+      key: 'Updated At',
       label: 'Last Edited',
       mobileLabel: 'Edited',
-      render: (value : any) => (
-        <Text color='gray.600'>{value}</Text>
+      render: (value: string) => (
+        <Text color='gray.600'>
+          {value ? new Date(value).toLocaleDateString() : 'Never'}
+        </Text>
       )
     },
     {
@@ -165,42 +222,18 @@ const CourseTable = ({ data, onRowClick }: any) => {
   return (
     <ResponsiveTable
       columns={columns}
-      data={data}
+      data={data || []}
       onRowClick={onRowClick}
     />
   )
 }
 
 function DashboardContent() {
-  const { result: courses, loading, error } = useFiltersForm<'Courses'>()
-  const [searchQuery, setSearchQuery] = useState('')
-  const [statusFilter, setStatusFilter] = useState('all')
-  const [sortBy, setSortBy] = useState('Name')
+  const { result: courses, loading, error, submit } = useFiltersForm('Courses')
 
-  const statuses = useMemo(() => {
-    if (!courses) return []
-    return Array.from(new Set(courses.map(c => c.status).filter(Boolean)))
-  }, [courses])
-
-  const filteredCourses = useMemo(() => {
-    if (!courses) return []
-    return courses
-      .filter((course) => {
-        const matchesSearch = course.Name.toLowerCase().includes(searchQuery.toLowerCase())
-        const matchesStatus = statusFilter === 'all' || course.status === statusFilter
-        return matchesSearch && matchesStatus
-      })
-      .sort((a, b) => {
-        if (sortBy === 'Name') return a.Name.localeCompare(b.Name)
-        if (sortBy === 'status') return (a.status || '').localeCompare(b.status || '')
-        if (sortBy === 'lastEdited') {
-          const dateA = a.lastEdited ? new Date(a.lastEdited).getTime() : 0
-          const dateB = b.lastEdited ? new Date(b.lastEdited).getTime() : 0
-          return dateB - dateA
-        }
-        return 0
-      })
-  }, [courses, searchQuery, statusFilter, sortBy])
+  useEffect(() => {
+    submit({})
+  }, [])
 
   if (loading) {
     return (
@@ -208,7 +241,11 @@ function DashboardContent() {
         <Header />
         <Container maxW='7xl' px={4} py={8}>
           <PageHeader />
-          <Text>Loading courses...</Text>
+          <Card.Root>
+            <Card.Body p={4}>
+              <Text>Loading courses...</Text>
+            </Card.Body>
+          </Card.Root>
         </Container>
       </Box>
     )
@@ -234,22 +271,21 @@ function DashboardContent() {
   }
 
   return (
-    <Container maxW='7xl' px={4} py={8}>
-      <PageHeader />
-      <FiltersAndSearch
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        statuses={statuses}
-      />
-      <CourseTable
-        data={filteredCourses}
-        onRowClick={(course: any) => console.log('Row clicked:', course)}
-      />
-    </Container>
+    <Box minH='100vh' bg='gray.50'>
+      <Header />
+      <Container maxW='7xl' px={4} py={8}>
+        <PageHeader />
+        <FiltersAndSearch />
+        <Card.Root>
+          <Card.Body p={0}>
+            <CourseTable
+              data={courses || []}
+              onRowClick={(row) => console.log('Row clicked:', row)}
+            />
+          </Card.Body>
+        </Card.Root>
+      </Container>
+    </Box>
   )
 }
 

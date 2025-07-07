@@ -42,11 +42,11 @@ const LessonButton = ({
   >
     <Flex align='start' gap={3} w='full'>
       <Box flexShrink={0} mt={0.5}>
-        {lesson.completed ? (
+        {lesson['Completed'] ? (
           <Circle size={5} bg='green.500' color='white'>
             <Check size={12} />
           </Circle>
-        ) : lesson.type === 'quiz' ? (
+        ) : lesson['Type'] === 'quiz' ? (
           <FileText size={20} color='gray.400' />
         ) : (
           <BookOpen size={20} color='gray.400' />
@@ -54,10 +54,10 @@ const LessonButton = ({
       </Box>
       <Box flex={1} minW={0} textAlign='left'>
         <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
-          {lesson.titleEn}
+          {lesson['Title En']}
         </Text>
         <Text fontSize='xs' color='gray.500'>
-          {lesson.titleEs}
+          {lesson['Title Es']}
         </Text>
       </Box>
     </Flex>
@@ -69,7 +69,7 @@ const CourseSection = ({
   selectedLesson,
   setSelectedLesson,
 }: {
-  section: { id: string; titleEn: string; titleEs: string; lessons: Lesson[] }
+  section: { id: string; 'Title En': string; 'Title Es': string; lessons: Lesson[] }
   selectedLesson: string
   setSelectedLesson: (id: string) => void
 }) => (
@@ -82,7 +82,7 @@ const CourseSection = ({
       textTransform='uppercase'
       letterSpacing='wide'
     >
-      {section.titleEn} | {section.titleEs}
+      {section['Title En']} | {section['Title Es']}
     </Heading>
 
     <Stack gap={2}>
@@ -98,25 +98,16 @@ const CourseSection = ({
   </Box>
 )
 
-const LessonContent = ({ currentLesson }: { currentLesson: Lesson }) => {
-  if (!currentLesson) {
-    return (
-      <Box textAlign='center' py={12}>
-        <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>
-          Select a Lesson
-        </Heading>
-        <Text color='gray.500'>Please select a lesson from the sidebar to view its content.</Text>
-      </Box>
-    )
-  }
+const LessonContent = ({}: {}) => {
+  const { single: lesson } = useSingle<'Lessons'>()
 
   return (
     <Box>
       <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>
-        {currentLesson.titleEn}
+        {lesson['Title En']}
       </Heading>
       <Heading size='lg' fontWeight='semibold' color='blue.600' mb={6}>
-        {currentLesson.titleEs}
+        {lesson['Title Es']}
       </Heading>
 
       <Text color='gray.700' lineHeight='relaxed'>
@@ -126,33 +117,15 @@ const LessonContent = ({ currentLesson }: { currentLesson: Lesson }) => {
   )
 }
 
-function CourseContent() {
-  const { result: courses } = useFiltersForm<'Courses'>()
-  const { result: lessons } = useFiltersForm<'Lessons'>()
-  const [selectedLesson, setSelectedLesson] = useState<string | null>(null)
+export function CourseContent() {
+  const { single: course, id } = useSingle<'Courses'>()
+  const { result: exams, submit } = useFiltersForm('Exams')
 
-  const course = courses?.[0]
+  const [selectedLesson, setSelectedLesson] = useState<string>('')
 
   useEffect(() => {
-    if (lessons && lessons.length > 0 && !selectedLesson) {
-      setSelectedLesson(lessons[0].id)
-    }
-  }, [lessons, selectedLesson])
-
-  const sections = [
-    {
-      id: 'intro',
-      titleEn: 'INTRODUCTION TO LEARNING',
-      titleEs: 'INTRODUCCIÓN AL APRENDIZAJE',
-      lessons: lessons || [],
-    },
-  ]
-
-  const currentLesson = lessons?.find((l) => l.id === selectedLesson)
-
-  if (!course || !lessons) {
-    return <Text>Loading...</Text>
-  }
+    submit({})
+  }, [])
 
   return (
     <Flex h='100vh' bg='gray.50'>
@@ -163,33 +136,23 @@ function CourseContent() {
         </Box>
 
         <Box p={4}>
-          {sections.map((section) => (
-            <CourseSection  
-              key={section.id}
-              section={section}
-              selectedLesson={selectedLesson!}
-              setSelectedLesson={setSelectedLesson}
-            />
-          ))}
+          {/* <CourseSection  
+            key={section.id}
+            section={section}
+            selectedLesson={selectedLesson!}
+            setSelectedLesson={setSelectedLesson}
+          /> */}
         </Box>
       </ResponsiveSidebar>
 
       {/* Main Content */}
       <Box flex={1} overflowY='auto'>
         <Container maxW='4xl' p={8}>
-          <LessonContent currentLesson={currentLesson!} />
+          <SingleProvider id={selectedLesson} table='Lessons'>
+            <LessonContent />
+          </SingleProvider>
         </Container>
       </Box>
     </Flex>
-  )
-}
-
-export function Course() {
-  return (
-    <FilterForm table="Courses">
-      <FilterForm table="Lessons">
-        <CourseContent />
-      </FilterForm>
-    </FilterForm>
   )
 }

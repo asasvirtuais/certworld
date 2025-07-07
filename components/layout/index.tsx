@@ -1,5 +1,5 @@
 export { Certificate } from './certificate'
-export { Course } from './course'
+export { CourseContent } from './course'
 export { CoursesLayout } from './courses'
 export { Dashboard } from './dashboard'
 export { Landing } from './landing'

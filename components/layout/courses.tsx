@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import {
   Box,
   Flex,
@@ -14,7 +14,10 @@ import { CourseCard, ResponsiveGrid } from '@/components/ui'
 import { FilterForm, SingleProvider, useFiltersForm } from '@/data/react'
 
 function CoursesDisplay() {
-  const { result: courses, submit } = useFiltersForm<'Courses'>()
+  const { result: courses, submit } = useFiltersForm('Courses')
+  useEffect(() => {
+    submit({})
+  }, [])
   const [selectedCountry, setSelectedCountry] = useState('')
   const [selectedState, setSelectedState] = useState('')
 
@@ -74,12 +77,11 @@ function CoursesDisplay() {
 
           <NativeSelectRoot 
             w={{ base: 'full', sm: '64' }}
-            opacity={selectedCountry !== 'United States' ? 0.5 : 1}
+            disabled={selectedCountry !== 'United States'}
           >
             <NativeSelectField 
               value={selectedState} 
               onChange={(e) => setSelectedState(e.target.value)}
-              disabled={selectedCountry !== 'United States'}
             >
               <option value=''>Select a state</option>
               <option value='all'>All States</option>
@@ -109,10 +111,12 @@ function CoursesDisplay() {
     </Container>
   )
 }
+import { Header } from '@/components/ui'
 
 export function CoursesLayout() {
   return (
     <FilterForm table="Courses">
+      <Header />
       <CoursesDisplay />
     </FilterForm>
   )

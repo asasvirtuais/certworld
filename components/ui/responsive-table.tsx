@@ -14,15 +14,15 @@ import {
 interface Column {
   key: string
   label: string
-  render?: (value: any, row: any) => ReactNode
+  render?: (value: any, row: Record<string, any>) => ReactNode
   mobileLabel?: string
   hideOnMobile?: boolean
 }
 
 interface ResponsiveTableProps {
   columns: Column[]
-  data: any[]
-  onRowClick?: (row: any) => void
+  data: Record<string, any>[]
+  onRowClick?: (row: Record<string, any>) => void
 }
 
 export function ResponsiveTable({ columns, data, onRowClick }: ResponsiveTableProps) {

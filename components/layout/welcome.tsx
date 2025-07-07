@@ -14,6 +14,7 @@ import { Container } from '../ui'
 import { Progress } from '@chakra-ui/react'
 import Link from 'next/link'
 import { FilterForm, useFiltersForm } from '@/data/react'
+import { useEffect } from 'react'
 
 function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
   return (
@@ -24,7 +25,7 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
         </Heading>
       </Box>
       <Box mb={2}>
-        <Progress.Root value={course.progress}>
+        <Progress.Root value={course.Progress}>
           <Progress.Track>
             <Progress.Range></Progress.Range>
           </Progress.Track>
@@ -32,9 +33,9 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
       </Box>
       <Flex justify='space-between' align='center'>
         <Text fontSize='sm' color='gray.500'>
-          {course.lessonsCompleted} of {course.totalLessons} lessons completed
+          {course['Lessons Completed']} of {course['Total Lessons']} lessons completed
         </Text>
-        {course.isComplete ? (
+        {course['Is Complete'] ? (
           <Button variant='solid' size='xs' colorPalette='blue' asChild>
             <Link href='/certificate'>
               View Certificate
@@ -55,7 +56,11 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
 }
 
 export function MyCourses() {
-  const { result: courses } = useFiltersForm<'Courses'>()
+  const { result: courses, submit } = useFiltersForm('Courses')
+
+  useEffect(() => {
+    submit({})
+  }, [])
 
   const coursesWithProgress = courses?.map(course => ({
     ...course,
@@ -70,7 +75,7 @@ export function MyCourses() {
       <Card.Body asChild>
         <Stack gap={4}>
           {coursesWithProgress?.map((course, index) => (
-            <CourseCard key={course.id} course={course} isLast={index === courses.length - 1} />
+            <CourseCard key={course.id} course={course} isLast={index === (courses?.length || 1) - 1} />
           ))}
         </Stack>
       </Card.Body>
@@ -78,7 +83,7 @@ export function MyCourses() {
   )
 }
 
-export function WelcomeContent({ name } : { name: string }) {
+export function   WelcomeContent({ name } : { name: string }) {
 
   return (
     <Container maxW='breakpoint-lg' my={12}>

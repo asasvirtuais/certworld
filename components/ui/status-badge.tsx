@@ -4,10 +4,10 @@ import { Badge } from "@chakra-ui/react"
 
 interface StatusBadgeProps {
   status: string
-  statusColor: "success" | "warning" | "secondary" | "default"
+  statusColor?: "success" | "warning" | "secondary" | "default" | string
 }
 
-export function StatusBadge({ status, statusColor }: StatusBadgeProps) {
+export function StatusBadge({ status, statusColor = "default" }: StatusBadgeProps) {
   const getVariant = (statusColor: string) => {
     switch (statusColor) {
       case "success":

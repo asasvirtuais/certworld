@@ -1,10 +1,9 @@
 'use client'
 
-import { FilterForm, SingleProvider, useSingle } from '@/data/react'
-import { useForm } from '@asasvirtuais/react'
+import { FilterForm, SingleProvider, useSingle, useFiltersForm } from '@/data/react'
 import { Card, Flex, Text, GridItem, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { MapPin } from 'lucide-react'
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
 import CourseDrawer from './drawer'
 
 export function CourseGridCard() {
@@ -44,13 +43,7 @@ export function CourseGridCard() {
 }
 
 export function CourseGridItems() {
-    const { submit, result } = useForm<{}, Course[]>()
-
-    console.log(result)
-
-    useEffect(() => {
-        submit()
-    }, [])
+    const { result } = useFiltersForm('Courses')
 
     return (
         <Fragment>

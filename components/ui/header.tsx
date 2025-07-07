@@ -1,3 +1,4 @@
+'use client'
 import { Menu } from 'lucide-react'
 import {
   Box,
@@ -15,7 +16,6 @@ import Link from 'next/link'
 import { IconButton } from './icon-button'
 import { LanguageMenu } from './language-menu'
 import { Container } from './container'
-import { getUser } from 'asasvirtuais-auth/auth0.js'
 
 const Title = () => (
   <Link href='/'>
@@ -94,9 +94,11 @@ export const MobileDrawer = () => (
   </Drawer.Root>
 )
 
-export async function Header() {
+import { useUser } from '@auth0/nextjs-auth0'
 
-  const user = await getUser()
+export function Header() {
+
+  const user = useUser()
 
   return (
     <Box as='header' bg='white' borderBottom='1px' borderColor='gray.200'>

@@ -38,9 +38,9 @@ const Header = () => {
   )
 }
 
-const Description = ({ course }: any) => (
+const Description = ({ course }: { course: Course }) => (
   <Text color='gray.700' fontSize='lg' lineHeight='relaxed'>
-    {course.description}
+    {course.Description}
   </Text>
 )
 
@@ -62,7 +62,7 @@ const LearningPoints = () => {
           What you'll learn
         </Heading>
         <Stack gap={3}>
-          {exams?.map(exam => (
+          {exams?.map((exam) => (
             <Flex key={exam.id} align='start' gap={3}>
               <Box flexShrink={0} mt={0.5}>
                 <Circle size={5} bg='blue.500' color='white'>
