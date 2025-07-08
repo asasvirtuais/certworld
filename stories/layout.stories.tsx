@@ -48,12 +48,6 @@ export const Courses: Story = {
   )
 }
 
-export const Course: Story = {
-  render: () => (
-    <Layouts.Course/>
-  )
-}
-
 export const Certificate: Story = {
   render: () => (
     <Layouts.Certificate/>
