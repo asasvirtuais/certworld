@@ -117,8 +117,8 @@ const LessonContent = ({}: {}) => {
   )
 }
 
-export function CourseContent() {
-  const { single: course, id } = useSingle<'Courses'>()
+export function CourseContent({ id } : { id: string }) {
+  const { single: course } = useSingle<'Courses'>()
   const { result: exams, submit } = useFiltersForm('Exams')
 
   const [selectedLesson, setSelectedLesson] = useState<string>('')

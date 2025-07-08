@@ -6,7 +6,7 @@ export default async function CoursePage( { params: promise } : { params: Promis
   return (
     <SingleProvider id={id} table='Courses'>
       <FilterForm table='Exams' defaults={{query: { 'Course ID': id }}}>
-        <CourseContent />
+        <CourseContent id={id} />
       </FilterForm>
     </SingleProvider>
   )
