@@ -1,3 +1,4 @@
+'use server'
 import { CourseContent } from '@/components/layout/course'
 import { SingleProvider, FilterForm } from '@/data/react'
 

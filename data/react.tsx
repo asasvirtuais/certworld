@@ -1,3 +1,4 @@
+'use client'
 import { database } from '@asasvirtuais/react'
 import { crud } from '@asasvirtuais/feathers'
 import { client } from './client'
