@@ -102,6 +102,35 @@ To define the functional and technical requirements for CertWorld, a simple cour
 - AI or dynamic translations
 - Advanced analytics 
 
+## Development Roadmap
+
+### 1. Stripe Integration
+
+#### 1.1 Stripe Products Setup
+- Courses will be products on Stripe
+- Products manually created through Stripe dashboard
+- Add `Product ID` field to Courses table in Airtable (see Airtable MCP)
+- Manual linking by copying Stripe Product ID to Airtable
+
+#### 1.2 Cart Interface
+- Cart view component for selected courses
+- Integration with Course Drawer interface for course selection
+- Cart state management for multiple course selection
+
+#### 1.3 Payment Processing
+- Payment prompt in cart (local checkout or Stripe Checkout link)
+- Stripe payment intent creation
+- Payment confirmation handling
+
+#### 1.4 Post-Purchase Flow
+- Link Auth0 User → Airtable Profile → Customer ID → Active Subscriptions/Purchases
+- Add purchased courses to user's owned products
+- Course access provisioning after successful payment
+
+### 2. User Authorization
+### 3. Progress Tracking
+### 4. Real Time Database
+
 ## Appendix
 
 **Figma** (work in progress - estimated completion is May 25): https://www.figma.com/design/1OxpbmuGlPEG5N4VZjwT1Q/CertWorld?node-id=0-1&t=HYja01afgPXEXxCW-1 
