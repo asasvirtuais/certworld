@@ -16,6 +16,7 @@ import {
 import { FilterForm, useFiltersForm, useSingle } from '@/data/react'
 import { useForm } from '@asasvirtuais/react'
 import { useEffect } from 'react'
+import { useCart } from '@/data/cart-context'
 
 const Header = () => {
 
@@ -78,15 +79,21 @@ const LearningPoints = () => {
 }
 
 const Pricing = () => {
-  const { single: {
-    id, Price
-  } } = useSingle<'Courses'>()
+  const { single: course } = useSingle<'Courses'>()
+  const { addItem, isInCart, toggleDrawer } = useCart()
+  
+  const handleAddToCart = () => {
+    if (!isInCart(course.id)) {
+      addItem(course)
+      toggleDrawer() // Open cart drawer
+    }
+  }
 
   return (
     <>
       <Stack w='100%' gap={6} p={6} bg='gray.200'>
         <Text fontSize='3xl' fontWeight='bold' color='gray.900'>
-          {Price.toLocaleString('en-US', {
+          {course.Price.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD',
           })}
@@ -95,8 +102,12 @@ const Pricing = () => {
           Includes certificate upon completion
         </Text>
       </Stack>
-      <Button w='100%'>
-        Select Course
+      <Button 
+        w='100%' 
+        onClick={handleAddToCart}
+        colorPalette={isInCart(course.id) ? 'green' : 'blue'}
+      >
+        {isInCart(course.id) ? 'Added to Cart' : 'Add to Cart'}
       </Button>
     </>
   )

@@ -3,7 +3,7 @@
 import { FilterForm, SingleProvider, useSingle, useFiltersForm } from '@/data/react'
 import { Card, Flex, Text, GridItem, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { MapPin } from 'lucide-react'
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import CourseDrawer from './drawer'
 
 export function CourseGridCard() {
@@ -43,7 +43,11 @@ export function CourseGridCard() {
 }
 
 export function CourseGridItems() {
-    const { result } = useFiltersForm('Courses')
+    const { result, submit } = useFiltersForm('Courses')
+
+    useEffect(() => {
+        submit()
+    }, [])
 
     return (
         <Fragment>

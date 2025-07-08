@@ -18,6 +18,10 @@
           "--tools=all",
           "--api-key=${STRIPE_API_KEY}"
       ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"]
     }
   }
 }

@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { IconButton } from './icon-button'
 import { LanguageMenu } from './language-menu'
 import { Container } from './container'
+import { CartButton } from './cart-button'
 
 const Title = () => (
   <Link href='/'>
@@ -113,6 +114,7 @@ export function Header() {
             <DesktopNav />
             {! user && <LinksMenu />}
             <LanguageMenu />
+            <CartButton />
           </Stack>
 
           <MobileDrawer/>
