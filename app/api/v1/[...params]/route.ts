@@ -1,4 +1,4 @@
-import { createDynamicRoute } from '@asasvirtuais/next'
+import { createDynamicRoute } from '@asasvirtuais/crud/next'
 import { crud } from '@/data/airtable'
 
 export const GET = createDynamicRoute(crud)

@@ -8,21 +8,9 @@ importers:
 
   .:
     dependencies:
-      '@asasvirtuais/airtable':
-        specifier: github:asasvirtuais/airtable#main
-        version: https://codeload.github.com/asasvirtuais/airtable/tar.gz/d6690dcf97ddbb39f31a443d2e646f32e9c34710(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)
       '@asasvirtuais/crud':
         specifier: github:asasvirtuais/crud#main
         version: https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8
-      '@asasvirtuais/feathers':
-        specifier: github:asasvirtuais/feathers#main
-        version: https://codeload.github.com/asasvirtuais/feathers/tar.gz/a5da259e0ecfcd82911e0cde7e8fdf3daae0d1c9(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)
-      '@asasvirtuais/next':
-        specifier: github:asasvirtuais/next#main
-        version: https://codeload.github.com/asasvirtuais/next/tar.gz/b4dc93332f3d0fe6477b7bca483665582590e1e9(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)(next@15.3.3(@babel/core@7.28.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
-      '@asasvirtuais/react':
-        specifier: github:asasvirtuais/react#main
-        version: https://codeload.github.com/asasvirtuais/react/tar.gz/f1cd2882d5abde84e7639569752485db2b0a6f9a(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)
       '@auth0/nextjs-auth0':
         specifier: ^4.6.1
         version: 4.7.0(next@15.3.3(@babel/core@7.28.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -121,35 +109,9 @@ packages:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
 
-  '@asasvirtuais/airtable@https://codeload.github.com/asasvirtuais/airtable/tar.gz/d6690dcf97ddbb39f31a443d2e646f32e9c34710':
-    resolution: {tarball: https://codeload.github.com/asasvirtuais/airtable/tar.gz/d6690dcf97ddbb39f31a443d2e646f32e9c34710}
-    version: 3.0.3
-    engines: {node: '>=16'}
-    peerDependencies:
-      '@asasvirtuais/crud': workspace:*
-
   '@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8':
     resolution: {tarball: https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8}
     version: 1.0.4
-
-  '@asasvirtuais/feathers@https://codeload.github.com/asasvirtuais/feathers/tar.gz/a5da259e0ecfcd82911e0cde7e8fdf3daae0d1c9':
-    resolution: {tarball: https://codeload.github.com/asasvirtuais/feathers/tar.gz/a5da259e0ecfcd82911e0cde7e8fdf3daae0d1c9}
-    version: 0.1.3
-    peerDependencies:
-      '@asasvirtuais/crud': workspace:*
-
-  '@asasvirtuais/next@https://codeload.github.com/asasvirtuais/next/tar.gz/b4dc93332f3d0fe6477b7bca483665582590e1e9':
-    resolution: {tarball: https://codeload.github.com/asasvirtuais/next/tar.gz/b4dc93332f3d0fe6477b7bca483665582590e1e9}
-    version: 1.0.3
-    peerDependencies:
-      '@asasvirtuais/crud': workspace:*
-      next: '>=14.0.0'
-
-  '@asasvirtuais/react@https://codeload.github.com/asasvirtuais/react/tar.gz/f1cd2882d5abde84e7639569752485db2b0a6f9a':
-    resolution: {tarball: https://codeload.github.com/asasvirtuais/react/tar.gz/f1cd2882d5abde84e7639569752485db2b0a6f9a}
-    version: 2.0.4
-    peerDependencies:
-      '@asasvirtuais/crud': workspace:*
 
   '@auth0/nextjs-auth0@4.7.0':
     resolution: {integrity: sha512-Q9R707LNPeV23NUgNc0QhkVD5g2L+fZTfZzH6q37vHlsEG6QVqwoXsteJlq7Os2689O1RjrHWPKX6kIjx1SP1A==}
@@ -3788,10 +3750,6 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  wretch@2.11.0:
-    resolution: {integrity: sha512-zbFW4PnPSS5RFQabHRkCAcMQjmFGrEQLcJwYe4YGXL9KWXneu03Dtaz2JUeqEkOwNDMjdfHEHPL+AIZJwE+y1g==}
-    engines: {node: '>=14'}
-
   ws@8.18.3:
     resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
     engines: {node: '>=10.0.0'}
@@ -3894,29 +3852,8 @@ snapshots:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
 
-  '@asasvirtuais/airtable@https://codeload.github.com/asasvirtuais/airtable/tar.gz/d6690dcf97ddbb39f31a443d2e646f32e9c34710(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)':
-    dependencies:
-      '@asasvirtuais/crud': https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8
-      wretch: 2.11.0
-
   '@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8':
     dependencies:
-      zod: 3.25.67
-
-  '@asasvirtuais/feathers@https://codeload.github.com/asasvirtuais/feathers/tar.gz/a5da259e0ecfcd82911e0cde7e8fdf3daae0d1c9(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)':
-    dependencies:
-      '@asasvirtuais/crud': https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8
-      '@feathersjs/feathers': 5.0.34
-
-  '@asasvirtuais/next@https://codeload.github.com/asasvirtuais/next/tar.gz/b4dc93332f3d0fe6477b7bca483665582590e1e9(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)(next@15.3.3(@babel/core@7.28.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))':
-    dependencies:
-      '@asasvirtuais/crud': https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8
-      next: 15.3.3(@babel/core@7.28.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-
-  '@asasvirtuais/react@https://codeload.github.com/asasvirtuais/react/tar.gz/f1cd2882d5abde84e7639569752485db2b0a6f9a(@asasvirtuais/crud@https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8)':
-    dependencies:
-      '@asasvirtuais/crud': https://codeload.github.com/asasvirtuais/crud/tar.gz/b8b249c62bb12020a3649ba69eade5ed866fffc8
-      react: 19.1.0
       zod: 3.25.67
 
   '@auth0/nextjs-auth0@4.7.0(next@15.3.3(@babel/core@7.28.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
@@ -8183,8 +8120,6 @@ snapshots:
       strip-ansi: 7.1.0
 
   wrappy@1.0.2: {}
-
-  wretch@2.11.0: {}
 
   ws@8.18.3: {}
 

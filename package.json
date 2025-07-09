@@ -11,11 +11,7 @@
     "sbb": "storybook build"
   },
   "dependencies": {
-    "@asasvirtuais/airtable": "github:asasvirtuais/airtable#main",
     "@asasvirtuais/crud": "github:asasvirtuais/crud#main",
-    "@asasvirtuais/feathers": "github:asasvirtuais/feathers#main",
-    "@asasvirtuais/next": "github:asasvirtuais/next#main",
-    "@asasvirtuais/react": "github:asasvirtuais/react#main",
     "@auth0/nextjs-auth0": "^4.6.1",
     "@chakra-ui/react": "^3.19.2",
     "@emotion/react": "^11.14.0",

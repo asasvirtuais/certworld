@@ -1,3 +1,3 @@
-import airtable from '@asasvirtuais/airtable'
+import { airtableCRUD } from '@asasvirtuais/crud/airtable'
 
-export const crud = airtable.base('app8IQn2z4FOslHNU').crud()
+export const crud = airtableCRUD('app8IQn2z4FOslHNU')

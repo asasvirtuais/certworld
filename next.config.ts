@@ -5,10 +5,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   transpilePackages: [
     '@asasvirtuais/crud',
-    '@asasvirtuais/airtable',
-    '@asasvirtuais/feathers',
-    '@asasvirtuais/react',
-    '@asasvirtuais/next',
+    '@asasvirtuais/crud/react',
+    '@asasvirtuais/crud/next',
+    '@asasvirtuais/crud/airtable'
   ],
   experimental: {
     optimizePackageImports: ['@chakra-ui/react'],
