@@ -1,6 +1,6 @@
 'use client'
 
-import { FilterForm, SingleProvider, useSingle, useFiltersForm } from '@/data/react'
+import { FilterForm, SingleProvider, useSingle, useFiltersForm, useTable } from '@/data/react'
 import { Card, Flex, Text, GridItem, Heading, SimpleGrid, Stack } from '@chakra-ui/react'
 import { MapPin } from 'lucide-react'
 import { Fragment, useEffect } from 'react'
@@ -43,15 +43,16 @@ export function CourseGridCard() {
 }
 
 export function CourseGridItems() {
-    const { result, submit } = useFiltersForm('Courses')
+    // const { result, submit } = useFiltersForm('Courses')
+    // useEffect(() => {
+    //     submit()
+    // }, [])
 
-    useEffect(() => {
-        submit()
-    }, [])
+    const { array: courses } = useTable('Courses')
 
     return (
         <Fragment>
-            {result?.map(item => (
+            {courses?.map(item => (
                 <GridItem key={item.id}>
                     <SingleProvider table='Courses' id={item.id}>
                         <CourseGridCard />

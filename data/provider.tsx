@@ -3,10 +3,10 @@
 import { PropsWithChildren } from 'react'
 import { DatabaseProvider, useTableProvider } from './react'
 
-export default function DataProvider({children}: PropsWithChildren) {
+export default function DataProvider({children, ...props}: PropsWithChildren<{courses?: Course[]}>) {
 
+    const courses      = useTableProvider({ table: 'Courses',         asAbove: Object.fromEntries(props.courses?.map(c => [c.id, c]) ?? []) })
     const certificates = useTableProvider({ table: 'Certificates',    asAbove: {} })
-    const courses      = useTableProvider({ table: 'Courses',         asAbove: {} })
     const exams        = useTableProvider({ table: 'Exams',           asAbove: {} })
     const results      = useTableProvider({ table: 'Exam Results',    asAbove: {} })
     const lessons      = useTableProvider({ table: 'Lessons',         asAbove: {} })
