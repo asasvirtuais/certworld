@@ -7,7 +7,9 @@ const nextConfig: NextConfig = {
     '@asasvirtuais/crud',
     '@asasvirtuais/crud/react',
     '@asasvirtuais/crud/next',
-    '@asasvirtuais/crud/airtable'
+    '@asasvirtuais/crud/airtable',
+    '@asasvirtuais/react',
+    '@asasvirtuais/airtable'
   ],
   experimental: {
     optimizePackageImports: ['@chakra-ui/react'],

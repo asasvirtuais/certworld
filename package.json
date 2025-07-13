@@ -11,6 +11,7 @@
     "sbb": "storybook build"
   },
   "dependencies": {
+    "@asasvirtuais/airtable": "github:asasvirtuais/airtable#main",
     "@asasvirtuais/crud": "github:asasvirtuais/crud#main",
     "@asasvirtuais/react": "github:asasvirtuais/react#main",
     "@auth0/nextjs-auth0": "^4.6.1",
