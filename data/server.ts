@@ -13,11 +13,11 @@ export const server = feathers<{
     'Profiles':        CRUD<Profile.Readable,        Profile.Writable>,
     'Questions':       CRUD<Question.Readable,       Question.Writable>,
 }>()
-.use('Certificates', table('Certificates', crud))
-.use('Courses', table('Courses', crud))
-.use('Exams', table('Exams', crud))
-.use('Exam Results', table('Exam Results', crud))
-.use('Lessons', table('Lessons', crud))
+.use('Certificates',    table('Certificates', crud))
+.use('Courses',         table('Courses', crud))
+.use('Exams',           table('Exams', crud))
+.use('Exam Results',    table('Exam Results', crud))
+.use('Lessons',         table('Lessons', crud))
 .use('Lesson Progress', table('Lesson Progress', crud))
-.use('Profiles', table('Profiles', crud))
-.use('Questions', table('Questions', crud))
+.use('Profiles',        table('Profiles', crud))
+.use('Questions',       table('Questions', crud))

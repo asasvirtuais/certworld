@@ -73,11 +73,15 @@ export const schema = {
             id: z.string(),
             Name: z.string(),
             Email: z.string(),
-            Role: z.enum(['Creator', 'Owner', 'Student']),
+            Role: z.enum(['Creator', 'Owner', 'Learner']),
+            'OAuth ID': z.string(),
             'Created At': z.string(),
         }),
         writable: z.object({
             Name: z.string(),
+            Email: z.string(),
+            'OAuth ID': z.string(),
+            Role: z.enum(['Creator', 'Owner', 'Learner']),
         })
     },
     Exams: {

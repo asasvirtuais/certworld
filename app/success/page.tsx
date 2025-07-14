@@ -1,5 +1,3 @@
-'use client'
-
 import { Check } from 'lucide-react'
 import {
   Box,
@@ -11,16 +9,17 @@ import {
   Circle,
 } from '@chakra-ui/react'
 import Link from 'next/link'
-import { useEffect } from 'react'
-import { useCart } from '@/data/cart-context'
+import stripe from '@/lib/stripe'
 
-export default function SuccessPage() {
-  const { clearCart } = useCart()
+export const dynamic = 'force-dynamic'
 
-  useEffect(() => {
-    // Clear cart after successful purchase
-    clearCart()
-  }, [])
+export default async function SuccessPage( { searchParams: promise }: { searchParams: Promise<{ session_id: string }> } ) {
+
+  const { session_id } = await promise
+
+  const session = await stripe.checkout.sessions.retrieve(session_id)
+
+  const customer = session.customer
 
   return (
     <Container maxW='2xl' py={16}>
