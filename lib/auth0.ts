@@ -3,6 +3,7 @@ import { Auth0Client } from '@auth0/nextjs-auth0/server'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import stripe from './stripe'
+import { redirect } from 'next/navigation'
 
 declare module '@auth0/nextjs-auth0/server' {
   interface User {
@@ -13,7 +14,7 @@ declare module '@auth0/nextjs-auth0/server' {
 // Inicialização do cliente Auth0
 export const auth0 = new Auth0Client({
     signInReturnToPath: '/welcome',
-    async onCallback(error, context, session) {
+    async beforeSessionSaved(session) {
       const user = session?.user
       if ( ! user )
         throw new Error('User not found')
@@ -36,6 +37,7 @@ export const auth0 = new Auth0Client({
               'OAuth ID': sub,
               Role: 'Learner',
               'Customer ID': customer.id,
+              'Owned Courses': [],
           }
         })
       } else {
@@ -43,8 +45,23 @@ export const auth0 = new Auth0Client({
       }
       if (! profile)
           throw new Error('Failed to create profile')
-      return NextResponse.redirect(new URL('/welcome', process.env.APP_BASE_URL))
+      return {
+          ...session,
+          user: {
+              ...session.user,
+              id: profile.id,
+              customer: profile['Customer ID'] as string,
+          }
+      }
     },
 })
+
+export async function authenticate() {
+  const session = await auth0.getSession()
+  const user = session?.user
+  if (! user)
+    return redirect('/auth/login')
+  return user
+}
 
 export default auth0

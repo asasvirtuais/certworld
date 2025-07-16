@@ -14,7 +14,8 @@ import { Container } from '../ui'
 import { Progress } from '@chakra-ui/react'
 import Link from 'next/link'
 import { FilterForm, useFiltersForm } from '@/data/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useUser } from '@auth0/nextjs-auth0'
 
 function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
   return (
@@ -56,10 +57,10 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
 }
 
 export function MyCourses() {
-  const { result: courses, submit } = useFiltersForm('Courses')
+
+  const [courses, setCourses] = useState<Course[]>([])
 
   useEffect(() => {
-    submit({})
   }, [])
 
   const coursesWithProgress = courses?.map(course => ({
@@ -83,7 +84,7 @@ export function MyCourses() {
   )
 }
 
-export function   WelcomeContent({ name } : { name: string }) {
+export function WelcomeContent({ name } : { name: string }) {
 
   return (
     <Container maxW='breakpoint-lg' my={12}>
@@ -100,9 +101,7 @@ export function   WelcomeContent({ name } : { name: string }) {
           </Link>
         </Button>
       </Flex>
-      <FilterForm table="Courses">
-        <MyCourses/>
-      </FilterForm>
+      <MyCourses/>
     </Container>
   )
 }

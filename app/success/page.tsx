@@ -10,6 +10,8 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import stripe from '@/lib/stripe'
+import { authenticate } from '@/lib/auth0'
+import { server } from '@/data/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -19,7 +21,16 @@ export default async function SuccessPage( { searchParams: promise }: { searchPa
 
   const session = await stripe.checkout.sessions.retrieve(session_id)
 
-  const customer = session.customer
+  const purchasedCourses : string[] = session.metadata?.course_ids?.split(',') ?? []
+
+  const user = await authenticate()
+
+  const profile = await server.service('Profiles').find({id: user.id, table: 'Profiles'})
+
+  const set = new Set([...profile['Owned Courses'], ...purchasedCourses])
+  const array = Array.from(set)
+
+  await server.service('Profiles').update({ table: 'Profiles', id: user.id, data: { 'Owned Courses': array } })
 
   return (
     <Container maxW='2xl' py={16}>

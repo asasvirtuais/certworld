@@ -12,6 +12,7 @@ export const schema = {
             Duration: z.number(),
             Price: z.number(),
             Location: z.string(),
+            'Stripe ID': z.string(),
             'Last Edited': z.string().optional(),
             'Status': z.string().optional(),
             'Status Color': z.string().optional(),
@@ -20,7 +21,6 @@ export const schema = {
             'Total Lessons': z.number().optional(),
             'Is Complete': z.boolean().optional(),
             'Created By': z.string().optional(), // Profile ID
-            'Owned By': z.string().optional(), // Profile ID
         }),
         writable: z.object({
             Name: z.string(),
@@ -30,6 +30,7 @@ export const schema = {
             Duration: z.number(),
             Price: z.number(),
             Location: z.string(),
+            'Stripe ID': z.string(),
         }),
     },
     Lessons: {
@@ -77,6 +78,7 @@ export const schema = {
             'Customer ID': z.string(),
             'OAuth ID': z.string(),
             'Created At': z.string(),
+            'Owned Courses': z.string().array(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -84,6 +86,7 @@ export const schema = {
             'Customer ID': z.string(),
             'OAuth ID': z.string(),
             Role: z.enum(['Creator', 'Owner', 'Learner']),
+            'Owned Courses': z.string().array(),
         })
     },
     Exams: {
