@@ -14,7 +14,7 @@ import { Container } from '../ui'
 import { Progress } from '@chakra-ui/react'
 import Link from 'next/link'
 import { FilterForm, useFiltersForm } from '@/data/react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '@auth0/nextjs-auth0'
 
 function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
@@ -45,7 +45,7 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
           </Button>
         ) : (
           <Button variant='solid' size='xs' colorPalette='blue' asChild>
-            <Link href='/course'>
+            <Link href={`/course/${course.id}`}>
               Resume Course
               <ArrowRight size={16} />
             </Link>
@@ -56,12 +56,7 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
   )
 }
 
-export function MyCourses() {
-
-  const [courses, setCourses] = useState<Course[]>([])
-
-  useEffect(() => {
-  }, [])
+export function WelcomeCourses( { courses } : { courses: Course[] } ) {
 
   const coursesWithProgress = courses?.map(course => ({
     ...course,
@@ -84,24 +79,33 @@ export function MyCourses() {
   )
 }
 
-export function WelcomeContent({ name } : { name: string }) {
+export function WelcomeHeader({name}: {name: string}) {
+  return (
+    <Box mb={12}>
+      <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>Welcome, {name}!</Heading>
+      <Text color='gray.500' fontSize='lg'>Track your progress and continue learning.</Text>
+    </Box>
+  )
+}
+
+export function WelcomeNav() {
+  return (
+    <Flex mb={8} justify='space-between' align='center' alignItems='flex-start'>
+      <Heading size='lg' fontWeight='bold' color='gray.900'>My Courses</Heading>
+      <Button size='sm' variant='outline' colorPalette='gray' asChild>
+        <Link href='/courses'>
+          Explore more courses
+        </Link>
+      </Button>
+    </Flex>
+  )
+}
+
+export function WelcomeContent({ children } : React.PropsWithChildren) {
 
   return (
     <Container maxW='breakpoint-lg' my={12}>
-      <Box mb={12}>
-        <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>Welcome, {name}!</Heading>
-        <Text color='gray.500' fontSize='lg'>Track your progress and continue learning.</Text>
-      </Box>
-
-      <Flex mb={8} justify='space-between' align='center' alignItems='flex-start'>
-        <Heading size='lg' fontWeight='bold' color='gray.900'>My Courses</Heading>
-        <Button size='sm' variant='outline' colorPalette='gray' asChild>
-          <Link href='/courses'>
-            Explore more courses
-          </Link>
-        </Button>
-      </Flex>
-      <MyCourses/>
+      {children}
     </Container>
   )
 }

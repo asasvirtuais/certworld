@@ -16,10 +16,7 @@ export const schema = {
             'Last Edited': z.string().optional(),
             'Status': z.string().optional(),
             'Status Color': z.string().optional(),
-            'Progress': z.number().optional(),
-            'Lessons Completed': z.number().optional(),
             'Total Lessons': z.number().optional(),
-            'Is Complete': z.boolean().optional(),
             'Created By': z.string().optional(), // Profile ID
         }),
         writable: z.object({
@@ -96,6 +93,7 @@ export const schema = {
             Course: z.string(), // Course Name
             'Course ID': z.string(), // Course ID reference
             Description: z.string().optional(),
+            Lessons: z.string().array(),
         }),
         writable: z.object({
             Name: z.string(),
