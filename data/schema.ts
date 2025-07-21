@@ -41,6 +41,12 @@ export const schema = {
             'Exam ID': z.string().optional(), // Exam ID reference
             'Content En': z.string().optional(),
             'Content Es': z.string().optional(),
+            'Attachments': z.object({
+                id: z.string(),
+                filename: z.string(),
+                type: z.string(),
+                url: z.string(),
+            }).array()
         }),
         writable: z.object({
             Name: z.string(),

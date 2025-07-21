@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Check, FileText, BookOpen } from 'lucide-react'
 import {
   Box,
@@ -12,6 +12,8 @@ import {
   Container,
   Circle,
   List,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react'
 import { ResponsiveSidebar } from '../ui'
 import { FilterForm, useFiltersForm, useSingle, SingleProvider } from '@/data/react'
@@ -92,7 +94,24 @@ const CourseSection = ({
   </Box>
 )
 
-const LessonContent = ({}: {}) => {
+const LessonAttachments = () => {
+  const { single: lesson } = useSingle<'Lessons'>()
+  const attachments = useMemo(() => lesson.Attachments, [lesson.Attachments])
+
+  return (
+    <Grid gridTemplateColumns='1fr 1fr 1fr 1fr' gridTemplateRows='3fr 1fr'>
+      {attachments.map((file, index) => (
+        <GridItem key={file.id} colSpan={index === 0 ? 4 : 1}>
+          {file.type === 'video/mp4' && (
+            <video width='100%' controls src={file.url}/>
+          )}
+        </GridItem>
+      ))}
+    </Grid>
+  )
+}
+
+const LessonContent = () => {
   const { single: lesson } = useSingle<'Lessons'>()
 
   return (
@@ -104,9 +123,15 @@ const LessonContent = ({}: {}) => {
         {lesson['Title Es']}
       </Heading>
 
-      <Text color='gray.700' lineHeight='relaxed'>
-        {lesson['Content En']}
-      </Text>
+      <Stack gap={4}>
+        <Text color='gray.700' lineHeight='relaxed'>
+          {lesson['Content En']}
+        </Text>
+        <Text color='blue.700' lineHeight='relaxed'>
+          {lesson['Content Es']}
+        </Text>
+        <LessonAttachments/>
+      </Stack>
     </Box>
   )
 }
@@ -124,7 +149,7 @@ export function CourseContent() {
     <Flex h='100vh' bg='gray.50'>
       <ResponsiveSidebar width='80'>
         <Box p={4} borderBottom='1px' borderColor='gray.200'>
-          <Text fontSize='sm' color='gray.500'>{course.Name}</Text>
+          <Text fontSize='lg' color='gray.500'>{course.Name}</Text>
         </Box>
 
         <Box p={4}>
