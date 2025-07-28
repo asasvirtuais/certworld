@@ -26,7 +26,7 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
         </Heading>
       </Box>
       <Box mb={2}>
-        <Progress.Root value={course.Progress}>
+        <Progress.Root>
           <Progress.Track>
             <Progress.Range></Progress.Range>
           </Progress.Track>
@@ -34,9 +34,9 @@ function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
       </Box>
       <Flex justify='space-between' align='center'>
         <Text fontSize='sm' color='gray.500'>
-          {course['Lessons Completed']} of {course['Total Lessons']} lessons completed
+          1 of {course['Total Lessons']} lessons completed
         </Text>
-        {course['Is Complete'] ? (
+        {false ? (
           <Button variant='solid' size='xs' colorPalette='blue' asChild>
             <Link href='/certificate'>
               View Certificate
