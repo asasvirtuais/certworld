@@ -15,9 +15,11 @@
       "args": [
           "-y",
           "@stripe/mcp",
-          "--tools=all",
-          "--api-key=${STRIPE_API_KEY}"
-      ]
+          "--tools=all"
+      ],
+      "env": {
+        "STRIPE_API_KEY": "${STRIPE_API_KEY}"
+      }
     },
     "context7": {
       "command": "npx",

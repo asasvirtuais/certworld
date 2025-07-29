@@ -63,7 +63,7 @@ The project uses multiple MCP servers configured in `mcp.json`:
 
 ### Environment Requirements
 - `AIRTABLE_TOKEN`: Required for database access
-- Stripe keys configured in MCP setup
+- `STRIPE_API_KEY`: Required for Stripe MCP server (test key: `sk_test_...`)
 - Auth0 configuration handled by `asasvirtuais-auth`
 
 ### Development Notes
