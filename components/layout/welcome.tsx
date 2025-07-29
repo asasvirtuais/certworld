@@ -13,11 +13,9 @@ import {
 import { Container } from '../ui'
 import { Progress } from '@chakra-ui/react'
 import Link from 'next/link'
-import { FilterForm, useFiltersForm } from '@/data/react'
-import React, { useEffect, useState } from 'react'
-import { useUser } from '@auth0/nextjs-auth0'
+import React from 'react'
 
-function CourseCard({ course, isLast }: { course: Course; isLast: boolean }) {
+function CourseCard({ course, isLast }: { course: Course, isLast: boolean }) {
   return (
     <Box key={course.id} borderBottom={isLast ? 'none' : '1px'} borderColor='gray.200' pb={4}>
       <Box mb={4}>
