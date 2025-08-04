@@ -1,5 +1,5 @@
 'use client'
-import { database } from '@asasvirtuais/crud/src/react'
+import { database } from '@asasvirtuais/crud/react'
 import { fetcher } from '@asasvirtuais/crud'
 import { schema } from './schema'
 
