@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   transpilePackages: [
     '@asasvirtuais/crud',
-    '@asasvirtuais/crud/react',
-    '@asasvirtuais/crud/next',
-    '@asasvirtuais/crud/airtable',
+    '@asasvirtuais/crud/src/react',
+    '@asasvirtuais/crud/src/next',
+    '@asasvirtuais/crud/src/airtable',
     '@asasvirtuais/react',
     '@asasvirtuais/airtable'
   ],

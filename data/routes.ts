@@ -1,4 +1,4 @@
-import { routes, createDynamicRoute } from '@asasvirtuais/crud/next'
+import { routes, createDynamicRoute } from '@asasvirtuais/crud/src/next'
 import { crud } from './airtable'
 import { server } from './server'
 
