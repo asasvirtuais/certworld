@@ -17,14 +17,17 @@ import {
 } from '@chakra-ui/react'
 import { ResponsiveSidebar } from '../ui'
 import { FilterForm, useFiltersForm, useSingle, SingleProvider } from '@/data/react'
+import { useParams } from 'next/navigation'
+import Link from 'next/link'
 
-const LessonButton = ({ selected, onSelect }: { selected: string, onSelect: (lessonId: string) => void }) => {
-  const { single: lesson } = useSingle<'Lessons'>()
+const LessonButton = () => {
+
+  const { id, lesson } = useParams()
+  const { single } = useSingle<'Lessons'>()
 
   return (
     <Button
-      key={lesson.id}
-      onClick={() => onSelect(lesson.id)}
+      key={single.id}
       variant='outline'
       w='full'
       textAlign='left'
@@ -32,32 +35,35 @@ const LessonButton = ({ selected, onSelect }: { selected: string, onSelect: (les
       borderRadius='lg'
       border='1px'
       transition='colors'
-      bg={selected === lesson.id ? 'blue.50' : 'white'}
-      borderColor={selected === lesson.id ? 'blue.200' : 'gray.200'}
-      _hover={{ bg: selected === lesson.id ? 'blue.50' : 'gray.50' }}
+      bg={lesson === single.id ? 'blue.50' : 'white'}
+      borderColor={lesson === single.id ? 'blue.200' : 'gray.200'}
+      _hover={{ bg: lesson === single.id ? 'blue.50' : 'gray.50' }}
       height='auto'
+      asChild
     >
-      <Flex align='center' gap={3} w='full'>
-        <Box flexShrink={0} mt={0.5}>
-          {lesson['Completed'] ? (
-            <Circle size={5} bg='green.500' color='white'>
-              <Check size={12} />
-            </Circle>
-          ) : lesson['Type'] === 'quiz' ? (
-            <FileText size={20}/>
-          ) : (
-            <BookOpen size={20}/>
-          )}
-        </Box>
-        <Box flex={1} minW={0} textAlign='left'>
-          <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
-            {lesson['Title En']}
-          </Text>
-          <Text fontSize='xs' color='gray.500'>
-            {lesson['Title Es']}
-          </Text>
-        </Box>
-      </Flex>
+      <Link href={`/course/${id}/${single.id}`}>
+        <Flex align='center' gap={3} w='full'>
+          <Box flexShrink={0} mt={0.5}>
+            {single['Completed'] ? (
+              <Circle size={5} bg='green.500' color='white'>
+                <Check size={12} />
+              </Circle>
+            ) : single['Type'] === 'quiz' ? (
+              <FileText size={20}/>
+            ) : (
+              <BookOpen size={20}/>
+            )}
+          </Box>
+          <Box flex={1} minW={0} textAlign='left'>
+            <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
+              {single['Title En']}
+            </Text>
+            <Text fontSize='xs' color='gray.500'>
+              {single['Title Es']}
+            </Text>
+          </Box>
+        </Flex>
+      </Link>
     </Button>
   )
 }
@@ -65,34 +71,32 @@ const LessonButton = ({ selected, onSelect }: { selected: string, onSelect: (les
 const CourseSection = ({
   title,
   lessons,
-  selected,
-  onSelect,
 }: {
   title: string,
   lessons: string[],
-  selected: string,
-  onSelect: (lessonId: string) => void,
-}) => (
-  <Box mb={6}>
-    <Heading
-      size='sm'
-      fontWeight='semibold'
-      color='gray.700'
-      mb={3}
-      letterSpacing='wide'
-    >
-      {title}
-    </Heading>
-
-    <Stack gap={2}>
-      {lessons.map((lesson) => (
-        <SingleProvider key={lesson} id={lesson} table='Lessons'>
-          <LessonButton selected={selected} onSelect={onSelect}/>
-        </SingleProvider>
-      ))}
-    </Stack>
-  </Box>
-)
+}) => {
+  return (
+    <Box mb={6}>
+      <Heading
+        size='sm'
+        fontWeight='semibold'
+        color='gray.700'
+        mb={3}
+        letterSpacing='wide'
+      >
+        {title}
+      </Heading>
+  
+      <Stack gap={2}>
+        {lessons.map((lesson) => (
+          <SingleProvider key={lesson} id={lesson} table='Lessons'>
+            <LessonButton />
+          </SingleProvider>
+        ))}
+      </Stack>
+    </Box>
+  )
+}
 
 const LessonAttachments = () => {
   const { single: lesson } = useSingle<'Lessons'>()
@@ -111,7 +115,7 @@ const LessonAttachments = () => {
   )
 }
 
-const LessonContent = () => {
+export const LessonContent = () => {
   const { single: lesson } = useSingle<'Lessons'>()
 
   return (
@@ -136,14 +140,8 @@ const LessonContent = () => {
   )
 }
 
-export function CourseContent() {
+export function CourseExams( { exams } : { exams: Exam[] } ) {
   const { single: course } = useSingle<'Courses'>()
-  const { result: exams, submit } = useFiltersForm('Exams')
-  const [selectedLesson, setSelectedLesson] = useState<string>('')
-
-  useEffect(() => {
-    submit({})
-  }, [])
 
   return (
     <Flex h='100vh' bg='gray.50'>
@@ -154,24 +152,10 @@ export function CourseContent() {
 
         <Box p={4}>
           {exams?.map(exam => (
-            <CourseSection key={exam.id} title={exam.Name} lessons={exam.Lessons} selected={selectedLesson} onSelect={setSelectedLesson} />
+            <CourseSection key={exam.id} title={exam.Name} lessons={exam.Lessons} />
           ))}
         </Box>
       </ResponsiveSidebar>
-
-      {/* Main Content */}
-      <Box flex={1} overflowY='auto'>
-        <Container maxW='4xl' p={8}>
-          <Stack>
-            <Heading as='h1' fontSize='4xl' mb={12}>{course.Name}</Heading>
-            {selectedLesson && (
-              <SingleProvider key={selectedLesson} id={selectedLesson} table='Lessons'>
-                <LessonContent />
-              </SingleProvider>
-            )}
-          </Stack>
-        </Container>
-      </Box>
     </Flex>
   )
 }
