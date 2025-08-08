@@ -12,12 +12,13 @@ export const schema = {
             Duration: z.number(),
             Price: z.number(),
             Location: z.string(),
+            Featured: z.boolean(),
             'Stripe ID': z.string(),
             'Last Edited': z.string().optional(),
             'Status': z.string().optional(),
             'Status Color': z.string().optional(),
             'Total Lessons': z.number().optional(),
-            'Created By': z.string().optional(), // Profile ID
+            'Created By': z.string().optional(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -27,6 +28,7 @@ export const schema = {
             Duration: z.number(),
             Price: z.number(),
             Location: z.string(),
+            Featured: z.boolean(),
             'Stripe ID': z.string(),
         }),
     },

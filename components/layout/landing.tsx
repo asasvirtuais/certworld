@@ -302,7 +302,7 @@ export function Testimonials() {
   )
 }
 
-const CollectionOfCourses = () => {
+const CollectionOfCourses = ( { children } : React.PropsWithChildren ) => {
   return (
     <Box py={20} bg="gray.50">
       <Container maxW="7xl" px={{ base: 4, sm: 6, lg: 8 }}>
@@ -315,7 +315,7 @@ const CollectionOfCourses = () => {
           </Text>
         </Box>
 
-        <CourseGrid/>
+        {children}
 
         <Box textAlign="center" mt={12}>
           <Button
@@ -336,15 +336,16 @@ const CollectionOfCourses = () => {
   )
 }
 
-export function Landing() {
+export function Landing( { courses } : { courses: Course[] } ) {
   return (
     <Box minH='100vh'>
       <Header />
       <Hero />
-      <CollectionOfCourses />
+      <CollectionOfCourses>
+        <CourseGrid courses={courses} />
+      </CollectionOfCourses>
       <Testimonials/>
       <Features />
-      {/* <Stats /> */}
       <LandingFooter />
     </Box>
   )

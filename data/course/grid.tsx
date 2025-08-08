@@ -42,16 +42,9 @@ export function CourseGridCard() {
     )
 }
 
-export function CourseGridItems() {
-    // const { result, submit } = useFiltersForm('Courses')
-    // useEffect(() => {
-    //     submit()
-    // }, [])
-
-    const { array: courses } = useTable('Courses')
-
+export default function CourseGrid( { courses } : { courses: Course[] } ) {
     return (
-        <Fragment>
+        <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={6}>
             {courses?.map(item => (
                 <GridItem key={item.id}>
                     <SingleProvider table='Courses' id={item.id}>
@@ -59,16 +52,6 @@ export function CourseGridItems() {
                     </SingleProvider>
                 </GridItem>
             ))}
-        </Fragment>
-    )
-}
-
-export default function CourseGrid() {
-    return (
-        <SimpleGrid columns={{base: 1, md: 2, lg: 3}} gap={6}>
-            <FilterForm table='Courses'>
-                <CourseGridItems />
-            </FilterForm>
         </SimpleGrid>
     )
 }
