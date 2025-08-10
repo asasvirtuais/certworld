@@ -40,9 +40,10 @@ export const schema = {
             'Title Es': z.string().optional(),
             'Completed': z.boolean().optional(),
             'Type': z.enum(['lesson', 'quiz']).optional(),
-            'Exam ID': z.string().optional(), // Exam ID reference
+            'Exam ID': z.string().optional(),
             'Content En': z.string().optional(),
             'Content Es': z.string().optional(),
+            'Echo Lines': z.string().array(),
             'Attachments': z.object({
                 id: z.string(),
                 filename: z.string(),
@@ -118,6 +119,17 @@ export const schema = {
             Name: z.string(),
         })
     },
+    'Echo Lines': {
+        readable: z.object({
+            id: z.string(),
+            'Content En': z.string(),
+            'Content Es': z.string(),
+        }),
+        writable: z.object({
+            'Content En': z.string(),
+            'Content Es': z.string(),
+        })
+    },
     'Exam Results': {
         readable: z.object({
             id: z.string(),
@@ -170,6 +182,11 @@ declare global {
         type Writable = z.infer<typeof schema['Exam Results']['writable']>
     }
     type ExamResult = ExamResult.Readable
+    namespace EchoLine {
+        type Readable = z.infer<typeof schema['Echo Lines']['readable']>
+        type Writable = z.infer<typeof schema['Echo Lines']['writable']>
+    }
+    type EchoLine = EchoLine.Readable
 }
 
 export const { table } = database(schema)

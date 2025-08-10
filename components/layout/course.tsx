@@ -86,7 +86,7 @@ export const CourseSection = ({
   
       <Stack gap={2}>
         {lessons.map((lesson) => (
-          <LessonButton single={lesson} />
+          <LessonButton key={lesson.id} single={lesson} />
         ))}
       </Stack>
     </Box>
@@ -109,7 +109,20 @@ const LessonAttachments = ( { lesson } : { lesson: Lesson } ) => {
   )
 }
 
-export const LessonContent = ( { lesson } : { lesson: Lesson } ) => {
+export const EchoLineDisplay = ( { line } : { line: EchoLine } ) => {
+  return (
+    <>
+      <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>
+        {line['Content En']}
+      </Heading>
+      <Heading size='lg' fontWeight='semibold' color='blue.600' mb={6}>
+        {line['Content Es']}
+      </Heading>
+    </>
+  )
+}
+
+export const LessonContent = ( { lesson, lines } : { lesson: Lesson, lines: EchoLine[] } ) => {
 
   return (
     <Box>
@@ -119,6 +132,10 @@ export const LessonContent = ( { lesson } : { lesson: Lesson } ) => {
       <Heading size='lg' fontWeight='semibold' color='blue.600' mb={6}>
         {lesson['Title Es']}
       </Heading>
+
+      {lines.map(line => (
+        <EchoLineDisplay key={line.id} line={line} />
+      ))}
 
       <Stack gap={4}>
         <Text color='gray.700' lineHeight='relaxed'>

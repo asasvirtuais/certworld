@@ -12,6 +12,7 @@ export const server = feathers<{
     'Lesson Progress': CRUD<LessonProgress.Readable, LessonProgress.Writable>,
     'Profiles':        CRUD<Profile.Readable,        Profile.Writable>,
     'Questions':       CRUD<Question.Readable,       Question.Writable>,
+    'Echo Lines':      CRUD<EchoLine.Readable,       EchoLine.Writable>
 }>()
 .use('Certificates',    table('Certificates', crud))
 .use('Courses',         table('Courses', crud))
@@ -21,3 +22,4 @@ export const server = feathers<{
 .use('Lesson Progress', table('Lesson Progress', crud))
 .use('Profiles',        table('Profiles', crud))
 .use('Questions',       table('Questions', crud))
+.use('Echo Lines',      table('Echo Lines', crud))
