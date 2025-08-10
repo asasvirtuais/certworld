@@ -18,13 +18,12 @@ import { useSingle } from '@/data/react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 
-const LessonButton = ( { single } : { single: Lesson } ) => {
+const LessonButton = ( { selected, children, completed, quiz } : React.PropsWithChildren<{ selected?: boolean, completed?: boolean, quiz?: boolean }> ) => {
 
   const { id, lesson } = useParams()
 
   return (
     <Button
-      key={single.id}
       variant='outline'
       w='full'
       textAlign='left'
@@ -32,32 +31,27 @@ const LessonButton = ( { single } : { single: Lesson } ) => {
       borderRadius='lg'
       border='1px'
       transition='colors'
-      bg={lesson === single.id ? 'blue.50' : 'white'}
-      borderColor={lesson === single.id ? 'blue.200' : 'gray.200'}
-      _hover={{ bg: lesson === single.id ? 'blue.50' : 'gray.50' }}
+      bg={selected ? 'blue.50' : 'white'}
+      borderColor={selected ? 'blue.200' : 'gray.200'}
+      _hover={{ bg: selected ? 'blue.50' : 'gray.50' }}
       height='auto'
       asChild
     >
-      <Link href={`/course/${id}/${single.id}`}>
+      <Link href={`/course/${id}/${quiz ? 'quiz' : id}`}>
         <Flex align='center' gap={3} w='full'>
           <Box flexShrink={0} mt={0.5}>
-            {single['Completed'] ? (
+            {completed && (
               <Circle size={5} bg='green.500' color='white'>
                 <Check size={12} />
               </Circle>
-            ) : single['Type'] === 'quiz' ? (
-              <FileText size={20}/>
-            ) : (
+            )}
+            {quiz && (
               <BookOpen size={20}/>
             )}
+            {! quiz && ! completed && ( <FileText size={20}/> )}
           </Box>
           <Box flex={1} minW={0} textAlign='left'>
-            <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
-              {single['Title En']}
-            </Text>
-            <Text fontSize='xs' color='gray.500'>
-              {single['Title Es']}
-            </Text>
+            {children}
           </Box>
         </Flex>
       </Link>
@@ -72,6 +66,8 @@ export const CourseSection = ({
   title: string,
   lessons: Lesson[],
 }) => {
+  const { id, lesson } = useParams()
+
   return (
     <Box mb={6}>
       <Heading
@@ -83,11 +79,22 @@ export const CourseSection = ({
       >
         {title}
       </Heading>
-  
+
       <Stack gap={2}>
-        {lessons.map((lesson) => (
-          <LessonButton key={lesson.id} single={lesson} />
+        {lessons.map((single) => (
+          <LessonButton key={single.id} selected={lesson === single.id}>
+            <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
+              {single['Title En']}
+            </Text>
+            <Text fontSize='xs' color='gray.500'>
+              {single['Title Es']}
+            </Text>
+          </LessonButton>
         ))}
+        <LessonButton selected={lesson === 'quiz'} quiz>
+            <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>Module Quiz</Text>
+            <Text fontSize='xs' color='gray.500'>Examen del Módulo</Text>
+        </LessonButton>
       </Stack>
     </Box>
   )

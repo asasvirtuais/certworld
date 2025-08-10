@@ -24,6 +24,7 @@ export default async function Exams( { params: promise } : { params: Promise<{ i
 
             <Box p={4}>
                 {items}
+                
             </Box>
         </CourseExams>
     )
