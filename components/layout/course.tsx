@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useMemo, ReactNode } from 'react'
 import { Check, FileText, BookOpen } from 'lucide-react'
 import {
   Box,
@@ -9,21 +9,18 @@ import {
   Heading,
   Text,
   Stack,
-  Container,
   Circle,
-  List,
   Grid,
   GridItem,
 } from '@chakra-ui/react'
 import { ResponsiveSidebar } from '../ui'
-import { FilterForm, useFiltersForm, useSingle, SingleProvider } from '@/data/react'
+import { useSingle } from '@/data/react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 
-const LessonButton = () => {
+const LessonButton = ( { single } : { single: Lesson } ) => {
 
   const { id, lesson } = useParams()
-  const { single } = useSingle<'Lessons'>()
 
   return (
     <Button
@@ -68,12 +65,12 @@ const LessonButton = () => {
   )
 }
 
-const CourseSection = ({
+export const CourseSection = ({
   title,
   lessons,
 }: {
   title: string,
-  lessons: string[],
+  lessons: Lesson[],
 }) => {
   return (
     <Box mb={6}>
@@ -89,9 +86,7 @@ const CourseSection = ({
   
       <Stack gap={2}>
         {lessons.map((lesson) => (
-          <SingleProvider key={lesson} id={lesson} table='Lessons'>
-            <LessonButton />
-          </SingleProvider>
+          <LessonButton single={lesson} />
         ))}
       </Stack>
     </Box>
@@ -140,21 +135,12 @@ export const LessonContent = () => {
   )
 }
 
-export function CourseExams( { exams } : { exams: Exam[] } ) {
-  const { single: course } = useSingle<'Courses'>()
+export function CourseExams( { children } : { children: ReactNode } ) {
 
   return (
     <Flex h='100vh' bg='gray.50'>
       <ResponsiveSidebar width='80'>
-        <Box p={4} borderBottom='1px' borderColor='gray.200'>
-          <Text fontSize='lg' color='gray.500'>{course.Name}</Text>
-        </Box>
-
-        <Box p={4}>
-          {exams?.map(exam => (
-            <CourseSection key={exam.id} title={exam.Name} lessons={exam.Lessons} />
-          ))}
-        </Box>
+        {children}
       </ResponsiveSidebar>
     </Flex>
   )
