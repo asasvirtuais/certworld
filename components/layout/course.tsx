@@ -93,8 +93,7 @@ export const CourseSection = ({
   )
 }
 
-const LessonAttachments = () => {
-  const { single: lesson } = useSingle<'Lessons'>()
+const LessonAttachments = ( { lesson } : { lesson: Lesson } ) => {
   const attachments = useMemo(() => lesson.Attachments, [lesson.Attachments])
 
   return (
@@ -110,8 +109,7 @@ const LessonAttachments = () => {
   )
 }
 
-export const LessonContent = () => {
-  const { single: lesson } = useSingle<'Lessons'>()
+export const LessonContent = ( { lesson } : { lesson: Lesson } ) => {
 
   return (
     <Box>
@@ -129,7 +127,7 @@ export const LessonContent = () => {
         <Text color='blue.700' lineHeight='relaxed'>
           {lesson['Content Es']}
         </Text>
-        <LessonAttachments/>
+        <LessonAttachments lesson={lesson} />
       </Stack>
     </Box>
   )
