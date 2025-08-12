@@ -43,13 +43,13 @@ export const schema = {
             'Exam ID': z.string().optional(),
             'Content En': z.string().optional(),
             'Content Es': z.string().optional(),
-            'Echo Lines': z.string().array(),
+            'Echo Lines': z.string().array().optional(),
             'Attachments': z.object({
                 id: z.string(),
                 filename: z.string(),
                 type: z.string(),
                 url: z.string(),
-            }).array()
+            }).array().optional()
         }),
         writable: z.object({
             Name: z.string(),

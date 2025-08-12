@@ -1,6 +1,7 @@
 import { CourseExams, CourseSection } from '@/components/layout/course'
 import { server } from '@/data/server'
 import { Box, Text } from '@chakra-ui/react'
+import Link from 'next/link'
 
 export default async function Exams( { params: promise } : { params: Promise<{ id: string }> } ) {
     const { id } = await promise
@@ -19,7 +20,9 @@ export default async function Exams( { params: promise } : { params: Promise<{ i
     return (
         <CourseExams>
             <Box p={4} borderBottom='1px' borderColor='gray.200'>
-                <Text fontSize='lg' color='gray.500'>{course.Name}</Text>
+                <Text fontSize='lg' color='gray.500' asChild>
+                    <Link href={`/course/${id}`} >{course.Name}</Link>
+                </Text>
             </Box>
 
             <Box p={4}>

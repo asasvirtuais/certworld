@@ -7,7 +7,7 @@ export default async function CoursePage( { params: promise } : { params: Promis
 
   const lesson = await server.service('Lessons').find({ table: 'Lessons', id: lessonId })
 
-  const lines = await Promise.all(lesson['Echo Lines'].map(
+  const lines = await Promise.all((lesson['Echo Lines'] ?? []).map(
     async (lineId) => server.service('Echo Lines').find({table: 'Echo Lines', id: lineId})
   ))
 

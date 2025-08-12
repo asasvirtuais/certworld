@@ -59,6 +59,19 @@ const LessonButton = ( { selected, children, completed, quiz } : React.PropsWith
   )
 }
 
+export const LessonCard = ({ lesson, selected } : { lesson : Lesson, selected : boolean }) => {
+  return (
+    <LessonButton key={lesson.id} selected={selected}>
+      <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
+        {lesson['Title En']}
+      </Text>
+      <Text fontSize='xs' color='gray.500'>
+        {lesson['Title Es']}
+      </Text>
+    </LessonButton>
+  )
+}
+
 export const CourseSection = ({
   title,
   lessons,
@@ -82,14 +95,7 @@ export const CourseSection = ({
 
       <Stack gap={2}>
         {lessons.map((single) => (
-          <LessonButton key={single.id} selected={lesson === single.id}>
-            <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
-              {single['Title En']}
-            </Text>
-            <Text fontSize='xs' color='gray.500'>
-              {single['Title Es']}
-            </Text>
-          </LessonButton>
+          <LessonCard key={single.id} selected={lesson === single.id} lesson={single}/>
         ))}
         <LessonButton selected={lesson === 'quiz'} quiz>
             <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>Module Quiz</Text>
@@ -101,7 +107,7 @@ export const CourseSection = ({
 }
 
 const LessonAttachments = ( { lesson } : { lesson: Lesson } ) => {
-  const attachments = useMemo(() => lesson.Attachments, [lesson.Attachments])
+  const attachments = useMemo(() => lesson.Attachments ?? [], [lesson.Attachments])
 
   return (
     <Grid gridTemplateColumns='1fr 1fr 1fr 1fr' gridTemplateRows='3fr 1fr'>
