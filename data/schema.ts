@@ -113,7 +113,7 @@ export const schema = {
         readable: z.object({
             id: z.string(),
             Name: z.string(), // Question text
-            'Lesson ID': z.string(), // Lesson ID reference
+            'Exam ID': z.string(), // Lesson ID reference
         }),
         writable: z.object({
             Name: z.string(),

@@ -18,9 +18,7 @@ import { useSingle } from '@/data/react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 
-const LessonButton = ( { selected, children, completed, quiz, lessonId } : React.PropsWithChildren<{ selected?: boolean, completed?: boolean, quiz?: boolean, lessonId ?: string }> ) => {
-
-  const { id } = useParams()
+const LessonButton = ( { selected, children, completed, quiz, href } : React.PropsWithChildren<{ selected?: boolean, completed?: boolean, quiz?: boolean, href : string }> ) => {
 
   return (
     <Button
@@ -37,7 +35,7 @@ const LessonButton = ( { selected, children, completed, quiz, lessonId } : React
       height='auto'
       asChild
     >
-      <Link href={`/course/${id}/${quiz ? 'quiz' : lessonId}`}>
+      <Link href={href}>
         <Flex align='center' gap={3} w='full'>
           <Box flexShrink={0} mt={0.5}>
             {completed && (
@@ -59,9 +57,11 @@ const LessonButton = ( { selected, children, completed, quiz, lessonId } : React
   )
 }
 
-export const LessonCard = ({ lesson, selected } : { lesson : Lesson, selected : boolean }) => {
+export const LessonCard = ({ lesson, exam, selected } : { lesson : Lesson, exam: string, selected : boolean }) => {
+  const { id } = useParams()
+
   return (
-    <LessonButton key={lesson.id} selected={selected} lessonId={lesson.id}>
+    <LessonButton key={lesson.id} selected={selected} href={`/course/${id}/${exam}/${lesson.id}`}>
       <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
         {lesson['Title En']}
       </Text>
@@ -74,12 +74,14 @@ export const LessonCard = ({ lesson, selected } : { lesson : Lesson, selected : 
 
 export const CourseSection = ({
   title,
+  exam,
   lessons,
 }: {
   title: string,
+  exam: string,
   lessons: Lesson[],
 }) => {
-  const { id, lesson } = useParams()
+  const { id, lesson, exam: examParam } = useParams()
 
   return (
     <Box mb={6}>
@@ -95,9 +97,9 @@ export const CourseSection = ({
 
       <Stack gap={2}>
         {lessons.map((single) => (
-          <LessonCard key={single.id} selected={lesson === single.id} lesson={single}/>
+          <LessonCard key={single.id} selected={lesson === single.id} lesson={single} exam={exam}/>
         ))}
-        <LessonButton selected={lesson === 'quiz'} quiz>
+        <LessonButton selected={! lesson && examParam === exam} quiz href={`/course/${id}/${exam}`}>
             <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>Module Quiz</Text>
             <Text fontSize='xs' color='gray.500'>Examen del Módulo</Text>
         </LessonButton>

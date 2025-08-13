@@ -14,7 +14,7 @@ export default async function CoursePage( { params: promise } : { params: Promis
       const lessons = await server.service('Lessons').list( { table: 'Lessons', query: { 'Exam ID': exam.id } } )
 
       return (
-        <CourseSection key={exam.id} title={exam.Name} lessons={lessons} />
+        <CourseSection key={exam.id} title={exam.Name} lessons={lessons} exam={exam.id} />
       )
   }))
 

@@ -13,7 +13,7 @@ export default async function Exams( { params: promise } : { params: Promise<{ i
         const lessons = await server.service('Lessons').list( { table: 'Lessons', query: { 'Exam ID': exam.id } } )
 
         return (
-            <CourseSection key={exam.id} title={exam.Name} lessons={lessons} />
+            <CourseSection key={exam.id} title={exam.Name} lessons={lessons} exam={exam.id} />
         )
     }))
 
@@ -27,7 +27,6 @@ export default async function Exams( { params: promise } : { params: Promise<{ i
 
             <Box p={4}>
                 {items}
-                
             </Box>
         </CourseExams>
     )
