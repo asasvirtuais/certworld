@@ -18,9 +18,9 @@ import { useSingle } from '@/data/react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 
-const LessonButton = ( { selected, children, completed, quiz } : React.PropsWithChildren<{ selected?: boolean, completed?: boolean, quiz?: boolean }> ) => {
+const LessonButton = ( { selected, children, completed, quiz, lessonId } : React.PropsWithChildren<{ selected?: boolean, completed?: boolean, quiz?: boolean, lessonId ?: string }> ) => {
 
-  const { id, lesson } = useParams()
+  const { id } = useParams()
 
   return (
     <Button
@@ -37,7 +37,7 @@ const LessonButton = ( { selected, children, completed, quiz } : React.PropsWith
       height='auto'
       asChild
     >
-      <Link href={`/course/${id}/${quiz ? 'quiz' : id}`}>
+      <Link href={`/course/${id}/${quiz ? 'quiz' : lessonId}`}>
         <Flex align='center' gap={3} w='full'>
           <Box flexShrink={0} mt={0.5}>
             {completed && (
@@ -61,7 +61,7 @@ const LessonButton = ( { selected, children, completed, quiz } : React.PropsWith
 
 export const LessonCard = ({ lesson, selected } : { lesson : Lesson, selected : boolean }) => {
   return (
-    <LessonButton key={lesson.id} selected={selected}>
+    <LessonButton key={lesson.id} selected={selected} lessonId={lesson.id}>
       <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
         {lesson['Title En']}
       </Text>
