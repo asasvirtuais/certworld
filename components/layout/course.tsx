@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, ReactNode } from 'react'
+import { useMemo, ReactNode, useCallback, useState, useEffect } from 'react'
 import { Check, FileText, BookOpen } from 'lucide-react'
 import {
   Box,
@@ -12,11 +12,13 @@ import {
   Circle,
   Grid,
   GridItem,
+  HStack,
 } from '@chakra-ui/react'
 import { ResponsiveSidebar } from '../ui'
-import { useSingle } from '@/data/react'
+import { SingleProvider, useSingle, useTable } from '@/data/react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { useUser } from '@auth0/nextjs-auth0'
 
 const LessonButton = ( { selected, children, completed, quiz, href } : React.PropsWithChildren<{ selected?: boolean, completed?: boolean, quiz?: boolean, href : string }> ) => {
 
@@ -62,7 +64,7 @@ export const LessonCard = ({ lesson, exam, selected } : { lesson : Lesson, exam:
 
   return (
     <LessonButton key={lesson.id} selected={selected} href={`/course/${id}/${exam}/${lesson.id}`}>
-      <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>
+      <Text fontSize='sm' fontWeight='medium' color='gray.900'>
         {lesson['Title En']}
       </Text>
       <Text fontSize='xs' color='gray.500'>
@@ -112,7 +114,10 @@ const LessonAttachments = ( { lesson } : { lesson: Lesson } ) => {
   const attachments = useMemo(() => lesson.Attachments ?? [], [lesson.Attachments])
 
   return (
-    <Grid gridTemplateColumns='1fr 1fr 1fr 1fr' gridTemplateRows='3fr 1fr'>
+    <Grid
+      gridTemplateColumns='1fr 1fr 1fr 1fr'
+      // gridTemplateRows='3fr 1fr'
+    >
       {attachments.map((file, index) => (
         <GridItem key={file.id} colSpan={index === 0 ? 4 : 1}>
           {file.type === 'video/mp4' && (
@@ -126,42 +131,92 @@ const LessonAttachments = ( { lesson } : { lesson: Lesson } ) => {
 
 export const EchoLineDisplay = ( { line } : { line: EchoLine } ) => {
   return (
-    <>
-      <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>
+    <Box>
+      <Text color='gray.700'>
         {line['Content En']}
-      </Heading>
-      <Heading size='lg' fontWeight='semibold' color='blue.600' mb={6}>
+      </Text>
+      <Text color='blue.700'>
         {line['Content Es']}
-      </Heading>
-    </>
+      </Text>
+    </Box>
+  )
+}
+
+const CompleteLessonButtonInner = () => {
+  const { lesson } = useParams()
+  const [loading, setLoading] = useState(false)
+  const profiles = useTable('Profiles')
+  const { single: profile } = useSingle<'Profiles'>()
+
+  const onClick = useCallback(async () => {
+    setLoading(true)
+    const set = new Set([...profile['Completed Lessons'] ?? [], lesson])
+    const array = Array.from(set)
+    await profiles.update.trigger({ table: 'Profiles', id: profile.id, data: { 'Completed Lessons': array } })
+    setLoading(false)
+  }, [lesson, profile])
+
+  const completed = useMemo(() => {
+    return (profile?.['Completed Lessons'] ?? []).includes(lesson as string)
+  }, [profile, lesson])
+
+  return (
+    <Button onClick={onClick} colorPalette={completed ? 'green' : 'blue'} disabled={loading || completed}>{completed ? 'Completed' : loading ? 'Loading...' : 'Complete Lesson'}</Button>
+  )
+}
+
+const CompleteLessonButton = () => {
+  const { user } = useUser()
+
+  if ( ! user )
+    return <Button colorPalette='gray'>Loading</Button>
+
+
+  return (
+    <SingleProvider table='Profiles' id={(user as any).id} >
+      <CompleteLessonButtonInner/>
+    </SingleProvider>
   )
 }
 
 export const LessonContent = ( { lesson, lines } : { lesson: Lesson, lines: EchoLine[] } ) => {
 
   return (
-    <Box>
-      <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>
-        {lesson['Title En']}
-      </Heading>
-      <Heading size='lg' fontWeight='semibold' color='blue.600' mb={6}>
-        {lesson['Title Es']}
-      </Heading>
+    <Stack gap={4}>
+
+      <Box mt={2} mb={4}>
+        <HStack>
+          <Box>
+            <Heading size='2xl' color='gray.900'>
+              {lesson['Title En']}
+            </Heading>
+            <Heading size='xl' color='blue.600'>
+              {lesson['Title Es']}
+            </Heading>
+          </Box>
+          <Box ml='auto'>
+            <CompleteLessonButton/>    
+          </Box>
+        </HStack>
+      </Box>
+
+      <Box fontSize='xl'>
+        <Text color='gray.700'>
+          {lesson['Content En']}
+        </Text>
+        <Text color='blue.700'>
+          {lesson['Content Es']}
+        </Text>
+      </Box>
 
       {lines.map(line => (
         <EchoLineDisplay key={line.id} line={line} />
       ))}
 
-      <Stack gap={4}>
-        <Text color='gray.700' lineHeight='relaxed'>
-          {lesson['Content En']}
-        </Text>
-        <Text color='blue.700' lineHeight='relaxed'>
-          {lesson['Content Es']}
-        </Text>
-        <LessonAttachments lesson={lesson} />
-      </Stack>
-    </Box>
+      <LessonAttachments lesson={lesson} />
+
+      <CompleteLessonButton />
+    </Stack>
   )
 }
 

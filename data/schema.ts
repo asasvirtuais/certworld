@@ -85,6 +85,7 @@ export const schema = {
             'OAuth ID': z.string(),
             'Created At': z.string(),
             'Owned Courses': z.string().array(),
+            'Completed Lessons': z.string().array(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -93,6 +94,7 @@ export const schema = {
             'OAuth ID': z.string(),
             Role: z.enum(['Creator', 'Owner', 'Learner']),
             'Owned Courses': z.string().array(),
+            'Completed Lessons': z.string().array(),
         })
     },
     Exams: {
