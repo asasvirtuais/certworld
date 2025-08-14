@@ -86,6 +86,7 @@ export const schema = {
             'Created At': z.string(),
             'Owned Courses': z.string().array(),
             'Completed Lessons': z.string().array(),
+            'Completed Exams': z.string().array(),
         }),
         writable: z.object({
             Name: z.string(),

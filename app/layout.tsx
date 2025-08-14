@@ -12,7 +12,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html suppressHydrationWarning>
       <body>
         <Provider>
-          <DataProvider courses={courses} >
+          <DataProvider courses={courses}>
             <CartProvider>
               <Theme appearance='light'>
                 {children}

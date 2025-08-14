@@ -22,6 +22,7 @@ import { useUser } from '@auth0/nextjs-auth0'
 
 const LessonButton = ( { selected, children, completed, quiz, href } : React.PropsWithChildren<{ selected?: boolean, completed?: boolean, quiz?: boolean, href : string }> ) => {
 
+
   return (
     <Button
       variant='outline'
@@ -45,7 +46,7 @@ const LessonButton = ( { selected, children, completed, quiz, href } : React.Pro
                 <Check size={12} />
               </Circle>
             )}
-            {quiz && (
+            {! completed && quiz && (
               <BookOpen size={20}/>
             )}
             {! quiz && ! completed && ( <FileText size={20}/> )}
@@ -61,9 +62,11 @@ const LessonButton = ( { selected, children, completed, quiz, href } : React.Pro
 
 export const LessonCard = ({ lesson, exam, selected } : { lesson : Lesson, exam: string, selected : boolean }) => {
   const { id } = useParams()
+  const { single } = useSingle<'Profiles'>()
+  const completed = useMemo(() => (single?.['Completed Lessons'] ?? []).includes(lesson.id), [lesson, single])
 
   return (
-    <LessonButton key={lesson.id} selected={selected} href={`/course/${id}/${exam}/${lesson.id}`}>
+    <LessonButton key={lesson.id} selected={selected} href={`/course/${id}/${exam}/${lesson.id}`} completed={completed}>
       <Text fontSize='sm' fontWeight='medium' color='gray.900'>
         {lesson['Title En']}
       </Text>
@@ -71,6 +74,31 @@ export const LessonCard = ({ lesson, exam, selected } : { lesson : Lesson, exam:
         {lesson['Title Es']}
       </Text>
     </LessonButton>
+  )
+}
+
+const CourseSectionExamLessons = ({
+  exam,
+  lessons,
+}: {
+  exam: string,
+  lessons: Lesson[],
+}) => {
+
+  const { single } = useSingle<'Profiles'>()
+  const { id, lesson, exam: examParam } = useParams()
+  const completed = useMemo(() => (single?.['Completed Exams'] ?? []).includes(exam), [exam, single])
+
+  return (
+    <Stack gap={2}>
+      {lessons.map((l) => (
+        <LessonCard key={l.id} selected={lesson === l.id} lesson={l} exam={exam}/>
+      ))}
+      <LessonButton selected={! lesson && examParam === exam} quiz href={`/course/${id}/${exam}`} completed={completed} >
+          <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>Module Quiz</Text>
+          <Text fontSize='xs' color='gray.500'>Examen del Módulo</Text>
+      </LessonButton>
+    </Stack>
   )
 }
 
@@ -84,6 +112,7 @@ export const CourseSection = ({
   lessons: Lesson[],
 }) => {
   const { id, lesson, exam: examParam } = useParams()
+  const { user } = useUser()
 
   return (
     <Box mb={6}>
@@ -97,15 +126,11 @@ export const CourseSection = ({
         {title}
       </Heading>
 
-      <Stack gap={2}>
-        {lessons.map((single) => (
-          <LessonCard key={single.id} selected={lesson === single.id} lesson={single} exam={exam}/>
-        ))}
-        <LessonButton selected={! lesson && examParam === exam} quiz href={`/course/${id}/${exam}`}>
-            <Text fontSize='sm' fontWeight='medium' color='gray.900' mb={1}>Module Quiz</Text>
-            <Text fontSize='xs' color='gray.500'>Examen del Módulo</Text>
-        </LessonButton>
-      </Stack>
+      { user && (
+        <SingleProvider table='Profiles' id={(user as any).id}>
+          <CourseSectionExamLessons exam={exam} lessons={lessons} />
+        </SingleProvider>
+      ) }
     </Box>
   )
 }
