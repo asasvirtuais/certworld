@@ -1,15 +1,22 @@
 import { server } from '@/data/server'
-import { Box, Heading, Stack } from '@chakra-ui/react'
+import { Box, Button, Heading, Stack } from '@chakra-ui/react'
+import { RadioGroup } from '@chakra-ui/react'
 
 const Answers = async ( { question } : { question: Question } ) => {
 
     const answers = await server.service('Answers').list({ table: 'Answers', query: { 'Question ID': question.id } })
 
     return (
-        <Stack>
-            {answers.map(answer => (
-                <Box key={answer.id}>{answer.Name}</Box>
-            ))}
+        <Stack asChild>
+            <RadioGroup.Root name={question.id}>
+                {answers.map(answer => (
+                    <RadioGroup.Item key={answer.id} value={answer.id}>
+                        <RadioGroup.ItemHiddenInput />
+                        <RadioGroup.ItemIndicator />
+                        <RadioGroup.ItemText>{answer.Name}</RadioGroup.ItemText>
+                    </RadioGroup.Item>
+                ))}
+            </RadioGroup.Root>
         </Stack>
     )
 }
@@ -32,6 +39,7 @@ export default async function Exam( { params: promise } : { params: Promise<{ id
                     </Stack>
                 ))}
             </Stack>
+            <Button alignSelf='flex-end'>Submit Exam</Button>
         </Stack>
     )
 }
