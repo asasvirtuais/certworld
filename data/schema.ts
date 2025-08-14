@@ -114,8 +114,22 @@ export const schema = {
     Questions: {
         readable: z.object({
             id: z.string(),
-            Name: z.string(), // Question text
-            'Exam ID': z.string(), // Lesson ID reference
+            Name: z.string(),
+            Content: z.string(),
+            Answers: z.string().array().optional(),
+            'Exam ID': z.string(),
+        }),
+        writable: z.object({
+            Name: z.string(),
+            Content: z.string(),
+            Answers: z.string().array().optional(),
+        })
+    },
+    Answers: {
+        readable: z.object({
+            id: z.string(),
+            Name: z.string(),
+            'Question ID': z.string(),
         }),
         writable: z.object({
             Name: z.string(),
@@ -183,6 +197,11 @@ declare global {
         type Readable = z.infer<typeof schema['Exam Results']['readable']>
         type Writable = z.infer<typeof schema['Exam Results']['writable']>
     }
+    namespace Answers {
+        type Readable = z.infer<typeof schema.Answers.readable>
+        type Writable = z.infer<typeof schema.Questions.writable>
+    }
+    type Answers = Answers.Readable
     type ExamResult = ExamResult.Readable
     namespace EchoLine {
         type Readable = z.infer<typeof schema['Echo Lines']['readable']>
