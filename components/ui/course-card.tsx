@@ -9,12 +9,12 @@ import {
   Flex,
 } from '@chakra-ui/react'
 import CourseDrawer from '@/data/course/drawer'
-import { useSingle } from '@/data/react'
+import { SingleProvider, useSingle } from '@/data/react'
 
-export function CourseCard() {
-  const { single: course } = useSingle<'Courses'>()
+export function CourseCard( { course, owned } : { course: Course, owned?: boolean } ) {
 
-  if (!course) return null
+  if (! course)
+    return null
 
   const {
     Name,
@@ -45,7 +45,9 @@ export function CourseCard() {
             <Text>{Location}</Text>
           </Flex>
         </Stack>
-        <CourseDrawer />
+        <SingleProvider table='Courses' id={course.id}>
+          <CourseDrawer course={course} owned={owned} />
+        </SingleProvider>
       </Card.Body>
     </Card.Root>
   )

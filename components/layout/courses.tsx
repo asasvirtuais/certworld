@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useCallback } from 'react'
 import {
   Box,
   Flex,
@@ -11,15 +11,18 @@ import {
 } from '@chakra-ui/react'
 import { Container } from '@/components/ui/container'
 import { CourseCard, ResponsiveGrid } from '@/components/ui'
-import { FilterForm, SingleProvider, useFiltersForm } from '@/data/react'
 
-function CoursesDisplay() {
-  const { result: courses, submit } = useFiltersForm('Courses')
-  useEffect(() => {
-    submit({})
-  }, [])
+export function CoursesDisplay( {
+  myCourses,
+  otherCourses,
+} : {
+  myCourses: Course[],
+  otherCourses: Course[],
+} ) {
   const [selectedCountry, setSelectedCountry] = useState('')
   const [selectedState, setSelectedState] = useState('')
+
+  const courses = useMemo(() => [...myCourses, ...otherCourses], [myCourses, otherCourses])
 
   const countries = useMemo(() => {
     if (!courses) return []
@@ -39,21 +42,29 @@ function CoursesDisplay() {
     return []
   }, [courses, selectedCountry])
 
+  const filterCb = useCallback((course: Course) => {
+    const [state, country] = course.Location.split(', ').map(s => s.trim())
+
+    if (!selectedCountry || selectedCountry === 'all') return true
+
+    if (selectedCountry === 'United States') {
+      if (!selectedState || selectedState === 'all') return country === 'United States'
+      return country === 'United States' && state === selectedState
+    }
+
+    return country === selectedCountry
+  }, [])
+
+  const myFilteredCourses = useMemo(() => {
+    if (!myCourses) return []
+    return myCourses.filter(filterCb)
+  }, [myCourses])
   const filteredCourses = useMemo(() => {
-    if (!courses) return []
-    return courses.filter((course) => {
-      const [state, country] = course.Location.split(', ').map(s => s.trim())
+    if (!otherCourses) return []
+    return otherCourses.filter(filterCb)
+  }, [otherCourses])
 
-      if (!selectedCountry || selectedCountry === 'all') return true
 
-      if (selectedCountry === 'United States') {
-        if (!selectedState || selectedState === 'all') return country === 'United States'
-        return country === 'United States' && state === selectedState
-      }
-
-      return country === selectedCountry
-    })
-  }, [courses, selectedCountry, selectedState])
 
   return (
     <Container py={8} bg='gray.50' minH='100dvh'>
@@ -102,22 +113,13 @@ function CoursesDisplay() {
 
       {/* Course Grid */}
       <ResponsiveGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+        {myFilteredCourses.map((course) => (
+          <CourseCard key={course.id} course={course} owned />
+        ))}
         {filteredCourses.map((course) => (
-          <SingleProvider key={course.id} table="Courses" id={course.id}>
-            <CourseCard />
-          </SingleProvider>
+          <CourseCard key={course.id} course={course} />
         ))}
       </ResponsiveGrid>
     </Container>
-  )
-}
-import { Header } from '@/components/ui'
-
-export function CoursesLayout() {
-  return (
-    <FilterForm table="Courses">
-      <Header />
-      <CoursesDisplay />
-    </FilterForm>
   )
 }

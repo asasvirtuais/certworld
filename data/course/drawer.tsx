@@ -14,39 +14,11 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { FilterForm, useFiltersForm, useSingle } from '@/data/react'
-import { useForm } from '@asasvirtuais/react'
-import { useEffect } from 'react'
 import { useCart } from '@/data/cart-context'
-
-const Header = () => {
-
-  const { single: {
-    Name,
-    Languages,
-    Duration,
-  } } = useSingle<'Courses'>()
-
-  return (
-    <Box pr={4}>
-      <Heading size='xl' fontWeight='bold' color='gray.900' lineHeight='tight' mb={3}>
-        {Name}
-      </Heading>
-      <Flex align='center' gap={4} color='gray.500' fontSize='sm'>
-        <Text>{Languages.join(' / ')}</Text>
-        <Text>{Duration / 60} minutes</Text>
-      </Flex>
-    </Box>
-  )
-}
-
-const Description = ({ course }: { course: Course }) => (
-  <Text color='gray.700' fontSize='lg' lineHeight='relaxed'>
-    {course.Description}
-  </Text>
-)
+import { useEffect } from 'react'
+import Link from 'next/link'
 
 const LearningPoints = () => {
-    const { single: course } = useSingle<'Courses'>()
 
     const { result: exams, submit } = useFiltersForm('Exams')
 
@@ -56,9 +28,6 @@ const LearningPoints = () => {
 
     return (
       <>
-        <Text fontSize='lg' lineHeight={1.2}>
-          {course.Description}
-        </Text>
         <Heading size='lg' fontWeight='bold' color='gray.900' my={4}>
           What you'll learn
         </Heading>
@@ -113,16 +82,18 @@ const Pricing = () => {
   )
 }
 
-export default function CourseDrawer() {
-
-    const { single: course } = useSingle<'Courses'>()
+export default function CourseDrawer( { course, owned } : { course : Course, owned?: boolean } ) {
 
     return (
-        <Drawer.Root size='lg'>
+      <Drawer.Root size='lg'>
         <Drawer.Trigger asChild>
-            <Button width='full' colorPalette='blue'>
-            Explore Course
-            </Button>
+              {owned ? (
+                <Button width='full' asChild>
+                  <Link href={`/course/${course.id}`} >Open Course</Link>
+                </Button>
+              ) : (
+                <Button width='full' colorPalette='blue'>Explore Course</Button>
+              )}
         </Drawer.Trigger>
         <Portal>
             <Drawer.Backdrop />
@@ -132,11 +103,21 @@ export default function CourseDrawer() {
                 <CloseButton />
               </Drawer.CloseTrigger>
               <Drawer.Header>
-                <Header />
+              <Box pr={4}>
+                <Heading size='xl' fontWeight='bold' color='gray.900' lineHeight='tight' mb={3}>
+                  {course.Name}
+                </Heading>
+                <Flex align='center' gap={4} color='gray.500' fontSize='sm'>
+                  <Text>{course.Languages.join(' / ')}</Text>
+                  <Text>{course.Duration / 60} minutes</Text>
+                </Flex>
+              </Box>
               </Drawer.Header>
               <Drawer.Body>
               <Stack gap={0}>
-                <Description course={course} />
+                <Text color='gray.700' fontSize='lg' lineHeight='relaxed'>
+                  {course.Description}
+                </Text>
                 <FilterForm table='Exams' defaults={{ query: { 'Course ID':  course.id } }} >
                   <LearningPoints />
                 </FilterForm>
@@ -148,6 +129,6 @@ export default function CourseDrawer() {
             </Drawer.Content>
             </Drawer.Positioner>
         </Portal>
-        </Drawer.Root>
+      </Drawer.Root>
     )
 }
