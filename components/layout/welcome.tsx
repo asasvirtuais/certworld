@@ -15,26 +15,34 @@ import { Progress } from '@chakra-ui/react'
 import Link from 'next/link'
 import React from 'react'
 
-function CourseCard({ course, isLast }: { course: Course, isLast: boolean }) {
+function CourseProgress({ course, profile }: { course: Course, profile: Profile }) {
+
+  const totalLessons = course['Lessons']?.length
+  const completedLessons = course['Lessons']?.filter( id => profile['Completed Lessons']?.includes(id) ).length
+  const totalExams = course['Exams']?.length
+  const completedExams = course['Exams']?.filter( id => profile['Completed Exams']?.includes(id) ).length
+  const ratio = ((completedLessons + completedExams) / (totalLessons + totalExams))
+  const complete = totalLessons === completedLessons && totalExams === completedExams
+
   return (
-    <Box key={course.id} borderBottom={isLast ? 'none' : '1px'} borderColor='gray.200' pb={4}>
+    <Box key={course.id} borderColor='gray.200' pb={4}>
       <Box mb={4}>
         <Heading size='md' fontWeight='bold' color='gray.900'>
           <Text as='span' textTransform='uppercase'>{course.Location.split(', ')[0]}</Text> | {course.Name}
         </Heading>
       </Box>
       <Box mb={2}>
-        <Progress.Root>
+        <Progress.Root defaultValue={100 * ratio}>
           <Progress.Track>
-            <Progress.Range></Progress.Range>
+            <Progress.Range/>
           </Progress.Track>
         </Progress.Root>
       </Box>
       <Flex justify='space-between' align='center'>
         <Text fontSize='sm' color='gray.500'>
-          1 of {course['Total Lessons']} lessons completed
+          {completedLessons} of {totalLessons} lessons completed | {completedExams} of {totalExams} exams completed
         </Text>
-        {false ? (
+        {complete ? (
           <Button variant='solid' size='xs' colorPalette='blue' asChild>
             <Link href='/certificate'>
               View Certificate
@@ -54,22 +62,14 @@ function CourseCard({ course, isLast }: { course: Course, isLast: boolean }) {
   )
 }
 
-export function WelcomeCourses( { courses } : { courses: Course[] } ) {
-
-  const coursesWithProgress = courses?.map(course => ({
-    ...course,
-    progress: Math.floor(Math.random() * 101),
-    lessonsCompleted: Math.floor(Math.random() * 5),
-    totalLessons: 4,
-    isComplete: Math.random() > 0.5,
-  }))
+export function WelcomeCourses( { profile, courses } : { profile: Profile, courses: Course[] } ) {
 
   return (
     <Card.Root>
       <Card.Body asChild>
         <Stack gap={4}>
-          {coursesWithProgress?.map((course, index) => (
-            <CourseCard key={course.id} course={course} isLast={index === (courses?.length || 1) - 1} />
+          {courses?.map((course, index) => (
+            <CourseProgress key={course.id} course={course} profile={profile} />
           ))}
         </Stack>
       </Card.Body>

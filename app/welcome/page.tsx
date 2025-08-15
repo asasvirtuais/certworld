@@ -11,7 +11,6 @@ export default async function WelcomePage() {
     if ( ! user )
         return redirect('/auth/login?returnTo=/welcome')
 
-    console.log(user)
     const profile = await server.service('Profiles').find({ table: 'Profiles', id: user.id })
 
     const courses = await Promise.all(
@@ -24,7 +23,7 @@ export default async function WelcomePage() {
             <WelcomeContent>
                 <WelcomeHeader name={user.name || 'User'}/>
                 <WelcomeNav/>
-                <WelcomeCourses courses={courses}/>
+                <WelcomeCourses profile={profile} courses={courses}/>
             </WelcomeContent>
         </WelcomeLayout>
     )

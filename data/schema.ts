@@ -13,6 +13,8 @@ export const schema = {
             Price: z.number(),
             Location: z.string(),
             Featured: z.boolean(),
+            Exams: z.string().array(),
+            Lessons: z.string().array(),
             'Stripe ID': z.string(),
             'Last Edited': z.string().optional(),
             'Status': z.string().optional(),
