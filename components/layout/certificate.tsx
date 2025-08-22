@@ -12,6 +12,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { FilterForm, useFiltersForm } from '@/data/react'
+import Image from 'next/image'
 
 const CertificateHeader = () => (
   <Box textAlign='center' mb={12}>
@@ -27,35 +28,9 @@ const CertificateHeader = () => (
 )
 
 const CertificateCard = ({ certificate }: { certificate: Certificate }) => (
-  <Card.Root maxW='3xl' mx='auto' mb={8}>
-    <Card.Body>
-      <Box bg='white' border='2px' borderColor='blue.400' borderRadius='lg' p={12} position='relative'>
-        {/* CertWorld Logo Badge */}
-        <Box position='absolute' top={6} right={6}>
-          <Circle size={16} bg='blue.200' color='blue.600' fontWeight='bold' fontSize='lg'>
-            CW
-          </Circle>
-        </Box>
-
-        <Box textAlign='center'>
-          <Heading size='xl' fontWeight='bold' color='gray.900' mb={2}>
-            CERTIFICATE OF COMPLETION
-          </Heading>
-          <Box w={16} h={1} bg='blue.500' mx='auto' mb={8} />
-
-          <Text fontSize='lg' color='gray.700' mb={4}>This certifies that</Text>
-
-          <Heading size='xl' fontWeight='bold' color='gray.900' mb={6}>User Name</Heading>
-
-          <Text fontSize='lg' color='gray.700' mb={6}>has successfully completed</Text>
-
-          <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>Name</Heading>
-
-          <Text color='gray.500'>Completed on Completion Date</Text>
-        </Box>
-      </Box>
-    </Card.Body>
-  </Card.Root>
+  <Box maxW='3xl' mx='auto' mb={8}>
+      <Image src={`/certificate/${certificate.id}/certificate.png`} alt='' width={800} height={500} />
+  </Box>
 )
 
 export function CertificateContent( { certificate } : { certificate: Certificate } ) {

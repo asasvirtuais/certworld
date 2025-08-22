@@ -14,7 +14,7 @@ export async function GET(
     // const certificate = await server.service('Certificates').find({ table: 'Certificates', id })
 
     return new ImageResponse(
-        <div style={{display: 'flex', position: 'relative', flexDirection: 'column', textAlign: 'center', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', background: 'white'}}>
+        <div style={{display: 'flex', position: 'relative', flexDirection: 'column', textAlign: 'center', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', background: 'white', padding: '50px 0px' }}>
           <div style={{ position: 'absolute', borderRadius: '100%', color: '#3B82F6', border: '2px solid #3B82F6', top: '12px', right: '12px', padding: '12px' }} >CW</div>
           <h1 style={{
             fontSize: '20px',
@@ -65,7 +65,7 @@ export async function GET(
         </div>,
         {
           width: 800,
-          height: 400
+          height: 500
         }
     )
   } catch(e: any) {
