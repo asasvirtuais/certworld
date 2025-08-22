@@ -44,7 +44,7 @@ function CourseProgress({ course, profile }: { course: Course, profile: Profile 
         </Text>
         {complete ? (
           <Button variant='solid' size='xs' colorPalette='blue' asChild>
-            <Link href='/certificate'>
+            <Link href={`/certificate/${course['Certificate ID']}`}>
               View Certificate
               <ArrowRight size={16} />
             </Link>

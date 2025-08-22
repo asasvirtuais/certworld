@@ -21,6 +21,7 @@ export const schema = {
             'Status Color': z.string().optional(),
             'Total Lessons': z.number().optional(),
             'Created By': z.string().optional(),
+            'Certificate ID': z.string(),
         }),
         writable: z.object({
             Name: z.string(),

@@ -19,7 +19,9 @@ const CertificateHeader = () => (
       Congratulations! You've completed this course
     </Heading>
     <Text fontSize='lg' color='gray.500'>
-      You've successfully completed the Food Safety Certification course. Your certificate is ready.
+      You've successfully completed the Food Safety Certification course.
+      <br/>
+      Your certificate is ready.
     </Text>
   </Box>
 )
@@ -43,80 +45,41 @@ const CertificateCard = ({ certificate }: { certificate: Certificate }) => (
 
           <Text fontSize='lg' color='gray.700' mb={4}>This certifies that</Text>
 
-          <Heading size='xl' fontWeight='bold' color='gray.900' mb={6}>{certificate['User Name']}</Heading>
+          <Heading size='xl' fontWeight='bold' color='gray.900' mb={6}>User Name</Heading>
 
           <Text fontSize='lg' color='gray.700' mb={6}>has successfully completed</Text>
 
-          <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>{certificate.Name}</Heading>
+          <Heading size='lg' fontWeight='bold' color='gray.900' mb={4}>Name</Heading>
 
-          <Text color='gray.500'>Completed on {certificate['Completion Date']}</Text>
+          <Text color='gray.500'>Completed on Completion Date</Text>
         </Box>
       </Box>
     </Card.Body>
   </Card.Root>
 )
 
-interface ActionButtonsProps {
-  onDownloadClick: () => void
-  onEmailClick: () => void
-}
-
-const ActionButtons = ({ onDownloadClick, onEmailClick }: ActionButtonsProps) => (
-  <Flex direction={{ base: 'column', sm: 'row' }} gap={4} justify='center' align='center'>
-    <Button 
-      onClick={onDownloadClick} 
-      colorPalette='blue'
-      size='lg'
-    >
-      <Download size={16} />
-      Download Certificate
-    </Button>
-    <Button 
-      onClick={onEmailClick} 
-      variant='outline' 
-      size='lg'
-    >
-      <Mail size={16} />
-      Email Certificate
-    </Button>
-  </Flex>
-)
-
-function CertificateContent() {
-  const { result: certificates } = useFiltersForm('Certificates')
-
-  const certificate = certificates?.[0]
-
-  const handleDownloadCertificate = () => {
-    // In a real app, this would trigger a PDF download
-    console.log('Downloading certificate...')
-  }
-
-  const handleEmailCertificate = () => {
-    // In a real app, this would open an email dialog or send the certificate
-    console.log('Emailing certificate...')
-  }
-
-  if (!certificate) {
-    return <Text>Loading certificate...</Text>
-  }
+export function CertificateContent( { certificate } : { certificate: Certificate } ) {
 
   return (
     <Container maxW='4xl' px={{ base: 4, sm: 6, lg: 8 }} py={12} as='main'>
       <CertificateHeader />
       <CertificateCard certificate={certificate} />
-      <ActionButtons 
-        onDownloadClick={handleDownloadCertificate} 
-        onEmailClick={handleEmailCertificate} 
-      />
+      <Flex direction={{ base: 'column', sm: 'row' }} gap={4} justify='center' align='center'>
+        <Button 
+          colorPalette='blue'
+          size='lg'
+        >
+          <Download size={16} />
+          Download Certificate
+        </Button>
+        <Button 
+          variant='outline' 
+          size='lg'
+        >
+          <Mail size={16} />
+          Email Certificate
+        </Button>
+      </Flex>
     </Container>
-  )
-}
-
-export function Certificate() {
-  return (
-    <FilterForm table="Certificates">
-      <CertificateContent />
-    </FilterForm>
   )
 }
