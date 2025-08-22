@@ -1,15 +1,20 @@
 import { server } from '@/data/server'
 import { ImageResponse } from 'next/og'
-import { NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(request: NextRequest, { params } : { params: Promise<{ id:string }> }) {
+export async function GET(
+  request: NextRequest,
+  { params } : { params: Promise<{ id:string }> }
+) {
+
+  try {
 
     // const { id } = await params
 
     // const certificate = await server.service('Certificates').find({ table: 'Certificates', id })
 
     return new ImageResponse(
-        <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', justifyContent: 'center', alignItems: 'center', width: '100%'}}>
+        <div style={{display: 'flex', flexDirection: 'column', textAlign: 'center', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%', background: 'white'}}>
           <h1 style={{
             fontSize: '20px',
             fontWeight: 'bold',
@@ -56,11 +61,13 @@ export async function GET(request: NextRequest, { params } : { params: Promise<{
           <p style={{
             color: '#71717A'
           }}>Completed on {'Completion Date'}</p>
-        </div>
-    ), {
-      options: {
-        width: 300,
-        height: 100,
-      }
-    }
+        </div>,
+        {
+          width: 800,
+          height: 400
+        }
+    )
+  } catch(e: any) {
+    return NextResponse.json({error: true})
+  }
 }
