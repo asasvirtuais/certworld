@@ -20,7 +20,9 @@ export default async function CourseLayout( { params: promise, crumbs, children,
                 <Box flex={1} overflowY='auto'>
                     <Container maxW='4xl' p={8}>
                     <Stack>
-                      {crumbs}
+                      <Box hideBelow='sm'>
+                        {crumbs}
+                      </Box>
                       {children}
                     </Stack>
                     </Container>

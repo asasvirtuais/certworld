@@ -19,7 +19,7 @@ export default async function CoursePage( { params: promise } : { params: Promis
   }))
 
   return (
-    <SimpleGrid columns={2}>
+    <SimpleGrid columns={{base: 1, sm: 2}} gap={4}>
       {items}
     </SimpleGrid>
   )

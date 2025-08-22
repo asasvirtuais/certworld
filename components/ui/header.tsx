@@ -84,10 +84,10 @@ export const MobileDrawer = () => (
             </Flex>
           </Drawer.Header>
           <Drawer.Body>
-            <HStack gap={6} align='stretch'>
+            <Stack gap={6} align='stretch'>
               <LinksMenu/>
               <LanguageMenu />
-            </HStack>
+            </Stack>
           </Drawer.Body>
         </Drawer.Content>
       </Drawer.Positioner>
