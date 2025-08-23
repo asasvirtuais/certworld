@@ -98,9 +98,9 @@ export const schema = {
             'Customer ID': z.string(),
             'OAuth ID': z.string(),
             Role: z.enum(['Creator', 'Owner', 'Learner']),
-            'Owned Courses': z.string().array(),
-            'Completed Lessons': z.string().array(),
-            Answers: z.string().array(),
+            'Owned Courses': z.string().array().optional(),
+            'Completed Lessons': z.string().array().optional(),
+            Answers: z.string().array().optional(),
         })
     },
     Exams: {

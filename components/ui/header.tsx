@@ -44,8 +44,7 @@ export const LinksMenu = () => {
 
   const DesktopNav = () => (
     <Stack direction='row' gap={8} as='nav'>
-      {[{ href: '/courses', label: 'Courses' }, { href: '/welcome', label: 'My Learning' }].map((link) => (
-        <Link key={link.href} href={link.href}>
+        <Link href='/courses'>
           <Text 
             color='gray.500' 
             _hover={{ color: 'gray.700' }} 
@@ -54,10 +53,21 @@ export const LinksMenu = () => {
             fontSize='sm' 
             fontWeight='medium'
           >
-            {link.label}
+            {useLanguages({ en: 'Courses', es: 'Cursos' })}
           </Text>
         </Link>
-      ))}
+        <Link href='/welcome'>
+          <Text 
+            color='gray.500' 
+            _hover={{ color: 'gray.700' }} 
+            px={3} 
+            py={2} 
+            fontSize='sm' 
+            fontWeight='medium'
+          >
+            My Learning
+          </Text>
+        </Link>
     </Stack>
   )
 
@@ -96,6 +106,7 @@ export const MobileDrawer = () => (
 )
 
 import { useUser } from '@auth0/nextjs-auth0'
+import { useLanguages } from '@/app/languages'
 
 export function Header() {
 
